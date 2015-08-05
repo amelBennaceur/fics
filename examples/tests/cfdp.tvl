@@ -1,0 +1,22 @@
+root CFDP {
+	group allOf {
+		Entity group [0..*] {
+			SND_MIN group [0..*] {
+				SND_MIN_ACK group [0..*] {
+					SND_PROMPT_NAK
+				}
+			},
+			RECV_MIN group [0..*] {
+				RECV_MIN_ACK group [0..1] {
+					RECV_IMMEDIATE_NAK,
+					RECV_DEFERRED_NAK,
+					RECV_PROMPT_NAK,
+					RECV_ASYNCH_NAK
+				}
+			}
+		},	
+		Channel group [0..*] {
+			Reliable
+		}
+	}
+}

@@ -1,0 +1,4 @@
+root Website group [0..2] {
+   Foo,
+   Bar
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="200.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.open.fics.view.CapabilityAddDialogController">
+   <children>
+      <Label layoutX="14.0" layoutY="48.0" text="Feature Model" />
+      <Label layoutX="14.0" layoutY="100.0" text="Behavioural Model" />
+      <TextField fx:id="fmField" editable="false" layoutX="138.0" layoutY="43.0" prefHeight="26.0" prefWidth="338.0" />
+      <TextField fx:id="behField" editable="false" layoutX="138.0" layoutY="95.0" prefHeight="26.0" prefWidth="338.0" />
+      <Button layoutX="493.0" layoutY="43.0" mnemonicParsing="false" onAction="#handleBrowseFM" text="Browse..." />
+      <Button layoutX="493.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleBrowseBeh" text="Browse..." />
+      <ButtonBar layoutX="201.0" layoutY="146.0" prefHeight="40.0" prefWidth="148.0">
+        <buttons>
+          <Button mnemonicParsing="false" onAction="#handleOk" text="OK" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+        </buttons>
+      </ButtonBar>
+   </children>
+</AnchorPane>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fts>
+    <states>
+        <state name="S0">
+            <predicate>location = 0</predicate>
+        </state>
+        <state name="S1">
+            <predicate>location(NAO)</predicate>
+        </state>
+        <state name="S2">
+            <predicate>location(phone)</predicate>
+        </state>
+        <state name="S3">
+            <predicate>location(NAO)=location(phone)</predicate>
+        </state>
+        <state name="S4">
+            <predicate>location(NAO)</predicate>
+        </state>
+    </states>
+    <initialStates>
+        <initialState name="S0">
+            <predicate>location = 0</predicate>
+        </initialState>
+    </initialStates>
+    <featuredTransitions>
+        <featuredTransition>
+            <source>S0</source>
+            <target>S1</target>
+            <action>connect</action>
+            <features>
+                <feature>Connection</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S0</target>
+            <action>disconnect</action>
+            <features>
+                <feature>Connection</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S1</target>
+            <action>say(text)</action>
+            <features>
+                <feature>TextToSpeech</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S2</target>
+            <action>locate(phone)</action>
+            <features>
+                <feature>ObjectRecognition</feature>
+                <feature>DarknessDetection</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S2</source>
+            <target>S3</target>
+            <action>pick(phone)</action>
+            <features>
+                <feature>RobotPosture</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S3</source>
+            <target>S1</target>
+            <action>drop(phone)</action>
+            <features>
+                <feature>RobotPosture</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S4</target>
+            <action>standup</action>
+            <features>
+                <feature>RobotPosture</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S4</source>
+            <target>S1</target>
+            <action>moveTo(location)</action>
+            <features>
+                <feature>Navigation</feature>
+            </features>
+        </featuredTransition>
+    </featuredTransitions>
+</fts>

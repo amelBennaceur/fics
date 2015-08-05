@@ -1,0 +1,5 @@
+root Person {
+	group allOf {
+		opt Nice
+	}
+}

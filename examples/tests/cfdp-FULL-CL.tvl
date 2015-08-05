@@ -1,0 +1,30 @@
+root CFDP {
+	group allOf {
+		Entity group someOf {
+			SND_MIN group oneOf {
+				TOUT1,
+				TOUT2,
+				TOUT3,
+				opt SND_MIN_ACK group [0..*] {
+					SND_PROMPT_NAK
+				}
+			},
+			RCV_MIN group allOf {
+				opt RCV_MIN_ACK group oneOf {
+					RCV_IMMEDIATE_NAK,
+					RCV_DEFERRED_NAK,
+					RCV_PROMPT_NAK,
+					RCV_ASYNCH_NAK
+				}
+			}
+		},	
+		Channel group allOf {
+			opt Reliable
+		},
+		Message group oneOf {
+			SIZE1,
+			SIZE2,
+			SIZE3
+		}
+	}
+}

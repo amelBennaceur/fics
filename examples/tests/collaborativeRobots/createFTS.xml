@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fts>
+    <states>
+        <state name="S0">
+            <predicate>location=0</predicate>
+        </state>
+        <state name="S1">
+            <predicate>location(Create)</predicate>
+        </state>
+    </states>
+    <initialStates>
+        <initialState name="S0">
+            <predicate>location=0</predicate>
+        </initialState>
+    </initialStates>
+    <featuredTransitions>
+        <featuredTransition>
+            <source>S0</source>
+            <target>S1</target>
+            <action>connect9</action>
+            <features>
+                <feature>ConnectionC9</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S0</target>
+            <action>disconnect9</action>
+            <features>
+                <feature>ConnectionC9</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S1</target>
+            <action>move9(location)</action>
+            <features>
+                <feature>Motion9</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S1</target>
+            <action>playSound9(notes)</action>
+            <features>
+                <feature>Audio9</feature>
+            </features>
+        </featuredTransition>
+    </featuredTransitions>
+</fts>

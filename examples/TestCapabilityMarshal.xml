@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fts>
+    <states>
+        <state name="S1">
+            <predicate></predicate>
+        </state>
+        <state name="S2">
+            <predicate>tick</predicate>
+        </state>
+    </states>
+    <initialStates>
+        <initialState name="S1">
+            <predicate></predicate>
+        </initialState>
+    </initialStates>
+    <featuredTransitions>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S2</target>
+            <action>action</action>
+            <features>
+                <feature>feature1</feature>
+                <feature>feature2</feature>
+            </features>
+        </featuredTransition>
+    </featuredTransitions>
+</fts>

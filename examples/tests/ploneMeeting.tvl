@@ -1,0 +1,270 @@
+/*
+ * TVL model of PloneMeeting v1.7 build 564
+ * Designed by Arnaud Hubaux (ahu@info.fundp.ac.be), University of Namur, Belgium
+ * March 10, 2010
+ *
+ * COMMENTS
+ * --------
+ * This TVL model is a direct translation of the configuration menu of PloneMeeting. 
+ * Missing concepts like string, default values or cloning have not been added. 
+ * Constraints have been ignored. 
+ * 
+ * This TVL model was checked with TVLLibrary-20100310.jar
+ * 
+ */
+
+root PloneMeeting {
+	group allof {
+		General,
+		Data,
+		WorklowSec,
+		Interface,
+		Email,
+		Tasks,
+		Advices,
+		Votes
+	}
+} 
+
+General {
+	group allof {
+		Title ,
+		opt DefaultAssembly,
+		opt DefaultSignatures,
+		LinkedFolder, 
+		opt IsDefault,
+	 	NumberLastItemLastMeeting {
+			int number;
+		},
+		opt NumberLastMeetingConfig {
+			int number;
+		},
+		opt MeetingConfigID
+	}	
+} 
+
+Data {
+	group allof {
+ 		ItemAttributes group someof {
+			Classifier,
+			AssociatedGroups,
+			Tags,
+			Keywords,
+			Observations,
+			ToDiscuss
+		},
+		MeetingAttributes group someof {
+			StartDateAndHour,
+			EndDateAndHour,
+			DefaultAssembly,
+			Attendees,
+			Absents,
+			Excused,
+			Place,
+			Observations
+		},
+		opt UseGroupsAsCategories,
+		opt DefaultToDiscussNormalItems,
+		opt DefaultToDiscussLateItems,
+		ItemReferenceFormat, 
+		SortingMethod group oneof {
+			End,
+			CategoriesOrder,
+			ProposingGroupsOrder,
+			GroupsOrder
+		}, 
+		opt Tags,
+		opt	AlphabeticalSorting
+	} 
+}
+
+WorklowSec {
+	group allof {
+		ItemWorkflow group oneof {
+			FolderWorkflow,
+			PloneWorkflow,
+			MeetingItemWorkflow,
+			MeetingWorkflow,
+			PloneMeetingOneStateWorkflow,
+			PloneMeetingActivityWorkflow,
+			MeetingItemArchiveWorkflow,
+			MeetingArchiveWorkflow,
+			MeetingAdvice
+		},
+		Zope3InterfaceConditionTransitionItem,
+		Zope3InterfaceActionTransitionItem, 
+		MeetingWorkflow group oneof {
+			FolderWorkflow,
+			PloneWorkflow,
+			MeetingItemWorkflow,
+			MeetingWorkflow,
+			PloneMeetingOneStateWorkflow,
+			PloneMeetingActivityWorkflow,
+			MeetingItemArchiveWorkflow,
+			MeetingArchiveWorkflow,
+			MeetingAdvice
+		}, 
+		Zope3InterfaceConditionTransitionMeeting,
+		Zope3InterfaceActionTransitionMeeting,
+		Zope3InterfaceConditionTransitionAdvice,
+		Zope3InterfaceActionTransitionAdvice
+	}
+}
+
+Interface {
+	group allof {
+		SearchStatesItems group someof {
+			Published,
+			Confirmed,
+			Accepted,
+			Proposed,
+			Presented,
+			Created,
+			Delayed,
+			Refused,
+			PublishedFrozen,
+			Archived,
+			Validated
+		},
+		SearchStatesMeetings group someof {
+			Archived,
+			Created,
+			PublishedFrozen,
+			Decided,
+			Closed,
+			Published
+		},
+		MaxMeetingShown {
+			int maxMeeting; 
+		}, 
+		MaxDayDecisionDisplay {
+			int maxDecision;
+		}, 
+		DefaultView group oneof {
+			SummaryView,
+			TabularView,
+			ThumbnailView,
+			StandardView,
+			PloneMeetingFolderView,
+			MyItems,
+			AllItems,
+			ItemsInCopy,
+			ItemsToAdvice,
+			AdvisedItems,
+			AvailableMeetings,
+			AllDecisions
+		}, 
+		ItemDisplayColumns group someof {
+			ItemState,
+			Creator,
+			Category,
+			ProposingGroupAcronym,
+			AssociatedGroup,
+			AssociatedGroupAcronym
+		}, 
+		MaxDisplayedItems {
+			int maxItems;
+		}, 
+		MaxDisplayedMeetings {
+			int maxMeetings;
+		}, 
+		MaxDisplayedLateItems {
+			int maxLateItems;
+		}, 
+		opt ActivateDuplication,
+		opt EnableGoToPage,
+		opt EnableGoToItem,
+		opt OpenAnnexesInSeparateWindows,
+		opt ListOfTopics 
+	}
+} 
+
+Email {
+	group allof {
+		EmailItemTriggers group someof {
+			ValidatedLateItem,
+			AddedAnnex,
+			ItemToDiscuss
+		},	
+		EmailMeetingTriggers group someof {
+			CorrectBackToFrozen,
+			CorrectBackToPublished,
+			Republish,
+			CorrectBackToCreated,
+			Publish,
+			Freeze,
+			Decide,
+			Close,
+			CorrectBackToClosed,
+			CorrectBackToDecided,
+			Archive
+		} 
+	}
+} 
+
+Tasks {
+	group allof {
+		MacroExternalTakModule,
+		ShippedRole group oneof {
+			Manager,
+			MeetingAdviceEditor,
+			MeetingAdviser,
+			MeetingArchiveObserver,
+			MeetingManager,
+			MeetingMember,
+			MeetingObserverGlobal,
+			MeetingObserverLocal,
+			MeetingObserverLocalCopy,
+			MeetingObserverUnpublished,
+			MeetingReviewer,
+			Member,
+			Owner,
+			Reviewer
+		}
+	}
+}
+
+Advices {
+	group allof {
+		opt UseAdvise,
+		OptionalAdvisers group someof {
+			Developers,
+			Vendors
+		}, 
+		opt UseCopies,
+		GroupsItemCopy group someof {
+			DevelopersObservers,
+			DevelopersTeviewers,
+			DevelopersCreators,
+			DevelopersAdvisers,
+			VendorsObservers,
+			VendorsReviewers,
+			VendorsCreators,
+			VendorsAdvisers
+		}
+	}
+}
+
+Votes {
+	group allof {
+		opt EnableVoting,
+		Encoder group someof {
+			MeetingManager,
+			Voter
+		},
+		VoteValues group someof {
+			NotYetEncoded,
+			Yes,
+			No,
+			Abstain,
+			NotVote
+		},
+		opt DefaultVoteValues group oneof {
+			NotYetEncoded,
+			Yes,
+			No,
+			Abstain,
+			NotVote
+		}
+	}
+}

@@ -1,0 +1,17 @@
+// The feature model 
+root Create9 {
+	group [*..*] {
+		ConnectionC9 group oneOf {
+			Bluetooth9,
+			Serial9
+		},
+		MotionC9 group allof {
+			Moving9,
+			Turning9
+		},
+		opt AudioC9,
+		opt Cleaning9 
+	}
+	int speed;
+	speed in [600..600];
+}

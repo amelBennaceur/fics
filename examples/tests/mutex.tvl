@@ -1,0 +1,7 @@
+root Mutex group allOf  {
+	opt Atom,
+	opt Arbiter group oneOf {
+		RandomizedArbiter,
+		AlternateArbiter
+	}
+}

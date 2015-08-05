@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.open.fics.view.CapabilityStoreController">
+   <children>
+      <ButtonBar layoutX="77.0" layoutY="459.0" prefHeight="40.0" prefWidth="293.0">
+        <buttons>
+          <Button mnemonicParsing="false" onAction="#handleAddCapability" text="Add" />
+            <Button mnemonicParsing="false" onAction="#handleViewCapability" text="View" />
+            <Button mnemonicParsing="false" onAction="#handleDeleteCapability" text="Delete" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+        </buttons>
+      </ButtonBar>
+      <ListView fx:id="capabilityList" layoutX="7.0" layoutY="15.0" prefHeight="433.0" prefWidth="484.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="15.0" />
+   </children>
+</AnchorPane>

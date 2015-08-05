@@ -1,0 +1,4 @@
+root Website group oneOf {
+   Foo,
+   Bar
+}

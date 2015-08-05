@@ -1,0 +1,24 @@
+// The feature model 
+root NAO5 {
+	group [*..*] {
+		Core5 group allOf {
+			Behaviour5,
+			Connection5
+		},
+		opt Motion5,
+		opt Audio5,
+		opt Vision5,
+		Sensors5,
+		opt Trackers5 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env in {light , noLight }; 
+	
+	int speed;
+	speed in [30..30];
+	
+	// Constraints
+	Motion5 -> Sensors5;
+	NAO5.env == noLight -> !NAO5.Vision5;
+}

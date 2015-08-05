@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.open.fics.view.CapabilityOverviewController">
+   <children>
+      <Label layoutX="14.0" layoutY="21.0" text="Feature Model" />
+      <Label layoutX="14.0" layoutY="260.0" text="Behaviour" />
+      <TextArea fx:id="fmField" editable="false" layoutX="12.0" layoutY="45.0" prefHeight="200.0" prefWidth="576.0" />
+      <TextArea fx:id="behField" editable="false" layoutX="14.0" layoutY="285.0" prefHeight="260.0" prefWidth="576.0" />
+      <Button layoutX="248.0" layoutY="560.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="26.0" prefWidth="105.0" text="OK" />
+   </children>
+</AnchorPane>

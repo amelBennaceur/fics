@@ -1,0 +1,15 @@
+// The feature model 
+root NAO4 {
+	group [*..*] {
+		Core4 group allOf {
+			Behaviour4,
+			Connection4
+		},
+		opt Motion4,
+		opt Audio4,
+		opt Vision4,
+		Sensors4,
+		opt Trackers4 
+	}
+
+}

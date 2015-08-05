@@ -1,0 +1,6 @@
+root Main group [0..*] {
+	Simple,
+	With_attr,
+	Array,
+	Attr_feat
+}

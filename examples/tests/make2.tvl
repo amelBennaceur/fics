@@ -1,0 +1,42 @@
+root Make {
+	group allOf {
+		opt W2, 	//        -W file 	    Turn off -w, even if it was turned on implicitly.
+		opt I2,	//        -I dir 	    Ignore all errors in commands executed to remake files.
+		opt B,	//        -b 	
+		opt Warn_undefined_variables, //        --warn-undefined-variables 	    Pretend that the target file has just been	modified.   When  used with  the -n flag, this shows you what would happen if you were to modify that file.  Without -n, it is almost the same as running  a touch  command  on the given file before running make, except that the modification time is changed only in the imagination of  make.
+		opt R2, //        -R 	    Eliminate  use of the built-in implicit rules.  Also clear out the default list of suffixes for suffix rules.
+		opt T, //        -t 	    Cancel  the  effect  of  the  -k  option.  This is never necessary except in a recursive make where -k might be  inherited  from  the top-level make via MAKEFLAGS or if you set -k in MAKEFLAGS in your environment.
+		opt B2, //        -B 	    These options are ignored for compatibility with other versions of make.
+		opt S, //        -s 	    Don't define any built-in variables.
+		opt O, //        -o file 	    Print  the	commands  that	would  be executed, but do not executethem.
+		opt L, //        -l [load] 	    Continue  as  much	as  possible after an error.  While the target that failed, and those that depend on it, cannot  be  remade,  the other dependencies of these targets can be processed all the same.
+		opt Debug, //        --debug[=FLAGS] 	    debugging information says which files are	being  considered  forremaking,  which  file-times  are  being  compared	and  with whatresults, which files actually need to be  remade,  which  implicitrules  are considered and which are applied---everything interest-ing about how make decides what to do.
+		opt L2, //        -L 	    Specifies that no new jobs (commands) should be started  if  thereare  others  jobs running and the load average is at least load (afloating-point number).  With no argument, removes a previous loadlimit.
+		opt No_print_directory, //        --no-print-directory 	    Print a message containing the working directory before and  afterother  processing.	 This  may  be useful for tracking down errorsfrom complicated nests of recursive make commands.
+		opt R, //        -r 	    ``Question	mode''.   Do  not run any commands, or print anything;just return an exit status that is zero if the  specified  targetsare already up to date, nonzero otherwise.
+		opt N, //        -n 	    Use the latest mtime between symlinks and target.
+		opt V, //        -v 	    Touch files (mark them up to date without  really  changing  them)instead  of  running their commands.  This is used to pretend thatthe commands were done, in order to  fool  future  invocations  ofmake.
+		opt Q, //        -q 	    Print  the data base (rules and variable values) that results fromreading the makefiles; then execute as usual or as otherwise spec-ified.   This  also prints the version information given by the -vswitch (see below).  To print the  data  base  without  trying  toremake any files, use make -p -f/dev/null.
+		opt J, //        -j [jobs] 	    Specifies a directory dir to search for  included  makefiles.   Ifseveral  -I  options  are used to specify several directories, thedirectories are searched in the order specified.  Unlike the argu-ments  to other flags of make, directories given with -I flags maycome directly after the flag: -Idir is allowed, as well as -I dir.This syntax is allowed for compatibility with the C preprocessor's-I flag.
+		opt E { 
+			group oneof{
+				E_b,
+				E_v,
+				E_j,
+				E_m
+			}
+		}, //        -e 	    Print debugging information in addition to normal processing.   Ifthe  FLAGS are omitted, then the behavior is the same as if -d wasspecified.	FLAGS may be a for all debugging output (same as using-d),  b for basic debugging, v for more verbose basic debugging, ifor showing implicit rules, j for details on  invocation  of  com-mands, and m for debugging while remaking makefiles.	
+		opt D, //        -d   Print debugging information in addition to normal processing.  The 	    Change to directory dir before reading the makefiles or doing any-thing else.  If multiple -C options are specified, each is	inter-preted  relative to the previous one: -C / -C etc is equivalent to-C /etc.  This is typically used  with  recursive  invocations  ofmake.
+		opt S2, //        -S 	    Silent operation; do not print the commands as they are  executed.
+		opt W,  // 	-w	    Print  the version of the make program plus a copyright, a list of authors and a notice that there is no warranty.
+		opt K, //        -k 	    Specifies the number of jobs (commands) to run simultaneously.  Ifthere  is  more than one -j option, the last one is effective.  Ifthe -j option is given without an argument, make  will  not  limitthe number of jobs that can run simultaneously.
+		opt C2, //        -C dir 	    Unconditionally make all targets.
+		opt P, //        -p 	    Do not remake the file file even if it is older than its dependen-cies,  and	do  not remake anything on account of changes in file.Essentially the file is treated as very  old  and  its  rules  areignored.
+		opt I //        -i 	    Give  variables  taken  from the environment precedence over vari-ables from makefiles. +-f file, --file=file, --makefile=FILEUse file as a makefile.
+	}		
+	W2 -> !W;
+	//b ^ n -> bn1;
+	//b ^ !n -> bn2;
+	T -> !K;
+	L2 -> !J;
+}

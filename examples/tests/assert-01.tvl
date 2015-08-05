@@ -1,0 +1,4 @@
+root A group oneof{
+	B,
+	C
+}

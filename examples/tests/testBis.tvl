@@ -1,0 +1,8 @@
+root Test {
+	int attrib1;
+	int attrib2;
+	attrib1 in [2..4];
+	attrib2 in [3..5];
+	
+	attrib2 <= 5;
+}
