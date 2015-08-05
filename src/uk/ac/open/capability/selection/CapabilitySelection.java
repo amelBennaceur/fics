@@ -2,6 +2,7 @@ package uk.ac.open.capability.selection;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import solver.Solver;
@@ -63,7 +64,9 @@ public class CapabilitySelection {
 		chocoSolver.findSolution();
 
 		ArrayList<ArrayList<String>> solList = new ArrayList<ArrayList<String>>();
-		Collection<IntVar> tmpAll = CPFeatureSolver.idVarMap.values();
+		//TBChanged *********************
+		//Collection<IntVar> tmpAll = CPFeatureSolver.getIdVarMap.values();
+		Collection<IntVar> tmpAll = new HashSet<IntVar>();
 		int i = 0;
 		IntVar[] variables = new IntVar[tmpAll.size()];
 		for (IntVar var : tmpAll) {

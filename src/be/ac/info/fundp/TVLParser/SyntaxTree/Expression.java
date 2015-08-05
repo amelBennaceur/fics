@@ -1,17 +1,5 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
-import be.ac.info.fundp.TVLParser.exceptions.AmbiguousReferenceException;
-import be.ac.info.fundp.TVLParser.exceptions.BadTypeUseException;
-import be.ac.info.fundp.TVLParser.exceptions.ChildrenFeatureNotFoundException;
-import be.ac.info.fundp.TVLParser.exceptions.ExpressionOutOfBoundException;
-import be.ac.info.fundp.TVLParser.exceptions.ExpressionTypeViolatingAttributeTypeException;
-import be.ac.info.fundp.TVLParser.exceptions.IDEnumValuesConflictException;
-import be.ac.info.fundp.TVLParser.exceptions.IllegalExpressionException;
-import be.ac.info.fundp.TVLParser.exceptions.SetExpressionMemberOutOfBoundException;
-import be.ac.info.fundp.TVLParser.exceptions.SetExpressionMemberViolatingAttributeTypeException;
-import be.ac.info.fundp.TVLParser.exceptions.SharedFeatureUsingParentConstructorException;
-import be.ac.info.fundp.TVLParser.exceptions.SharedFeatureUsingParentSelectorException;
-import be.ac.info.fundp.TVLParser.exceptions.SymbolNotFoundException;
 
 /**
  * This interface is implemented by each class which could be an expression. See

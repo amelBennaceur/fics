@@ -34,7 +34,6 @@ import be.ac.info.fundp.TVLParser.SyntaxTree.OrExpression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.PlusExpression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.SetExpression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.TrueExpression;
-import be.ac.info.fundp.TVLParser.exceptions.UnsatisfiableModelException;
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.ConstraintSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.FeatureSymbol;
@@ -51,7 +50,7 @@ public class CPFeatureSolver {
 	private Solver solver;
 
 	// The keys are feature IDs and the values are the associated CSP variables
-	static HashMap<String, IntVar> idVarMap = new HashMap<String, IntVar>();
+	private HashMap<String, IntVar> idVarMap = new HashMap<String, IntVar>();
 
 	HashSet<String> visitedFeatures = new HashSet<String>();
 

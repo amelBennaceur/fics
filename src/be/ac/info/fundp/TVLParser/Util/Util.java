@@ -2,7 +2,6 @@ package be.ac.info.fundp.TVLParser.Util;
 
 import be.ac.info.fundp.TVLParser.SyntaxTree.Expression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.ParenthesesExpression;
-import be.ac.info.fundp.TVLParser.exceptions.BadUseOfReservedWordException;
 
 /**
  * This a utility class which contains only static methods.

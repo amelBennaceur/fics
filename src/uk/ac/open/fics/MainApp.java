@@ -16,7 +16,6 @@ import solver.Solver;
 import uk.ac.open.capability.model.Capability;
 import uk.ac.open.capability.model.SecurityControl;
 import uk.ac.open.capability.selection.CapabilitySelection;
-import uk.ac.open.fics.view.CapabilityAddDialogController;
 import uk.ac.open.fics.view.CapabilitySelectionResultsController;
 import uk.ac.open.fics.view.MainLayoutController;
 
@@ -118,7 +117,7 @@ public class MainApp extends Application {
 
 			// Create the dialog Stage.
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Add Capability");
+			dialogStage.setTitle("Composed Capabilities");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			// dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(root1);

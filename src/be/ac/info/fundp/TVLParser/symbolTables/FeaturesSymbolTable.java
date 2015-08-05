@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.jgrapht.experimental.dag.DirectedAcyclicGraph.CycleFoundException;
+
 import be.ac.info.fundp.TVLParser.Parser.FeaturesStack;
 import be.ac.info.fundp.TVLParser.SyntaxTree.Attribute;
 import be.ac.info.fundp.TVLParser.SyntaxTree.AttributeConditionnal;
@@ -12,7 +14,6 @@ import be.ac.info.fundp.TVLParser.SyntaxTree.Expression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.Feature;
 import be.ac.info.fundp.TVLParser.SyntaxTree.SubAttribute;
 import be.ac.info.fundp.TVLParser.Util.Util;
-import be.ac.info.fundp.TVLParser.exceptions.IDEnumValuesConflictException;
 
 /**
  * The class allows to create the feature symbol table of a syntax tree. The

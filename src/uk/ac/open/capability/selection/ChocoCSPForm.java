@@ -18,7 +18,6 @@ import be.ac.info.fundp.TVLParser.SyntaxTree.NotExpression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.OrExpression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.ParenthesesExpression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.TrueExpression;
-import be.ac.info.fundp.TVLParser.exceptions.ChildrenFeaturesGroupAlreadySpecifiedException;
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.ConstraintSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.EnumSetExpressionSymbol;

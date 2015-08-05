@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import solver.Solver;
+import solver.exception.ContradictionException;
 import uk.ac.open.capability.selection.CPFeatureSolver;
 import uk.ac.open.capability.selection.CPTVLParser;
 import be.ac.info.fundp.TVLParser.Util.FDElement;
 import be.ac.info.fundp.TVLParser.Util.FeatureTree;
-import be.ac.info.fundp.TVLParser.exceptions.UnsatisfiableModelException;
 import be.ac.info.fundp.TVLParser.symbolTables.ConstraintSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.FeatureSymbol;
 
