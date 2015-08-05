@@ -48,7 +48,7 @@ public class FeatureModel {
 	 * @throws UnsatisfiableModelException
 	 * @throws IOException
 	 */
-	public FeatureModel(String input, boolean fullText, Solver chocoSolver) throws IOException {
+	public FeatureModel(String input, boolean fullText, Solver chocoSolver,boolean reinitialiseVariables) throws IOException {
 		CPTVLParser parser = null;
 		if (fullText) {
 			parser = new CPTVLParser(input, chocoSolver);
@@ -56,21 +56,21 @@ public class FeatureModel {
 			parser = new CPTVLParser(new File(input), chocoSolver);
 		}
 		this.tree.setRoot(parser.getRoot());
-		solver = new CPFeatureSolver(tree.getRoot(), chocoSolver);
+		solver = new CPFeatureSolver(tree.getRoot(), chocoSolver,reinitialiseVariables);
 		fixedIds = new ArrayList<Integer>();
 		userChoices = new ArrayList<Integer>();
 	}
 
 	// TODO: Change this to avoid exposure of Parser and Solver objects
-	public FeatureModel(FeatureSymbol root, Solver chocoSolver) {
+	public FeatureModel(FeatureSymbol root, Solver chocoSolver,boolean reinitialiseVariables) {
 		this.tree.setRoot(root);
-		solver = new CPFeatureSolver(root, chocoSolver);
+		solver = new CPFeatureSolver(root, chocoSolver,reinitialiseVariables);
 		fixedIds = new ArrayList<Integer>();
 		userChoices = new ArrayList<Integer>();
 	}
 
-	public FeatureModel(String fmFilePath, Solver chocoSolver) throws IOException {
-		this(fmFilePath, false, chocoSolver);
+	public FeatureModel(String fmFilePath, Solver chocoSolver,boolean reinitialiseVariables) throws IOException {
+		this(fmFilePath, false, chocoSolver,reinitialiseVariables);
 
 	}
 

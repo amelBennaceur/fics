@@ -27,7 +27,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		System.out.println("Solutions:"+"\n"+ solutions);
 		assertEquals(solutions.size(), 2);
 	}
@@ -44,7 +44,7 @@ public class TVLExamples {
 		}
 		parser.run();
 		System.out.println("STEP####");
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		System.out.println("Solutions:"+"\n"+ solutions);
 		assertEquals(solutions.size(), 2);
 	}
@@ -60,7 +60,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 46);
 	}
 
@@ -75,7 +75,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 30);
 	}
 
@@ -90,7 +90,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 30);
 	}
 
@@ -105,7 +105,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 16);
 	}
 
@@ -120,7 +120,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 2);
 	}
 
@@ -135,7 +135,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 2);
 	}
 
@@ -150,7 +150,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 3);
 	}
 
@@ -165,7 +165,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 256);
 	}
 
@@ -180,7 +180,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 1);
 	}
 
@@ -195,7 +195,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 128);
 	}
 
@@ -210,7 +210,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 6);
 	}
 
@@ -225,7 +225,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 2);
 	}
 
@@ -240,7 +240,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 36);
 	}
 
@@ -255,7 +255,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 4);
 	}
 
@@ -270,7 +270,7 @@ public class TVLExamples {
 
 		}
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 2);
 	}
 }

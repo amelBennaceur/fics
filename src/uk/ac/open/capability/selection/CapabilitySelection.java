@@ -64,9 +64,7 @@ public class CapabilitySelection {
 		chocoSolver.findSolution();
 
 		ArrayList<ArrayList<String>> solList = new ArrayList<ArrayList<String>>();
-		//TBChanged *********************
-		//Collection<IntVar> tmpAll = CPFeatureSolver.getIdVarMap.values();
-		Collection<IntVar> tmpAll = new HashSet<IntVar>();
+		Collection<IntVar> tmpAll = CPFeatureSolver.idVarMap.values();
 		int i = 0;
 		IntVar[] variables = new IntVar[tmpAll.size()];
 		for (IntVar var : tmpAll) {

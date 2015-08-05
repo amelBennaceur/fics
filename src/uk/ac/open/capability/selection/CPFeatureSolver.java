@@ -50,7 +50,7 @@ public class CPFeatureSolver {
 	private Solver solver;
 
 	// The keys are feature IDs and the values are the associated CSP variables
-	private HashMap<String, IntVar> idVarMap = new HashMap<String, IntVar>();
+	public static HashMap<String, IntVar> idVarMap = new HashMap<String, IntVar>();
 
 	HashSet<String> visitedFeatures = new HashSet<String>();
 
@@ -79,8 +79,10 @@ public class CPFeatureSolver {
 	 *                If the feature model is unsatisfiable.
 	 * 
 	 */
-	public CPFeatureSolver(FeatureSymbol rootFeatureSymbol, Solver newSolver) {
+	public CPFeatureSolver(FeatureSymbol rootFeatureSymbol, Solver newSolver,boolean reinitialiseVariables) {
 		// solver = new Solver("Feature Selection");
+		if (reinitialiseVariables)
+			idVarMap = new HashMap<String, IntVar>();
 		solver = newSolver;
 		constructCPModel(rootFeatureSymbol);
 	}
@@ -200,8 +202,7 @@ public class CPFeatureSolver {
 							}
 						}
 						if (!init) {
-							System.out
-									.println("You should specify an interval for numeric attributes; default is [0,1]");
+							System.out.println("You should specify an interval for numeric attributes; default is [0,1]");
 							min = 0;
 							max = 1;
 						}

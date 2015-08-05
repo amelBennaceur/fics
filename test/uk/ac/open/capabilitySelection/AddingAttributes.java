@@ -18,7 +18,7 @@ public class AddingAttributes {
 		CPTVLParser parser = null;
 		parser = new CPTVLParser("root A {" + "B -> C && D;" + "group[2..3]{" + "B," + "C," + "D" + "}" + "}",chocoSolver);
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 2);
 	}
 
@@ -28,7 +28,7 @@ public class AddingAttributes {
 		parser = new CPTVLParser("root Test1 {" + "bool attrib;" + "A -> attrib==true;" + "group allof {" + "A" + "}"
 				+ "}",chocoSolver);
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 1);
 	}
 
@@ -39,7 +39,7 @@ public class AddingAttributes {
 				+ "group someof {" + "A," + "B" + "}" + "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 3);
 	}
 
@@ -50,7 +50,7 @@ public class AddingAttributes {
 				+ "A requires B;" + "group someof {" + "A," + "B" + "}" + "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		// assertEquals(solutions.size(), 3);
 	}
 
@@ -61,7 +61,7 @@ public class AddingAttributes {
 				+ "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 3);
 	}
 
@@ -71,7 +71,7 @@ public class AddingAttributes {
 		parser = new CPTVLParser("root Test1 {" + "int attrib1;" + "attrib1 in [2..4];" + "attrib1 >= 3;" + "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 2);
 	}
 
@@ -82,7 +82,7 @@ public class AddingAttributes {
 				+ "attrib2 in [4..5];" + "attrib1 >= attrib2;" + "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 1);
 	}
 
@@ -93,7 +93,7 @@ public class AddingAttributes {
 				+ "attrib2 in [3..5];" + "attrib1 > attrib2;" + "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 1);
 	}
 
@@ -104,7 +104,7 @@ public class AddingAttributes {
 				+ "attrib2 in [4..5];" + "attrib1 == attrib2;" + "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 1);
 	}
 
@@ -115,7 +115,7 @@ public class AddingAttributes {
 				+ "attrib2 in [3..5];" + "attrib1 <= attrib2;" + "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 8);
 	}
 
@@ -126,7 +126,7 @@ public class AddingAttributes {
 				+ "attrib2 in [3..5];" + "attrib1 < attrib2;" + "}",chocoSolver);
 
 		parser.run();
-		ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 		assertEquals(solutions.size(), 6);
 	}
 }

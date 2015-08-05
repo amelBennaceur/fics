@@ -80,10 +80,10 @@ public class CPTVLLauncher {
 				} else if (sat || prods) {
 					try {
 						if (!prods)
-							System.out.println(parser.isSatisfiable() ? "Ok, feature model satisfiable."
+							System.out.println(parser.isSatisfiable(true) ? "Ok, feature model satisfiable."
 									: "Ko, feature model *not* satisfiable.");
 						else {
-							ArrayList<ArrayList<String>> solutions = parser.getSolutions();
+							ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 							if (solutions == null)
 								System.out.println("Feature model *not* satisfiable.");
 							else {

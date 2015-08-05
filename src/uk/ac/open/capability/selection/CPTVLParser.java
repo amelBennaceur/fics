@@ -376,12 +376,12 @@ public class CPTVLParser {
 	 * If the boolean form of the FM exists and is valid, try to initialize the
 	 * solver with it.
 	 */
-	public void runSolver() {
+	public void runSolver(boolean reinitialiseVariables) {
 		if (!this.hasRunSolver) {
 			FeatureSymbol root = getRoot();
 			if (root != null) {
 				try {
-					this.mySolver = new CPFeatureSolver(root, chocoSolver);
+					this.mySolver = new CPFeatureSolver(root, chocoSolver,reinitialiseVariables);
 					this.hasRunSolver = true;
 				} catch (Exception e) {
 					this.solverException = e;
@@ -412,9 +412,9 @@ public class CPTVLParser {
 	 * @throws TimeoutException
 	 *             This method calls Sat4J, so it might timeout.
 	 */
-	public boolean isSatisfiable() {
+	public boolean isSatisfiable(boolean reinitialiseVariables) {
 		if (!this.hasRunSolver)
-			this.runSolver();
+			this.runSolver(reinitialiseVariables);
 		if (this.hasRunSolver) {
 			return this.mySolver.isSatisfiable();
 		}
@@ -429,9 +429,9 @@ public class CPTVLParser {
 	 * @throws TimeoutException
 	 *             This method calls Sat4J, so it might timeout.
 	 */
-	public ArrayList<ArrayList<String>> getSolutions() {
+	public ArrayList<ArrayList<String>> getSolutions(boolean reinitialiseVariables) {
 		if (!this.hasRunSolver)
-			this.runSolver();
+			this.runSolver(reinitialiseVariables);
 		if (this.hasRunSolver) {
 			if (!this.mySolver.isSatisfiable())
 				return null;

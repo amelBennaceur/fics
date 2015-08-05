@@ -77,7 +77,7 @@ public class MainApp extends Application {
 
 	public boolean addCapability(String fmFilePath, String behFilePath) {
 		Capability capa = new Capability();
-		if (capa.loadCapability(fmFilePath, behFilePath, chocoSolver)) {
+		if (capa.loadCapability(fmFilePath, behFilePath, chocoSolver,false)) {
 			capabilities.add(capa);
 			capabilityStore.add(capa);
 			return true;
@@ -95,7 +95,7 @@ public class MainApp extends Application {
 		capabilityStore.remove(selectedItem);
 	}
 
-	public boolean compose(String text, String text2, String goalFilePath) {
+	public boolean compose() {
 		boolean done = false;
 		CapabilitySelection fs = new CapabilitySelection(capabilityStore, currentSC);
 		done = fs.areFeaturesPresentInSecurityControl();

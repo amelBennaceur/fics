@@ -41,9 +41,9 @@ public class Capability {
 		this.fts = fts;
 	}
 
-	public boolean loadCapability(String fmFilePath, String behFilePath, Solver chocoSolver) {
+	public boolean loadCapability(String fmFilePath, String behFilePath, Solver chocoSolver,boolean reinitialiseVariables) {
 		try {
-			fm = new FeatureModel(fmFilePath, chocoSolver);
+			fm = new FeatureModel(fmFilePath, chocoSolver,reinitialiseVariables);
 
 			name = fm.getRootName();
 

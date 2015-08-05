@@ -51,7 +51,7 @@ public class SecurityControlController {
 	private void handleCompose() {
 		System.out.println("Handling OK");
 
-		if (mainApp.compose(featuresField.getText(), attributesField.getText(), goalFilePath)) {
+		if (mainApp.compose()) {
 
 			
 //			dialogStage.close();
@@ -87,6 +87,7 @@ public class SecurityControlController {
 		if (selectedFile != null) {
 			goalFilePath = selectedFile.getAbsolutePath();
 			SecurityControl sc = SecurityControl.loadSecurityControlFromFile(goalFilePath);
+			mainApp.setSecurityControl(sc);
 			featuresField.setText(sc.getFeatures().toString());
 			attributesField.setText(sc.getAttributes() + "");
 			goalField.setText(sc.getGoal() + "");
