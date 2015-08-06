@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fts>
+    <states>
+        <state name="S0">
+            <predicate>location=0</predicate>
+        </state>
+    </states>
+    <initialStates>
+        <initialState name="S0">
+            <predicate>location=0</predicate>
+        </initialState>
+    </initialStates>
+    <featuredTransitions>
+        <featuredTransition>
+            <source>S0</source>
+            <target>S1</target>
+            <action>action0</action>
+            <features>
+                <feature>A1</feature>
+            </features>
+        </featuredTransition>
+    </featuredTransitions>
+</fts>

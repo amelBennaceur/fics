@@ -51,7 +51,7 @@ public class SecurityControlController {
 	private void handleCompose() {
 		System.out.println("Handling OK");
 
-		if (mainApp.compose()) {
+		if (mainApp.compose(true)) {
 
 			
 //			dialogStage.close();

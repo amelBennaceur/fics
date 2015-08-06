@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import solver.Solver;
 import uk.ac.open.capability.model.Capability;
 import uk.ac.open.capability.model.SecurityControl;
+import uk.ac.open.capability.model.TransitionSystem;
 import uk.ac.open.capability.selection.CapabilitySelection;
 import uk.ac.open.fics.view.CapabilitySelectionResultsController;
 import uk.ac.open.fics.view.MainLayoutController;
@@ -31,7 +32,15 @@ public class MainApp extends Application {
 	private SecurityControl currentSC;
 
 	private Solver chocoSolver = new Solver("Feature Selection");
+	
+	
+	//Might be removed
+	private String selectedFeatures;
 
+	private TransitionSystem mediator;
+
+	private boolean solutionFound = false;
+	
 	/**
 	 * Constructor
 	 */
@@ -88,6 +97,10 @@ public class MainApp extends Application {
 	public void setSecurityControl(SecurityControl sc) {
 		currentSC = sc;
 	}
+	
+	public void setSecurityControl(String pathSc) {
+		currentSC = SecurityControl.loadSecurityControlFromFile(pathSc);
+	}
 
 	public void deleteCapability(Capability selectedItem) {
 		// TODO must change the solver as well...
@@ -95,46 +108,65 @@ public class MainApp extends Application {
 		capabilityStore.remove(selectedItem);
 	}
 
-	public boolean compose() {
-		boolean done = false;
+	public boolean compose(boolean displayResults) {
+		solutionFound = false;
 		CapabilitySelection fs = new CapabilitySelection(capabilityStore, currentSC);
-		done = fs.areFeaturesPresentInSecurityControl();
-		if (done) {
-			done = fs.areAttributesOfSecurityControlPresent();
+		solutionFound = fs.areFeaturesOfSecurityControlPresent();
+		if (solutionFound) {
+			solutionFound = fs.areAttributesOfSecurityControlPresent();
 		}
 		if (fs.compose(chocoSolver)) {
-			// Load the fxml file and create a new stage for the popup dialog.
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/CapabilitySelectionResults.fxml"));
+			if(displayResults){
+				// Load the fxml file and create a new stage for the popup
+				// dialog.
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("view/CapabilitySelectionResults.fxml"));
 
-			Parent root1 = null;
+				Parent root1 = null;
 
-			try {
-				root1 = (Parent) loader.load();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					root1 = (Parent) loader.load();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// Create the dialog Stage.
+				Stage dialogStage = new Stage();
+				dialogStage.setTitle("Composed Capabilities");
+				dialogStage.initModality(Modality.WINDOW_MODAL);
+				// dialogStage.initOwner(primaryStage);
+				Scene scene = new Scene(root1);
+				dialogStage.setScene(scene);
+
+				// Set the person into the controller.
+				CapabilitySelectionResultsController controller = loader.getController();
+				controller.setDialogStage(dialogStage);
+				controller.setSelectedFeatures(fs.getFeatures());
+				controller.setSynthesisedMediator(fs.getMediator().toString());
+
+				dialogStage.showAndWait();
 			}
+			
+			selectedFeatures = fs.getFeatures();
+			mediator = fs.getMediator();
 
-			// Create the dialog Stage.
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Composed Capabilities");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			// dialogStage.initOwner(primaryStage);
-			Scene scene = new Scene(root1);
-			dialogStage.setScene(scene);
-
-			// Set the person into the controller.
-			CapabilitySelectionResultsController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setSelectedFeatures(fs.getFeatures());
-			controller.setSynthesisedMediator(fs.getMediator().toString());
-
-			dialogStage.showAndWait();
-
-			done = true;
+			solutionFound = true;
 		} else {
-			done = false;
+			solutionFound = false;
 		}
-		return done;
+		return solutionFound;
 	}
+	
+	public String getFeatures() {
+		if (solutionFound)
+			return selectedFeatures;
+		return null;
+	}
+
+	public TransitionSystem getMediator() {
+		if (solutionFound)
+			return mediator;
+		return null;
+
+	} 
 }

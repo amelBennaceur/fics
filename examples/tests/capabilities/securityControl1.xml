@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<securityControl>
+    <features>
+        <feature>A1</feature>
+    </features>
+    <attributes>
+        <attribute>attr</attribute>
+    </attributes>
+    <goal>
+        <predicate>
+            <exist>eventually</exist>
+            <proposition>location(phone)=location.SAFE</proposition>
+        </predicate>
+    </goal>
+</securityControl>

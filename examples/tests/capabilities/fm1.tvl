@@ -1,0 +1,4 @@
+root FM1 group oneof{
+	A1,
+	B1
+}

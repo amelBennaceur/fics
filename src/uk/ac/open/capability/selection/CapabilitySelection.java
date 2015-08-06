@@ -29,8 +29,10 @@ public class CapabilitySelection {
 		this.sc = sc;
 	}
 
-	public boolean areFeaturesPresentInSecurityControl() {
+	public boolean areFeaturesOfSecurityControlPresent() {
 		List<String> features = sc.getFeatures();
+		if (features == null)
+			return true;
 		boolean found;
 		for (String f : features) {
 			found = false;
@@ -61,7 +63,7 @@ public class CapabilitySelection {
 		// for (Solution s : solutions) {
 		// System.out.println("A solution is s = " + s);
 
-		chocoSolver.findSolution();
+		solutionFound = chocoSolver.findSolution();
 
 		ArrayList<ArrayList<String>> solList = new ArrayList<ArrayList<String>>();
 		Collection<IntVar> tmpAll = CPFeatureSolver.idVarMap.values();
@@ -95,12 +97,14 @@ public class CapabilitySelection {
 			System.out.println("- Solution " + i1 + ":  " + sol1);
 			i1++;
 		}
-		if (i1 > 1) {
-			solutionFound = true;
-			selectedFeatures = SampleFeaturesCollaborativeRobotsExample();
-			SimpleMediatorSynthesisImpl synthesis = new SimpleMediatorSynthesisImpl();
-			mediator = synthesis.synthesiseAbstractMediator(null, null);
-		}
+		selectedFeatures = solList + "";
+		
+//		if (i1 > 1) {
+//			solutionFound = true;
+//			selectedFeatures = SampleFeaturesCollaborativeRobotsExample();
+//			SimpleMediatorSynthesisImpl synthesis = new SimpleMediatorSynthesisImpl();
+//			mediator = synthesis.synthesiseAbstractMediator(null, null);
+//		}
 		return solutionFound;
 
 	}

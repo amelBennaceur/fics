@@ -1,0 +1,4 @@
+root FM2 group oneof{
+	A2,
+	B2
+}
