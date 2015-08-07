@@ -16,7 +16,7 @@ import fr.inria.mics.mediatorSynthesis.SimpleMediatorSynthesisImpl;
 public class CapabilitySelection {
 
 	List<Capability> capabilities;
-	SecurityControl sc;
+	SecurityControl sc1;
 
 	String selectedFeatures;
 
@@ -24,13 +24,12 @@ public class CapabilitySelection {
 
 	boolean solutionFound = false;
 
-	public CapabilitySelection(ArrayList<Capability> capabilities, SecurityControl sc) {
+	public CapabilitySelection(ArrayList<Capability> capabilities) {
 		this.capabilities = capabilities;
-		this.sc = sc;
 	}
 
-	public boolean areFeaturesOfSecurityControlPresent() {
-		List<String> features = sc.getFeatures();
+	private boolean areFeaturesOfSecurityControlPresent(SecurityControl sc1) {
+		List<String> features = sc1.getFeatures();
 		if (features == null)
 			return true;
 		boolean found;
@@ -48,9 +47,21 @@ public class CapabilitySelection {
 		return true;
 	}
 
-	public boolean areAttributesOfSecurityControlPresent() {
+	private boolean areAttributesOfSecurityControlPresent(SecurityControl sc1) {
 		boolean found = true;
 		return found;
+	}
+	
+	public boolean setSecurityControl(SecurityControl sc1){
+		boolean ok = areFeaturesOfSecurityControlPresent(sc1);
+		if (!ok)
+			return false;
+		ok = areAttributesOfSecurityControlPresent(sc1);
+		if (!ok)
+			return false;
+		this.sc1 = sc1;
+		return true;
+		
 	}
 
 	public boolean compose(Solver chocoSolver) {

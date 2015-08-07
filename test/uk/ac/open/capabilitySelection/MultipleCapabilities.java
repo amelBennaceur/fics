@@ -33,25 +33,32 @@ public class MultipleCapabilities {
 //		 assertEquals(sc.getFeatures().size(),1);
 //		 assertEquals(sc.getAttributes().size(),1);
 //	 }
-
-	@Test
-	public void loadAndCheckMultipleCapabilities() {
-		MainApp app = new MainApp();
+//
+//	@Test
+//	public void loadAndCheckMultipleCapabilities() {
+//		MainApp app = new MainApp();
+//		app.addCapability("examples/tests/capabilities/fm1.tvl", "examples/tests/capabilities/fts0.xml");
+//		app.addCapability("examples/tests/capabilities/fm2.tvl", "examples/tests/capabilities/fts0.xml");
+//		app.setSecurityControl("examples/tests/capabilities/securityControl0.xml");
+//		app.compose(false);
+//		assertEquals(app.getFeatures(),"[[A1, B2, FM2, FM1], [A1, A2, FM2, FM1], [B2, FM2, FM1, B1], [A2, FM2, FM1, B1]]");
+//		System.out.println("Features = "+app.getFeatures());
+//		
+//	}
+//
+	
+	 @Test
+	 public void checkSimpleFeatureSelection() {
+		 MainApp app = new MainApp();
 		app.addCapability("examples/tests/capabilities/fm1.tvl", "examples/tests/capabilities/fts0.xml");
 		app.addCapability("examples/tests/capabilities/fm2.tvl", "examples/tests/capabilities/fts0.xml");
-		app.setSecurityControl("examples/tests/capabilities/securityControl0.xml");
+		app.setSecurityControl("examples/tests/capabilities/securityControl1.xml");
 		app.compose(false);
-		assertEquals(app.getFeatures(),"[[A1, B2, FM2, FM1], [A1, A2, FM2, FM1], [B2, FM2, FM1, B1], [A2, FM2, FM1, B1]]");
-		System.out.println("Features = "+app.getFeatures());
-		
-	}
-
-	//
-	// @Test
-	// public void checkSimpleFeatureSelection() {
-	//
-	// }
-	//
+		assertEquals(app.getFeatures(),
+				"[[A1, B2, FM2, FM1], [A1, A2, FM2, FM1], [B2, FM2, FM1, B1], [A2, FM2, FM1, B1]]");
+		System.out.println("Features = " + app.getFeatures());
+	 }
+	
 	// @Test
 	// public void checkFeatureSelectionWithOneOptimisation() {
 	//
