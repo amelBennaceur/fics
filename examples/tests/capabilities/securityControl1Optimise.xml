@@ -2,8 +2,10 @@
 <securityControl>
     <features>
         <feature>A1</feature>
-        <feature>A2</feature>
     </features>
+    <attributes>
+        <attribute>attr</attribute>
+    </attributes>
     <goal>
         <predicate>
             <exist>eventually</exist>

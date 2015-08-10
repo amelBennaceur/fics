@@ -3,9 +3,6 @@
     <features>
         <feature>A1</feature>
     </features>
-    <attributes>
-        <attribute>attr</attribute>
-    </attributes>
     <goal>
         <predicate>
             <exist>eventually</exist>

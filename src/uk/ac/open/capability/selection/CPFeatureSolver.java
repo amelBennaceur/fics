@@ -123,7 +123,7 @@ public class CPFeatureSolver {
 				}
 			} else {
 				if (!idVarMap.containsKey(f.getID())) {
-					x = VariableFactory.bounded(f.getID(), 1, 1, solver);
+					x = VariableFactory.bounded(f.getID(), 0, 1, solver);
 					idVarMap.put(f.getID(), x);
 				} else {
 					x = idVarMap.get(f.getID());
@@ -206,6 +206,7 @@ public class CPFeatureSolver {
 							min = 0;
 							max = 1;
 						}
+						//To be checked
 						idVarMap.put(f.getID() + "." + attrib.getID(),
 								VariableFactory.bounded(f.getID() + "." + attrib.getID(), min, max, solver));
 					}

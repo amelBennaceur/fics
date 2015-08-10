@@ -1,7 +1,9 @@
 package uk.ac.open.fics;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -13,9 +15,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import solver.Solver;
+import solver.variables.IntVar;
 import uk.ac.open.capability.model.Capability;
 import uk.ac.open.capability.model.SecurityControl;
 import uk.ac.open.capability.model.TransitionSystem;
+import uk.ac.open.capability.selection.CPFeatureSolver;
 import uk.ac.open.capability.selection.CapabilitySelection;
 import uk.ac.open.fics.view.CapabilitySelectionResultsController;
 import uk.ac.open.fics.view.MainLayoutController;
@@ -41,6 +45,8 @@ public class MainApp extends Application {
 
 	private boolean solutionFound = false;
 	
+	private int numberSolutions = 0;
+	
 	/**
 	 * Constructor
 	 */
@@ -48,6 +54,14 @@ public class MainApp extends Application {
 		// Add some sample data
 
 	}
+	
+	public void reinit() {
+		// Add some sample data
+		CPFeatureSolver.idVarMap = new HashMap<String, IntVar>();
+		chocoSolver = new Solver("Feature Selection");
+	}
+	
+	
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -110,11 +124,9 @@ public class MainApp extends Application {
 
 	public boolean compose(boolean displayResults) {
 		solutionFound = false;
-		CapabilitySelection fs = new CapabilitySelection(capabilityStore, currentSC);
-		solutionFound = fs.areFeaturesOfSecurityControlPresent();
-		if (solutionFound) {
-			solutionFound = fs.areAttributesOfSecurityControlPresent();
-		}
+		CapabilitySelection fs = new CapabilitySelection(capabilityStore);
+		
+		solutionFound = fs.setSecurityControl(currentSC);
 		if (fs.compose(chocoSolver)) {
 			if(displayResults){
 				// Load the fxml file and create a new stage for the popup
@@ -149,6 +161,7 @@ public class MainApp extends Application {
 			
 			selectedFeatures = fs.getFeatures();
 			mediator = fs.getMediator();
+			numberSolutions = fs.getNumberOfSolutions();
 
 			solutionFound = true;
 		} else {
@@ -169,4 +182,8 @@ public class MainApp extends Application {
 		return null;
 
 	} 
+	
+	public int getNumberOfSolutions() {
+		return numberSolutions;
+	}
 }

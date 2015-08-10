@@ -81,18 +81,18 @@ public class TestsChoco {
 		// solver.set(IntStrategyFactory.lexico_LB(new IntVar[] { x, y }));
 
 //		 5. Launch the resolution process
-		 solver.post(IntConstraintFactory.arithm(x, "=", 1));
+//		 solver.post(IntConstraintFactory.arithm(x, "=", 1));
 		 
 		 
-		 if (solver.findSolution()) {
-		 do {
-		 Solution s = solver.getSolutionRecorder().getLastSolution();
-		 // System.out.println("A solution is A = " + s.getIntVal(a) +
-		 // " B = " + s.getIntVal(b) + " C = " + s.getIntVal(c));
-		 System.out.println("A solution is x = " + s.getIntVal(x)
-		 + " y = " + s.getIntVal(y));
-		 } while (solver.nextSolution());
-		 }
+//		 if (solver.findSolution()) {
+//		 do {
+//		 Solution s = solver.getSolutionRecorder().getLastSolution();
+//		 // System.out.println("A solution is A = " + s.getIntVal(a) +
+//		 // " B = " + s.getIntVal(b) + " C = " + s.getIntVal(c));
+//		 System.out.println("A solution is x = " + s.getIntVal(x)
+//		 + " y = " + s.getIntVal(y));
+//		 } while (solver.nextSolution());
+//		 }
 
 		// 6. Maximise
 		// solver.findOptimalSolution(ResolutionPolicy.MAXIMIZE, x);
@@ -108,16 +108,16 @@ public class TestsChoco {
 		// }
 
 		// 7. Multi-objective Optimisation
-//		IntVar[] paretoVars = { x, z };
-//		AllSolutionsRecorder rec = new AllSolutionsRecorder(solver);
-//		ParetoSolutionsRecorder paretoRecorder = new ParetoSolutionsRecorder(ResolutionPolicy.MAXIMIZE, paretoVars);
-//		solver.findParetoFront(ResolutionPolicy.MAXIMIZE, x, z);
-//		List<Solution> paretoFront = solver.getSolutionRecorder().getSolutions();
-//		System.out.println("The pareto front has " + paretoFront.size() + " solutions : ");
-//		for (Solution s : paretoFront) {
-//			System.out.println("The solution is x = " + s.getIntVal(x) + " y = " + s.getIntVal(y));
-//		}
-//
+		IntVar[] paretoVars = { y, z };
+		AllSolutionsRecorder rec = new AllSolutionsRecorder(solver);
+		ParetoSolutionsRecorder paretoRecorder = new ParetoSolutionsRecorder(ResolutionPolicy.MAXIMIZE, paretoVars);
+		solver.findParetoFront(ResolutionPolicy.MAXIMIZE, x, z);
+		List<Solution> paretoFront = solver.getSolutionRecorder().getSolutions();
+		System.out.println("The pareto front has " + paretoFront.size() + " solutions : ");
+		for (Solution s : paretoFront) {
+			System.out.println("The solution is x = " + s.getIntVal(x) + " y = " + s.getIntVal(y)+ " z = " + s.getIntVal(z));
+		}
+
 //		// Testing other recoders
 //		List<Solution> solutions = rec.getSolutions();
 //		for (Solution s : solutions) {
