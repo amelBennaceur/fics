@@ -1,0 +1,10 @@
+root FM2 {
+	group oneof{
+	A2,
+	B2
+	}
+	int attr1;
+	attr1 in [20..20];
+	int attr2;
+	attr2 in [100..100];
+}

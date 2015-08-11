@@ -46,7 +46,7 @@ public class MultipleCapabilities {
 		app.addCapability("examples/tests/capabilities/fm2.tvl", "examples/tests/capabilities/fts0.xml");
 		app.setSecurityControl("examples/tests/capabilities/securityControl0.xml");
 		app.compose(false);
-		assertEquals(app.getNumberOfSolutions(),9);
+		assertEquals(app.getNumberOfSolutions(), 9);
 
 	}
 
@@ -80,15 +80,33 @@ public class MultipleCapabilities {
 		app.addCapability("examples/tests/capabilities/fm2Opt.tvl", "examples/tests/capabilities/fts0.xml");
 		app.setSecurityControl("examples/tests/capabilities/securityControl1Optimise.xml");
 		app.compose(false);
-		assertEquals(app.getFeatures(), "[[A1, FM1.attr == 10, FM1, FM2.attr == 20]]");
+		System.out.println("sol = " + app.getFeatures());
+		assertEquals(app.getFeatures(), "[[A1, FM1.attr == 10, FM1]]");
 
 	}
 
-	// @Test
-	// public void checkFeatureSelectionWithMultipleOptimisation() {
-	//
-	// }
-	//
+	@Test
+	public void checkFeatureSelectionWithMultipleOptimisationOneSolution() {
+		MainApp app = new MainApp();
+		app.reinit();
+		app.addCapability("examples/tests/capabilities/fm1Opt2.tvl", "examples/tests/capabilities/fts0.xml");
+		app.addCapability("examples/tests/capabilities/fm2Opt2.tvl", "examples/tests/capabilities/fts0.xml");
+		app.setSecurityControl("examples/tests/capabilities/securityControl1Optimise2.xml");
+		app.compose(false);
+		assertEquals(app.getFeatures(), "[[A1, FM1.attr1 == 10, FM1.attr2 == 10, FM1]]");
+	}
+
+	@Test
+	public void checkFeatureSelectionWithMultipleOptimisationMultipleSolutions() {
+		MainApp app = new MainApp();
+		app.reinit();
+		app.addCapability("examples/tests/capabilities/allInOne.tvl", "examples/tests/capabilities/fts0.xml");
+		app.setSecurityControl("examples/tests/capabilities/securityControl1Optimise2.xml");
+		app.compose(false);
+		System.out.println("sol = " + app.getFeatures());
+		// assertEquals(app.getFeatures(), "[[A1, FM1.attr == 10, FM1]]");
+	}
+
 	// @Test
 	// public void checkFeatureSelectionWithOneOptimisationAndSimpleMediation()
 	// {

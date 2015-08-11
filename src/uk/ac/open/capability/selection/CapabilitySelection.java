@@ -9,6 +9,7 @@ import solver.ResolutionPolicy;
 import solver.Solver;
 import solver.constraints.IntConstraintFactory;
 import solver.constraints.LogicalConstraintFactory;
+import solver.exception.ContradictionException;
 import solver.search.solution.AllSolutionsRecorder;
 import solver.search.solution.ParetoSolutionsRecorder;
 import solver.search.solution.Solution;
@@ -114,11 +115,12 @@ public class CapabilitySelection {
 
 			// with optimisation
 			ArrayList<IntVar> paretoVarsList = new ArrayList<IntVar>();
+			int min = 0, max = 0;
+			boolean init = false;
 			for (String attribute : sc.getAttributes()) {
-				int min = 10, max = 20;
+				init = false;
 
-				IntVar var = VariableFactory.bounded(attribute, min, max, chocoSolver);
-				paretoVarsList.add(var);
+				ArrayList<DataHelper> tmpConstraints = new ArrayList<DataHelper>();
 
 				for (i = 0; i < variables.length; i++) {
 					if (variables[i].getName().contains(attribute)) {
@@ -126,47 +128,68 @@ public class CapabilitySelection {
 						String parentFeatureName = variables[i].getName().substring(0, index);
 						IntVar parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
 						int val = variables[i].getValue();
-						chocoSolver.post(LogicalConstraintFactory.ifThen(
-								IntConstraintFactory.arithm(parentFeatureVar, ">", 0),
-								IntConstraintFactory.arithm(var, "=", val)));
-						if (val < min) {
+						tmpConstraints.add(new DataHelper(parentFeatureVar, val));
+						if (!init) {
 							min = val;
-						} else if (val > max) {
 							max = val;
+							init = true;
+						} else {
+							if (val < min) {
+								min = val;
+							} else if (val > max) {
+								max = val;
+							}
 						}
 
 					}
 
 				}
 
+				IntVar var = VariableFactory.bounded(attribute, min, max, chocoSolver);
+				paretoVarsList.add(var);
+
+				for (DataHelper d : tmpConstraints) {
+					chocoSolver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(d.var, ">", 0),
+							IntConstraintFactory.arithm(var, "=", d.val)));
+				}
+
 			}
 
 			if (paretoVarsList.size() == 1) {
-//				chocoSolver.findOptimalSolution(ResolutionPolicy.MINIMIZE, paretoVarsList.get(0));
-				chocoSolver.findAllOptimalSolutions(ResolutionPolicy.MINIMIZE, paretoVarsList.get(0),
-				 true);
-				
+				// chocoSolver.findOptimalSolution(ResolutionPolicy.MINIMIZE,
+				// paretoVarsList.get(0));
+				chocoSolver.findAllOptimalSolutions(ResolutionPolicy.MINIMIZE, paretoVarsList.get(0), true);
+
 				List<Solution> solutions = chocoSolver.getSolutionRecorder().getSolutions();
 
-				
-				
 				numberSolutions = 0;
-				if ((solutions != null ) && (solutions.size()>0)) { 
+				if ((solutions != null) && (solutions.size() > 0)) {
 					numberSolutions = solutions.size();
 					solutionFound = true;
-					}
+				}
 
 				ArrayList<String> sol;
-				
+
 				for (Solution s : solutions) {
 					sol = new ArrayList<String>();
 					for (i = 0; i < variables.length; i++) {
 						if (s.getIntVal(variables[i]) > 0)
 							if (!variables[i].getName().startsWith("ArtificialParent")) {
-								if (s.getIntVal(variables[i]) == 1) {
-									sol.add(variables[i].getName());
+								int index = variables[i].getName().indexOf(".");
+								if (index > 0) {
+									String parentFeatureName = variables[i].getName().substring(0, index);
+									IntVar parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
+									if (parentFeatureVar.getValue() > 0) {
+										sol.add(variables[i].getName() + " == " + variables[i].getValue());
+									}
+
 								} else {
-									sol.add(variables[i].getName() + " == " + variables[i].getValue());
+
+									if (s.getIntVal(variables[i]) == 1) {
+										sol.add(variables[i].getName());
+									} else {
+										sol.add(variables[i].getName() + " == " + variables[i].getValue());
+									}
 								}
 							}
 
@@ -185,14 +208,43 @@ public class CapabilitySelection {
 				ParetoSolutionsRecorder paretoRecorder = new ParetoSolutionsRecorder(ResolutionPolicy.MINIMIZE,
 						paretoVars);
 				chocoSolver.findParetoFront(ResolutionPolicy.MINIMIZE, paretoVars);
-				List<Solution> paretoFront = chocoSolver.getSolutionRecorder().getSolutions();
+				List<Solution> solutions = chocoSolver.getSolutionRecorder().getSolutions();
 
-				System.out.println("The pareto front has " + paretoFront.size() + " solutions : ");
-				// for (Solution s : paretoFront) {
-				// System.out.println("The solution is x = " + s.getIntVal(x) +
-				// " y = " + s.getIntVal(y) + " z = "
-				// + s.getIntVal(z));
-				// }
+				System.out.println("The pareto front has " + solutions.size());
+				numberSolutions = 0;
+				if ((solutions != null) && (solutions.size() > 0)) {
+					numberSolutions = solutions.size();
+					solutionFound = true;
+				}
+
+				ArrayList<String> sol;
+
+				for (Solution s : solutions) {
+					sol = new ArrayList<String>();
+					for (i = 0; i < variables.length; i++) {
+						if (s.getIntVal(variables[i]) > 0)
+							if (!variables[i].getName().startsWith("ArtificialParent")) {
+								int index = variables[i].getName().indexOf(".");
+								if (index > 0) {
+									String parentFeatureName = variables[i].getName().substring(0, index);
+									IntVar parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
+									if (parentFeatureVar.getValue() > 0) {
+										sol.add(variables[i].getName() + " == " + variables[i].getValue());
+									}
+
+								} else {
+
+									if (s.getIntVal(variables[i]) == 1) {
+										sol.add(variables[i].getName());
+									} else {
+										sol.add(variables[i].getName() + " == " + variables[i].getValue());
+									}
+								}
+							}
+
+					}
+					solList.add(sol);
+				}
 			}
 
 		}
@@ -246,4 +298,13 @@ public class CapabilitySelection {
 		return "[NAO, NAO.env_light, Core, Behaviour, Connection, WiFi, Vision, DarknessDetection, ObjectRecognition, Sensors, Battery, Sonar, Create, ConnectionC, Bluetooth, MotionC, Moving, Turning]";
 	}
 
+	private class DataHelper {
+		public DataHelper(IntVar var1, int val1) {
+			var = var1;
+			val = val1;
+		}
+
+		IntVar var;
+		int val;
+	}
 }

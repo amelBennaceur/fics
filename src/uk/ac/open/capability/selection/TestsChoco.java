@@ -108,7 +108,7 @@ public class TestsChoco {
 		// }
 
 		// 7. Multi-objective Optimisation
-		IntVar[] paretoVars = { y, z };
+		IntVar[] paretoVars = { x, z };
 		AllSolutionsRecorder rec = new AllSolutionsRecorder(solver);
 		ParetoSolutionsRecorder paretoRecorder = new ParetoSolutionsRecorder(ResolutionPolicy.MAXIMIZE, paretoVars);
 		solver.findParetoFront(ResolutionPolicy.MAXIMIZE, x, z);

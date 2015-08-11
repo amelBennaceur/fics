@@ -79,7 +79,7 @@ public class CPFeatureSolver {
 	 *                If the feature model is unsatisfiable.
 	 * 
 	 */
-	public CPFeatureSolver(FeatureSymbol rootFeatureSymbol, Solver newSolver,boolean reinitialiseVariables) {
+	public CPFeatureSolver(FeatureSymbol rootFeatureSymbol, Solver newSolver, boolean reinitialiseVariables) {
 		// solver = new Solver("Feature Selection");
 		if (reinitialiseVariables)
 			idVarMap = new HashMap<String, IntVar>();
@@ -155,6 +155,7 @@ public class CPFeatureSolver {
 				Constraint groupCstIf = LogicalConstraintFactory.and(IntConstraintFactory.sum(tabSum, ">=", minSum),
 						IntConstraintFactory.sum(tabSum, "<=", maxSum));
 
+				// To Check why not just IfThen
 				solver.post(LogicalConstraintFactory.ifThenElse(IntConstraintFactory.arithm(x, ">", 0), groupCstIf,
 						LogicalConstraintFactory.and(allChildrenNill)));
 
@@ -202,13 +203,70 @@ public class CPFeatureSolver {
 							}
 						}
 						if (!init) {
-							System.out.println("You should specify an interval for numeric attributes; default is [0,1]");
-							min = 0;
-							max = 1;
+							// Try to check the parent constraints
+							Collection<FeatureSymbol> parents = f.getParentsFeature().values();
+							for (FeatureSymbol parent : parents) {
+								constraints = parent.getConstraintSymbols();
+								if (constraints != null) {
+									for (ConstraintSymbol c : constraints) {
+										if (c.getExpression() instanceof InExpression) {
+											InExpression inExpr = (InExpression) c.getExpression();
+											Expression expression = inExpr.getExpression();
+											SetExpression setExpression = inExpr.getSetExpression();
+											if ((expression.getType() == Expression.INT)
+													&& (setExpression.getType() == Expression.INT)) {
+												if (((LongIDExpression) expression).getLongID()
+														.contains(attrib.getID())) {
+													if (!init) {
+														min = Integer.parseInt(setExpression.getMinExpression());
+														max = Integer.parseInt(setExpression.getMaxExpression());
+														init = true;
+													} else {
+														if (min < Integer.parseInt(setExpression.getMinExpression()))
+															min = Integer.parseInt(setExpression.getMinExpression());
+														if (max > Integer.parseInt(setExpression.getMaxExpression()))
+															max = Integer.parseInt(setExpression.getMaxExpression());
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+							if (!init) {
+								System.out
+										.println("You should specify an interval for numeric attributes; default is [0,1]");
+								min = 0;
+								max = 1;
+							}
 						}
-						//To be checked
-						idVarMap.put(f.getID() + "." + attrib.getID(),
-								VariableFactory.bounded(f.getID() + "." + attrib.getID(), min, max, solver));
+						// To be checked
+						IntVar newAttr = VariableFactory.bounded(f.getID() + "." + attrib.getID(), min, max, solver);
+						idVarMap.put(f.getID() + "." + attrib.getID(), newAttr);
+
+						// Attribute is only selected if the parent feature is
+						// selected
+						IntVar parentF = idVarMap.get(f.getID());
+						if (!(parentF == null)) {
+							solver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(parentF, "=", 0),
+									IntConstraintFactory.arithm(newAttr, "=", 0)));
+						} else {
+							System.out.println("Attribute without a parent");
+						}
+					} else if (attrib.getType() == Expression.BOOL) {
+						// To be checked
+						IntVar newAttr = VariableFactory.bounded(f.getID() + "." + attrib.getID(), 0, 1, solver);
+						idVarMap.put(f.getID() + "." + attrib.getID(), newAttr);
+
+						// Attribute is only selected if the parent feature is
+						// selected
+						IntVar parentF = idVarMap.get(f.getID());
+						if (!(parentF == null)) {
+							solver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(parentF, "=", 0),
+									IntConstraintFactory.arithm(newAttr, "=", 0)));
+						} else {
+							System.out.println("Attribute without a parent");
+						}
 					}
 				}
 			}

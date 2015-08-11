@@ -3,6 +3,8 @@ root FM2 {
 	A2,
 	B2
 	}
+	int attr1;
+	attr1 in [20..20];
 	int attr2;
 	attr2 in [20..20];
 }

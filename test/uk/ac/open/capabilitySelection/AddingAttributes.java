@@ -19,7 +19,7 @@ public class AddingAttributes {
 		parser = new CPTVLParser("root A {" + "B -> C && D;" + "group[2..3]{" + "B," + "C," + "D" + "}" + "}",chocoSolver);
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 2);
+		assertEquals(solutions.size(), 3);
 	}
 
 	@Test
@@ -29,7 +29,7 @@ public class AddingAttributes {
 				+ "}",chocoSolver);
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 1);
+		assertEquals(solutions.size(), 2);
 	}
 
 	@Test
@@ -40,18 +40,18 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 3);
+		assertEquals(solutions.size(), 4);
 	}
 
 	@Test
 	public void GEQExpressionBetweenAttributes() {
 		CPTVLParser parser = null;
-		parser = new CPTVLParser("root Test1 {" + "int attrib1;" + "int attrib2;" + "attrib1 >= attrib2;"
+		parser = new CPTVLParser("root Test1 {" + "int attrib1 in [2..2];" + "int attrib2 in [2..4];" + "attrib1 >= attrib2;"
 				+ "A requires B;" + "group someof {" + "A," + "B" + "}" + "}",chocoSolver);
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		// assertEquals(solutions.size(), 3);
+		assertEquals(solutions.size(), 2);
 	}
 
 	@Test
