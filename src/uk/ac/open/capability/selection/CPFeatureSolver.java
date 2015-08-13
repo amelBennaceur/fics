@@ -246,13 +246,13 @@ public class CPFeatureSolver {
 
 						// Attribute is only selected if the parent feature is
 						// selected
-						IntVar parentF = idVarMap.get(f.getID());
-						if (!(parentF == null)) {
-							solver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(parentF, "=", 0),
-									IntConstraintFactory.arithm(newAttr, "=", 0)));
-						} else {
-							System.out.println("Attribute without a parent");
-						}
+//						IntVar parentF = idVarMap.get(f.getID());
+//						if (!(parentF == null)) {
+//							solver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(parentF, "=", 0),
+//									IntConstraintFactory.arithm(newAttr, "=", 0)));
+//						} else {
+//							System.out.println("Attribute without a parent");
+//						}
 					} else if (attrib.getType() == Expression.BOOL) {
 						// To be checked
 						IntVar newAttr = VariableFactory.bounded(f.getID() + "." + attrib.getID(), 0, 1, solver);

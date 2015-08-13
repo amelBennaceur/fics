@@ -166,6 +166,8 @@ public class CapabilitySelection {
 				if ((solutions != null) && (solutions.size() > 0)) {
 					numberSolutions = solutions.size();
 					solutionFound = true;
+				}else{
+					solutionFound = false;
 				}
 
 				ArrayList<String> sol;

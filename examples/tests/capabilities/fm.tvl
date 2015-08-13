@@ -1,0 +1,20 @@
+root FM {
+	group [1..2] {
+	Level1 {
+		group [1..2] {
+		A1,
+		B1
+		}
+		int attr1;
+	    attr1 in [20..20];
+	},
+	Level2 {
+		group [1..2] {
+		A2,
+		B2
+		}
+		int attr2;
+	    attr2 in [30..30];
+	}
+	}
+	A1 -> A2;}
