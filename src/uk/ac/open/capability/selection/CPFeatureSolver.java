@@ -249,7 +249,7 @@ public class CPFeatureSolver {
 //						IntVar parentF = idVarMap.get(f.getID());
 //						if (!(parentF == null)) {
 //							solver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(parentF, "=", 0),
-//									IntConstraintFactory.arithm(newAttr, "=", 0)));
+//									IntConstraintFactory.arithm(newAttr, "=", min)));
 //						} else {
 //							System.out.println("Attribute without a parent");
 //						}
@@ -322,10 +322,8 @@ public class CPFeatureSolver {
 					.not(manageBooleanConstraint((BooleanExpression) ((NotExpression) boolExpression).getExpression()));
 		} else if (boolExpression instanceof OrExpression) {
 			OrExpression orExpr = (OrExpression) boolExpression;
-			Constraint constr1 = manageBooleanConstraint((BooleanExpression) orExpr.getExpression1());
-			Constraint constr2 = manageBooleanConstraint((BooleanExpression) orExpr.getExpression2());
-			constr = LogicalConstraintFactory.or(constr1,
-					constr2);
+			constr = LogicalConstraintFactory.or(manageBooleanConstraint((BooleanExpression) orExpr.getExpression1()),
+					manageBooleanConstraint((BooleanExpression) orExpr.getExpression2()));
 		} else if (boolExpression instanceof TrueExpression) {
 			constr = IntConstraintFactory.TRUE(solver);
 		} else if (boolExpression instanceof FalseExpression) {
@@ -770,25 +768,44 @@ public class CPFeatureSolver {
 		}
 		ArrayList<String> sol;
 
-		int j = 1;
+		
 		do {
 			Solution s = solver.getSolutionRecorder().getLastSolution();
-			sol = new ArrayList<String>();
-			for (i = 0; i < variables.length; i++) {
-				if (s.getIntVal(variables[i]) > 0)
-					if (!variables[i].getName().startsWith("ArtificialParent")) {
-						if (s.getIntVal(variables[i]) == 1) {
-							sol.add(variables[i].getName());
-						} else {
-							sol.add(variables[i].getName() + " == " + variables[i].getValue());
-						}
-					}
-
+			sol = CapabilitySelection.solutionToString(s, variables);
+			
+			//Cleaning for duplicate solutions due to just attribute assignments
+			boolean newSol = true;
+			for(ArrayList<String> existing:solList){
+				if (areEqual(existing,sol)){
+					newSol = false;
+					break;
+				}
 			}
-			solList.add(sol);
+			if (newSol) solList.add(sol);
 		} while (solver.nextSolution());
 
+		
+		
+		
 		return solList;
+	}
+
+	private boolean areEqual(ArrayList<String> array1, ArrayList<String> array2) {
+		if (array1.size() != array2.size())
+			return false;
+		boolean found;
+		for(String s1:array1){
+			found = false;
+			for(String s2:array2){
+				if (s1.equalsIgnoreCase(s2)){
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+				return false;
+		}
+		return true;
 	}
 
 	/**

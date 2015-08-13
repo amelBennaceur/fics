@@ -73,6 +73,35 @@ public class CapabilitySelection {
 
 	}
 
+	public static ArrayList<String> solutionToString(Solution s, IntVar[] variables){
+		ArrayList<String> sol = new ArrayList<String>();
+		String parentFeatureName = null;
+		IntVar parentFeatureVar;
+		for (int i = 0; i < variables.length; i++) {
+			if (s.getIntVal(variables[i]) > 0)
+				if (!variables[i].getName().startsWith("ArtificialParent")) {
+					int index = variables[i].getName().indexOf(".");
+					if (index > 0) {
+						parentFeatureName = variables[i].getName().substring(0, index);
+						parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
+						if (parentFeatureVar.getValue() > 0) {
+							sol.add(variables[i].getName() + " == " + variables[i].getValue());
+						}
+
+					} else {
+
+						if (s.getIntVal(variables[i]) == 1) {
+							sol.add(variables[i].getName());
+						} else {
+							sol.add(variables[i].getName() + " == " + variables[i].getValue());
+						}
+					}
+				}
+
+		}
+		return sol;
+	}
+	
 	public boolean compose(Solver chocoSolver) {
 		addSecurityControlToModel(chocoSolver);
 		solutionFound = false;
@@ -96,21 +125,21 @@ public class CapabilitySelection {
 
 			do {
 				Solution s = chocoSolver.getSolutionRecorder().getLastSolution();
-				sol = new ArrayList<String>();
-				for (i = 0; i < variables.length; i++) {
-					if (s.getIntVal(variables[i]) > 0)
-						if (!variables[i].getName().startsWith("ArtificialParent")) {
-							if (s.getIntVal(variables[i]) == 1) {
-								sol.add(variables[i].getName());
-							} else {
-								sol.add(variables[i].getName() + " == " + variables[i].getValue());
-							}
-						}
-
+				sol = solutionToString(s, variables);
+				boolean newSol = true;
+				for(ArrayList<String> existing:solList){
+					if (areEqual(existing,sol)){
+						newSol = false;
+						break;
+					}
 				}
-				solList.add(sol);
-				numberSolutions++;
+				if (newSol) {
+					solList.add(sol);
+					numberSolutions++;
+				}
 			} while (chocoSolver.nextSolution());
+			
+			
 		} else {
 
 			// with optimisation
@@ -186,8 +215,6 @@ public class CapabilitySelection {
 			}
 
 			if (paretoVarsList.size() == 1) {
-				// chocoSolver.findOptimalSolution(ResolutionPolicy.MINIMIZE,
-				// paretoVarsList.get(0));
 				chocoSolver.findAllOptimalSolutions(ResolutionPolicy.MINIMIZE, paretoVarsList.get(0), true);
 
 				List<Solution> solutions = chocoSolver.getSolutionRecorder().getSolutions();
@@ -203,29 +230,7 @@ public class CapabilitySelection {
 				ArrayList<String> sol;
 
 				for (Solution s : solutions) {
-					sol = new ArrayList<String>();
-					for (i = 0; i < variables.length; i++) {
-						if (s.getIntVal(variables[i]) > 0)
-							if (!variables[i].getName().startsWith("ArtificialParent")) {
-								int index = variables[i].getName().indexOf(".");
-								if (index > 0) {
-									parentFeatureName = variables[i].getName().substring(0, index);
-									parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
-									if (parentFeatureVar.getValue() > 0) {
-										sol.add(variables[i].getName() + " == " + variables[i].getValue());
-									}
-
-								} else {
-
-									if (s.getIntVal(variables[i]) == 1) {
-										sol.add(variables[i].getName());
-									} else {
-										sol.add(variables[i].getName() + " == " + variables[i].getValue());
-									}
-								}
-							}
-
-					}
+					sol = solutionToString(s, variables);
 					solList.add(sol);
 				}
 			} else {
@@ -259,29 +264,7 @@ public class CapabilitySelection {
 				ArrayList<String> sol;
 
 				for (Solution s : solutions) {
-					sol = new ArrayList<String>();
-					for (i = 0; i < variables.length; i++) {
-						if (s.getIntVal(variables[i]) > 0)
-							if (!variables[i].getName().startsWith("ArtificialParent")) {
-								int index = variables[i].getName().indexOf(".");
-								if (index > 0) {
-									parentFeatureName = variables[i].getName().substring(0, index);
-									parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
-									if (parentFeatureVar.getValue() > 0) {
-										sol.add(variables[i].getName() + " == " + variables[i].getValue());
-									}
-
-								} else {
-
-									if (s.getIntVal(variables[i]) == 1) {
-										sol.add(variables[i].getName());
-									} else {
-										sol.add(variables[i].getName() + " == " + variables[i].getValue());
-									}
-								}
-							}
-
-					}
+					sol = solutionToString(s, variables);
 					solList.add(sol);
 				}
 			}
@@ -347,5 +330,23 @@ public class CapabilitySelection {
 		IntVar parent;
 		int min_val;
 		int max_val;
+	}
+	
+	private boolean areEqual(ArrayList<String> array1, ArrayList<String> array2) {
+		if (array1.size() != array2.size())
+			return false;
+		boolean found;
+		for(String s1:array1){
+			found = false;
+			for(String s2:array2){
+				if (s1.equalsIgnoreCase(s2)){
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+				return false;
+		}
+		return true;
 	}
 }

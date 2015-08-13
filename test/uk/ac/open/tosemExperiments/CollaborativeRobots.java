@@ -71,7 +71,11 @@ public class CollaborativeRobots {
 	
 	public void measureScenario1WithFeatures(){
 		String path1 = "examples/tests/collaborativeRobots/scenario1/";
+		
+
 		MainApp app = new MainApp();
+		app.reinit();
+		
 		
 		//loading capabilities
 		for(int i=1;i<2;i++){
@@ -79,14 +83,13 @@ public class CollaborativeRobots {
 			app.addCapability("examples/naoFM.tvl","examples/naoFTS.xml");
 		}
 		//loading security control
-		SecurityControl sc = SecurityControl.loadSecurityControlFromFile(scPath);
-		app.setSecurityControl(sc);
+		app.setSecurityControl(scPath);
 		
 		//launching the composition
 		long t0 = System.currentTimeMillis();
-//		app.compose();
-//		long processingTime = System.currentTimeMillis()-t0;
-//		if (MainApp.DEBUG) System.out.println("Time = "+processingTime);
+		app.compose(false);
+		long processingTime = System.currentTimeMillis()-t0;
+		System.out.println("Time = "+processingTime);
 		
 	}
 	

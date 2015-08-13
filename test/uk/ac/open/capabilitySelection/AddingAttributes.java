@@ -51,7 +51,7 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 2);
+		assertEquals(solutions.size(), 3);
 	}
 
 	@Test
@@ -62,7 +62,7 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 3);
+		assertEquals(solutions.size(), 4);
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 2);
+		assertEquals(solutions.size(), 3);
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 1);
+		assertEquals(solutions.size(), 2);
 	}
 
 	@Test
@@ -94,7 +94,7 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 1);
+		assertEquals(solutions.size(), 2);
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 1);
+		assertEquals(solutions.size(), 2);
 	}
 
 	@Test
@@ -116,7 +116,7 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 8);
+		assertEquals(solutions.size(), 9);
 	}
 
 	@Test
@@ -127,6 +127,6 @@ public class AddingAttributes {
 
 		parser.run();
 		ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
-		assertEquals(solutions.size(), 6);
+		assertEquals(solutions.size(), 7);
 	}
 }

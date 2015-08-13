@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <securityControl>
     <features>
-        <feature>Motion</feature>
-        <feature>ObjectRecognition</feature>
+        <feature>Motion9</feature>
+        <feature>ObjectRecognition9</feature>
     </features>
     <attributes>
         <attribute>speed</attribute>

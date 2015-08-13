@@ -46,6 +46,7 @@ public class MultipleCapabilities {
 		app.addCapability("examples/tests/capabilities/fm2.tvl", "examples/tests/capabilities/fts0.xml");
 		app.setSecurityControl("examples/tests/capabilities/securityControl0.xml");
 		app.compose(false);
+		System.out.println("Number of solutions + loadAndCheckMultipleCapabilities "+app.getNumberOfSolutions());
 		assertEquals(app.getNumberOfSolutions(), 9);
 
 	}
