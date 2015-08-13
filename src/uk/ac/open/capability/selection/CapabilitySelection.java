@@ -117,40 +117,70 @@ public class CapabilitySelection {
 			ArrayList<IntVar> paretoVarsList = new ArrayList<IntVar>();
 			int min = 0, max = 0;
 			boolean init = false;
+			int count;
+			String parentFeatureName = null;
+			IntVar parentFeatureVar;
+			
 			for (String attribute : sc.getAttributes()) {
 				init = false;
-
+				
+				count = 0;
+				
 				ArrayList<DataHelper> tmpConstraints = new ArrayList<DataHelper>();
 
 				for (i = 0; i < variables.length; i++) {
 					if (variables[i].getName().contains(attribute)) {
+						count++;
 						int index = variables[i].getName().indexOf(".");
-						String parentFeatureName = variables[i].getName().substring(0, index);
-						IntVar parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
-						int val = variables[i].getValue();
-						tmpConstraints.add(new DataHelper(parentFeatureVar, val));
+						parentFeatureName = variables[i].getName().substring(0, index);
+						parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
+						int min_val = variables[i].getLB();
+						int max_val = variables[i].getUB();
+						tmpConstraints.add(new DataHelper(parentFeatureVar, min_val, max_val));
 						if (!init) {
-							min = val;
-							max = val;
+							min = min_val;
+							max = max_val;
 							init = true;
 						} else {
-							if (val < min) {
-								min = val;
-							} else if (val > max) {
-								max = val;
+							if (min_val < min) {
+								min = min_val;
+							}
+							if (max_val > max) {
+								max = max_val;
 							}
 						}
 
 					}
 
 				}
-
-				IntVar var = VariableFactory.bounded(attribute, min, max, chocoSolver);
+				
+				IntVar var;
+				if (count == 1){
+					String s = parentFeatureName+"."+attribute;
+					if (!CPFeatureSolver.idVarMap.containsKey(s)) {
+						var = VariableFactory.bounded(s, min, max, chocoSolver);
+						CPFeatureSolver.idVarMap.put(s, var);
+					} else {
+						var = CPFeatureSolver.idVarMap.get(s);
+					}
+					
+					
+				}else{
+					String s = attribute;
+					if (!CPFeatureSolver.idVarMap.containsKey(s)) {
+						var = VariableFactory.bounded(s, min, max, chocoSolver);
+						CPFeatureSolver.idVarMap.put(s, var);
+					} else {
+						var = CPFeatureSolver.idVarMap.get(s);
+					}
+				}
 				paretoVarsList.add(var);
 
 				for (DataHelper d : tmpConstraints) {
-					chocoSolver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(d.var, ">", 0),
-							IntConstraintFactory.arithm(var, "=", d.val)));
+					if (d.min_val==d.max_val){
+					chocoSolver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(d.parent, ">", 0),
+							IntConstraintFactory.arithm(var, "=", d.min_val)));
+					}
 				}
 
 			}
@@ -179,8 +209,8 @@ public class CapabilitySelection {
 							if (!variables[i].getName().startsWith("ArtificialParent")) {
 								int index = variables[i].getName().indexOf(".");
 								if (index > 0) {
-									String parentFeatureName = variables[i].getName().substring(0, index);
-									IntVar parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
+									parentFeatureName = variables[i].getName().substring(0, index);
+									parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
 									if (parentFeatureVar.getValue() > 0) {
 										sol.add(variables[i].getName() + " == " + variables[i].getValue());
 									}
@@ -206,6 +236,11 @@ public class CapabilitySelection {
 					i++;
 				}
 
+				
+//				paretoVars[0] = CPFeatureSolver.idVarMap.get("FM.attr1");
+//				paretoVars[1] = CPFeatureSolver.idVarMap.get("FM.attr2");
+				
+				
 				AllSolutionsRecorder rec = new AllSolutionsRecorder(chocoSolver);
 				ParetoSolutionsRecorder paretoRecorder = new ParetoSolutionsRecorder(ResolutionPolicy.MINIMIZE,
 						paretoVars);
@@ -217,6 +252,8 @@ public class CapabilitySelection {
 				if ((solutions != null) && (solutions.size() > 0)) {
 					numberSolutions = solutions.size();
 					solutionFound = true;
+				}else{
+					solutionFound = false;
 				}
 
 				ArrayList<String> sol;
@@ -228,8 +265,8 @@ public class CapabilitySelection {
 							if (!variables[i].getName().startsWith("ArtificialParent")) {
 								int index = variables[i].getName().indexOf(".");
 								if (index > 0) {
-									String parentFeatureName = variables[i].getName().substring(0, index);
-									IntVar parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
+									parentFeatureName = variables[i].getName().substring(0, index);
+									parentFeatureVar = CPFeatureSolver.idVarMap.get(parentFeatureName);
 									if (parentFeatureVar.getValue() > 0) {
 										sol.add(variables[i].getName() + " == " + variables[i].getValue());
 									}
@@ -301,12 +338,14 @@ public class CapabilitySelection {
 	}
 
 	private class DataHelper {
-		public DataHelper(IntVar var1, int val1) {
-			var = var1;
-			val = val1;
+		public DataHelper(IntVar var1, int min, int max) {
+			parent = var1;
+			min_val = min;
+			max_val = max;;
 		}
 
-		IntVar var;
-		int val;
+		IntVar parent;
+		int min_val;
+		int max_val;
 	}
 }

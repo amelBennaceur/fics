@@ -101,10 +101,10 @@ public class MultipleCapabilities {
 		MainApp app = new MainApp();
 		app.reinit();
 		app.addCapability("examples/tests/capabilities/allInOne.tvl", "examples/tests/capabilities/fts0.xml");
-		app.setSecurityControl("examples/tests/capabilities/securityControl1Optimise2.xml");
+		app.setSecurityControl("examples/tests/capabilities/securityControl1Optimise3.xml");
 		app.compose(false);
 		System.out.println("sol = " + app.getFeatures());
-		// assertEquals(app.getFeatures(), "[[A1, FM1.attr == 10, FM1]]");
+		assertEquals(app.getFeatures(), "[[A1, A, FM.attr2 == 20, FM, FM.attr1 == 10, Level1, B1], [B2, A, A2, FM.attr2 == 20, FM, FM.attr1 == 10, Level2]]");
 	}
 
 	// @Test

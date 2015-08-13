@@ -260,6 +260,7 @@ public class CPFeatureSolver {
 
 						// Attribute is only selected if the parent feature is
 						// selected
+						//To be checked
 						IntVar parentF = idVarMap.get(f.getID());
 						if (!(parentF == null)) {
 							solver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(parentF, "=", 0),
@@ -321,8 +322,10 @@ public class CPFeatureSolver {
 					.not(manageBooleanConstraint((BooleanExpression) ((NotExpression) boolExpression).getExpression()));
 		} else if (boolExpression instanceof OrExpression) {
 			OrExpression orExpr = (OrExpression) boolExpression;
-			constr = LogicalConstraintFactory.or(manageBooleanConstraint((BooleanExpression) orExpr.getExpression1()),
-					manageBooleanConstraint((BooleanExpression) orExpr.getExpression2()));
+			Constraint constr1 = manageBooleanConstraint((BooleanExpression) orExpr.getExpression1());
+			Constraint constr2 = manageBooleanConstraint((BooleanExpression) orExpr.getExpression2());
+			constr = LogicalConstraintFactory.or(constr1,
+					constr2);
 		} else if (boolExpression instanceof TrueExpression) {
 			constr = IntConstraintFactory.TRUE(solver);
 		} else if (boolExpression instanceof FalseExpression) {

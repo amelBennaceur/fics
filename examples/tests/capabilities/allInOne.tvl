@@ -4,22 +4,24 @@ root FM {
 	int attr2;
 	attr2 in [10..30];
 	
-	group [1..2] {
+	
+	group [2..3] {
+		A,
 	Level1 {
-		group [1..2] {
+		group allOf {
 		A1,
 		B1
 		}
 	},
 	Level2 {
-		group [1..2] {
+		group allOf {
 		A2,
-		B1
+		B2
 		}
 	}
 	}
-	A1 -> attr1 == 20;
-	A2 -> attr1 == 10;
-	
 	A1 -> attr2 == 10;
-	A2 -> attr2 == 20;}
+	A2 -> attr2 == 20;
+	
+	A1 -> attr1 == 20;
+	A2 -> attr1 == 10;}
