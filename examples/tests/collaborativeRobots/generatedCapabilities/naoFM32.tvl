@@ -1,0 +1,25 @@
+// The feature model 
+root NAO32 {
+	group [*..*] {
+		Core32 group allOf {
+			Behaviour32,
+			Connection32
+		},
+		opt Motion32,
+		opt Audio32,
+		opt Vision32,
+		opt ObjectRecognition32,
+		Sensors32,
+		opt Trackers32 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env32 in {light32 , noLight32 }; 
+	
+	int speed;
+	speed in [320..320];
+	
+	// Constraints
+	Motion32 -> Sensors32;
+	NAO32.env32 == noLight32 -> !NAO32.Vision32;
+}

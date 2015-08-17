@@ -1,5 +1,0 @@
-Phone {group allof { opt Processor { group oneof {
-ARM, OMAP, Snapdragon
-}}, NFC, opt Camera,
-FourG
-} FourG requires Snapdragon;}

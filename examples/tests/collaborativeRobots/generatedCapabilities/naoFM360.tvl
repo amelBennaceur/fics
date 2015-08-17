@@ -1,0 +1,25 @@
+// The feature model 
+root NAO360 {
+	group [*..*] {
+		Core360 group allOf {
+			Behaviour360,
+			Connection360
+		},
+		opt Motion360,
+		opt Audio360,
+		opt Vision360,
+		opt ObjectRecognition360,
+		Sensors360,
+		opt Trackers360 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env360 in {light360 , noLight360 }; 
+	
+	int speed;
+	speed in [3600..3600];
+	
+	// Constraints
+	Motion360 -> Sensors360;
+	NAO360.env360 == noLight360 -> !NAO360.Vision360;
+}

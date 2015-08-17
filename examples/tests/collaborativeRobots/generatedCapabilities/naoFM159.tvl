@@ -1,0 +1,25 @@
+// The feature model 
+root NAO159 {
+	group [*..*] {
+		Core159 group allOf {
+			Behaviour159,
+			Connection159
+		},
+		opt Motion159,
+		opt Audio159,
+		opt Vision159,
+		opt ObjectRecognition159,
+		Sensors159,
+		opt Trackers159 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env159 in {light159 , noLight159 }; 
+	
+	int speed;
+	speed in [1590..1590];
+	
+	// Constraints
+	Motion159 -> Sensors159;
+	NAO159.env159 == noLight159 -> !NAO159.Vision159;
+}

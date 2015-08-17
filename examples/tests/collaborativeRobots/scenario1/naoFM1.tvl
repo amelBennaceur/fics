@@ -1,18 +1,0 @@
-// The feature model 
-root NAO {
-	group [*..*] {
-		Core group allOf {
-			Behaviour,
-			Connection
-		},
-		opt Motion,
-		opt Audio,
-		opt Vision,
-		opt ObjectRecognition,
-		Sensors,
-		opt Trackers 
-	}
-	
-	int speed;
-	speed in [30..30];
-	}

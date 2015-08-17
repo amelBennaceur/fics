@@ -1,0 +1,25 @@
+// The feature model 
+root NAO96 {
+	group [*..*] {
+		Core96 group allOf {
+			Behaviour96,
+			Connection96
+		},
+		opt Motion96,
+		opt Audio96,
+		opt Vision96,
+		opt ObjectRecognition96,
+		Sensors96,
+		opt Trackers96 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env96 in {light96 , noLight96 }; 
+	
+	int speed;
+	speed in [960..960];
+	
+	// Constraints
+	Motion96 -> Sensors96;
+	NAO96.env96 == noLight96 -> !NAO96.Vision96;
+}

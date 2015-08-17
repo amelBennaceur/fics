@@ -319,9 +319,9 @@ public class CapabilitySelection {
 
 	}
 
-	private String SampleFeaturesCollaborativeRobotsExample() {
-		return "[NAO, NAO.env_light, Core, Behaviour, Connection, WiFi, Vision, DarknessDetection, ObjectRecognition, Sensors, Battery, Sonar, Create, ConnectionC, Bluetooth, MotionC, Moving, Turning]";
-	}
+//	private String SampleFeaturesCollaborativeRobotsExample() {
+//		return "[NAO, NAO.env_light, Core, Behaviour, Connection, WiFi, Vision, DarknessDetection, ObjectRecognition, Sensors, Battery, Sonar, Create, ConnectionC, Bluetooth, MotionC, Moving, Turning]";
+//	}
 
 	private class DataHelper {
 		public DataHelper(IntVar var1, int min, int max) {

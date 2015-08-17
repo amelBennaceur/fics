@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fts>
+    <states>
+        <state name="S0">
+            <predicate>location = 0</predicate>
+        </state>
+        <state name="S1">
+            <predicate>location(NAO)</predicate>
+        </state>
+        <state name="S2">
+            <predicate>location(phone)</predicate>
+        </state>
+        <state name="S3">
+            <predicate>location(NAO)=location(phone)</predicate>
+        </state>
+        <state name="S4">
+            <predicate>location(NAO)</predicate>
+        </state>
+    </states>
+    <initialStates>
+        <initialState name="S0">
+            <predicate>location = 0</predicate>
+        </initialState>
+    </initialStates>
+    <featuredTransitions>
+        <featuredTransition>
+            <source>S0</source>
+            <target>S1</target>
+            <action>Nconnect76</action>
+            <features>
+                <feature>Connection76</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S0</target>
+            <action>Ndisconnect76</action>
+            <features>
+                <feature>Connection76</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S1</target>
+            <action>say76(text)</action>
+            <features>
+                <feature>TextToSpeech76</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S2</target>
+            <action>locate76(phone)</action>
+            <features>
+                <feature>ObjectRecognition76</feature>
+                <feature>DarknessDetection76</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S2</source>
+            <target>S3</target>
+            <action>pick76(phone)</action>
+            <features>
+                <feature>RobotPosture76</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S3</source>
+            <target>S1</target>
+            <action>drop76(phone)</action>
+            <features>
+                <feature>RobotPosture76</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S4</target>
+            <action>standup76</action>
+            <features>
+                <feature>RobotPosture76</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S4</source>
+            <target>S1</target>
+            <action>moveTo76(location)</action>
+            <features>
+                <feature>Navigation76</feature>
+            </features>
+        </featuredTransition>
+    </featuredTransitions>
+</fts>

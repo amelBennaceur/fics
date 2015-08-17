@@ -1,0 +1,25 @@
+// The feature model 
+root NAO232 {
+	group [*..*] {
+		Core232 group allOf {
+			Behaviour232,
+			Connection232
+		},
+		opt Motion232,
+		opt Audio232,
+		opt Vision232,
+		opt ObjectRecognition232,
+		Sensors232,
+		opt Trackers232 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env232 in {light232 , noLight232 }; 
+	
+	int speed;
+	speed in [2320..2320];
+	
+	// Constraints
+	Motion232 -> Sensors232;
+	NAO232.env232 == noLight232 -> !NAO232.Vision232;
+}

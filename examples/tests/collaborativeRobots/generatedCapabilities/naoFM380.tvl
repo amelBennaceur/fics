@@ -1,0 +1,25 @@
+// The feature model 
+root NAO380 {
+	group [*..*] {
+		Core380 group allOf {
+			Behaviour380,
+			Connection380
+		},
+		opt Motion380,
+		opt Audio380,
+		opt Vision380,
+		opt ObjectRecognition380,
+		Sensors380,
+		opt Trackers380 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env380 in {light380 , noLight380 }; 
+	
+	int speed;
+	speed in [3800..3800];
+	
+	// Constraints
+	Motion380 -> Sensors380;
+	NAO380.env380 == noLight380 -> !NAO380.Vision380;
+}

@@ -1,0 +1,25 @@
+// The feature model 
+root NAO86 {
+	group [*..*] {
+		Core86 group allOf {
+			Behaviour86,
+			Connection86
+		},
+		opt Motion86,
+		opt Audio86,
+		opt Vision86,
+		opt ObjectRecognition86,
+		Sensors86,
+		opt Trackers86 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env86 in {light86 , noLight86 }; 
+	
+	int speed;
+	speed in [860..860];
+	
+	// Constraints
+	Motion86 -> Sensors86;
+	NAO86.env86 == noLight86 -> !NAO86.Vision86;
+}

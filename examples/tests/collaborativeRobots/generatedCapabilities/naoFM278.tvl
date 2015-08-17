@@ -1,0 +1,25 @@
+// The feature model 
+root NAO278 {
+	group [*..*] {
+		Core278 group allOf {
+			Behaviour278,
+			Connection278
+		},
+		opt Motion278,
+		opt Audio278,
+		opt Vision278,
+		opt ObjectRecognition278,
+		Sensors278,
+		opt Trackers278 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env278 in {light278 , noLight278 }; 
+	
+	int speed;
+	speed in [2780..2780];
+	
+	// Constraints
+	Motion278 -> Sensors278;
+	NAO278.env278 == noLight278 -> !NAO278.Vision278;
+}

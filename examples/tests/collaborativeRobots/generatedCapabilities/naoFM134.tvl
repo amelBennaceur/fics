@@ -1,0 +1,25 @@
+// The feature model 
+root NAO134 {
+	group [*..*] {
+		Core134 group allOf {
+			Behaviour134,
+			Connection134
+		},
+		opt Motion134,
+		opt Audio134,
+		opt Vision134,
+		opt ObjectRecognition134,
+		Sensors134,
+		opt Trackers134 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env134 in {light134 , noLight134 }; 
+	
+	int speed;
+	speed in [1340..1340];
+	
+	// Constraints
+	Motion134 -> Sensors134;
+	NAO134.env134 == noLight134 -> !NAO134.Vision134;
+}

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fts>
+    <states>
+        <state name="S0">
+            <predicate>location = 0</predicate>
+        </state>
+        <state name="S1">
+            <predicate>location(NAO)</predicate>
+        </state>
+        <state name="S2">
+            <predicate>location(phone)</predicate>
+        </state>
+        <state name="S3">
+            <predicate>location(NAO)=location(phone)</predicate>
+        </state>
+        <state name="S4">
+            <predicate>location(NAO)</predicate>
+        </state>
+    </states>
+    <initialStates>
+        <initialState name="S0">
+            <predicate>location = 0</predicate>
+        </initialState>
+    </initialStates>
+    <featuredTransitions>
+        <featuredTransition>
+            <source>S0</source>
+            <target>S1</target>
+            <action>Nconnect22</action>
+            <features>
+                <feature>Connection22</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S0</target>
+            <action>Ndisconnect22</action>
+            <features>
+                <feature>Connection22</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S1</target>
+            <action>say22(text)</action>
+            <features>
+                <feature>TextToSpeech22</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S2</target>
+            <action>locate22(phone)</action>
+            <features>
+                <feature>ObjectRecognition22</feature>
+                <feature>DarknessDetection22</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S2</source>
+            <target>S3</target>
+            <action>pick22(phone)</action>
+            <features>
+                <feature>RobotPosture22</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S3</source>
+            <target>S1</target>
+            <action>drop22(phone)</action>
+            <features>
+                <feature>RobotPosture22</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S4</target>
+            <action>standup22</action>
+            <features>
+                <feature>RobotPosture22</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S4</source>
+            <target>S1</target>
+            <action>moveTo22(location)</action>
+            <features>
+                <feature>Navigation22</feature>
+            </features>
+        </featuredTransition>
+    </featuredTransitions>
+</fts>

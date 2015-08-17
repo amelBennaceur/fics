@@ -1,0 +1,25 @@
+// The feature model 
+root NAO365 {
+	group [*..*] {
+		Core365 group allOf {
+			Behaviour365,
+			Connection365
+		},
+		opt Motion365,
+		opt Audio365,
+		opt Vision365,
+		opt ObjectRecognition365,
+		Sensors365,
+		opt Trackers365 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env365 in {light365 , noLight365 }; 
+	
+	int speed;
+	speed in [3650..3650];
+	
+	// Constraints
+	Motion365 -> Sensors365;
+	NAO365.env365 == noLight365 -> !NAO365.Vision365;
+}

@@ -1,0 +1,25 @@
+// The feature model 
+root NAO443 {
+	group [*..*] {
+		Core443 group allOf {
+			Behaviour443,
+			Connection443
+		},
+		opt Motion443,
+		opt Audio443,
+		opt Vision443,
+		opt ObjectRecognition443,
+		Sensors443,
+		opt Trackers443 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env443 in {light443 , noLight443 }; 
+	
+	int speed;
+	speed in [4430..4430];
+	
+	// Constraints
+	Motion443 -> Sensors443;
+	NAO443.env443 == noLight443 -> !NAO443.Vision443;
+}

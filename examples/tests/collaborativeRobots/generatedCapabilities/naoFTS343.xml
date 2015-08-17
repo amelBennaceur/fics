@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fts>
+    <states>
+        <state name="S0">
+            <predicate>location = 0</predicate>
+        </state>
+        <state name="S1">
+            <predicate>location(NAO)</predicate>
+        </state>
+        <state name="S2">
+            <predicate>location(phone)</predicate>
+        </state>
+        <state name="S3">
+            <predicate>location(NAO)=location(phone)</predicate>
+        </state>
+        <state name="S4">
+            <predicate>location(NAO)</predicate>
+        </state>
+    </states>
+    <initialStates>
+        <initialState name="S0">
+            <predicate>location = 0</predicate>
+        </initialState>
+    </initialStates>
+    <featuredTransitions>
+        <featuredTransition>
+            <source>S0</source>
+            <target>S1</target>
+            <action>Nconnect343</action>
+            <features>
+                <feature>Connection343</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S0</target>
+            <action>Ndisconnect343</action>
+            <features>
+                <feature>Connection343</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S1</target>
+            <action>say343(text)</action>
+            <features>
+                <feature>TextToSpeech343</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S2</target>
+            <action>locate343(phone)</action>
+            <features>
+                <feature>ObjectRecognition343</feature>
+                <feature>DarknessDetection343</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S2</source>
+            <target>S3</target>
+            <action>pick343(phone)</action>
+            <features>
+                <feature>RobotPosture343</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S3</source>
+            <target>S1</target>
+            <action>drop343(phone)</action>
+            <features>
+                <feature>RobotPosture343</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S1</source>
+            <target>S4</target>
+            <action>standup343</action>
+            <features>
+                <feature>RobotPosture343</feature>
+            </features>
+        </featuredTransition>
+        <featuredTransition>
+            <source>S4</source>
+            <target>S1</target>
+            <action>moveTo343(location)</action>
+            <features>
+                <feature>Navigation343</feature>
+            </features>
+        </featuredTransition>
+    </featuredTransitions>
+</fts>

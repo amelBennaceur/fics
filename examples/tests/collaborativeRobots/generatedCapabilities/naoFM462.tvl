@@ -1,0 +1,25 @@
+// The feature model 
+root NAO462 {
+	group [*..*] {
+		Core462 group allOf {
+			Behaviour462,
+			Connection462
+		},
+		opt Motion462,
+		opt Audio462,
+		opt Vision462,
+		opt ObjectRecognition462,
+		Sensors462,
+		opt Trackers462 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env462 in {light462 , noLight462 }; 
+	
+	int speed;
+	speed in [4620..4620];
+	
+	// Constraints
+	Motion462 -> Sensors462;
+	NAO462.env462 == noLight462 -> !NAO462.Vision462;
+}

@@ -1,0 +1,25 @@
+// The feature model 
+root NAO264 {
+	group [*..*] {
+		Core264 group allOf {
+			Behaviour264,
+			Connection264
+		},
+		opt Motion264,
+		opt Audio264,
+		opt Vision264,
+		opt ObjectRecognition264,
+		Sensors264,
+		opt Trackers264 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env264 in {light264 , noLight264 }; 
+	
+	int speed;
+	speed in [2640..2640];
+	
+	// Constraints
+	Motion264 -> Sensors264;
+	NAO264.env264 == noLight264 -> !NAO264.Vision264;
+}

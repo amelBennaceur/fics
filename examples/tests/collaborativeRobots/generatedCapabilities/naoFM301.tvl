@@ -1,0 +1,25 @@
+// The feature model 
+root NAO301 {
+	group [*..*] {
+		Core301 group allOf {
+			Behaviour301,
+			Connection301
+		},
+		opt Motion301,
+		opt Audio301,
+		opt Vision301,
+		opt ObjectRecognition301,
+		Sensors301,
+		opt Trackers301 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env301 in {light301 , noLight301 }; 
+	
+	int speed;
+	speed in [3010..3010];
+	
+	// Constraints
+	Motion301 -> Sensors301;
+	NAO301.env301 == noLight301 -> !NAO301.Vision301;
+}

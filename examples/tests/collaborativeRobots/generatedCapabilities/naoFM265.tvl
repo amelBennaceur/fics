@@ -1,0 +1,25 @@
+// The feature model 
+root NAO265 {
+	group [*..*] {
+		Core265 group allOf {
+			Behaviour265,
+			Connection265
+		},
+		opt Motion265,
+		opt Audio265,
+		opt Vision265,
+		opt ObjectRecognition265,
+		Sensors265,
+		opt Trackers265 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env265 in {light265 , noLight265 }; 
+	
+	int speed;
+	speed in [2650..2650];
+	
+	// Constraints
+	Motion265 -> Sensors265;
+	NAO265.env265 == noLight265 -> !NAO265.Vision265;
+}

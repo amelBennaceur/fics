@@ -1,0 +1,25 @@
+// The feature model 
+root NAO471 {
+	group [*..*] {
+		Core471 group allOf {
+			Behaviour471,
+			Connection471
+		},
+		opt Motion471,
+		opt Audio471,
+		opt Vision471,
+		opt ObjectRecognition471,
+		Sensors471,
+		opt Trackers471 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env471 in {light471 , noLight471 }; 
+	
+	int speed;
+	speed in [4710..4710];
+	
+	// Constraints
+	Motion471 -> Sensors471;
+	NAO471.env471 == noLight471 -> !NAO471.Vision471;
+}

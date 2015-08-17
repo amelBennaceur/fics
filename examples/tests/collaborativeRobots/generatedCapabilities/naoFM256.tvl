@@ -1,0 +1,25 @@
+// The feature model 
+root NAO256 {
+	group [*..*] {
+		Core256 group allOf {
+			Behaviour256,
+			Connection256
+		},
+		opt Motion256,
+		opt Audio256,
+		opt Vision256,
+		opt ObjectRecognition256,
+		Sensors256,
+		opt Trackers256 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env256 in {light256 , noLight256 }; 
+	
+	int speed;
+	speed in [2560..2560];
+	
+	// Constraints
+	Motion256 -> Sensors256;
+	NAO256.env256 == noLight256 -> !NAO256.Vision256;
+}

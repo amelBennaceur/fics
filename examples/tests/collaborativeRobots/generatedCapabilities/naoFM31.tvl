@@ -1,0 +1,25 @@
+// The feature model 
+root NAO31 {
+	group [*..*] {
+		Core31 group allOf {
+			Behaviour31,
+			Connection31
+		},
+		opt Motion31,
+		opt Audio31,
+		opt Vision31,
+		opt ObjectRecognition31,
+		Sensors31,
+		opt Trackers31 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env31 in {light31 , noLight31 }; 
+	
+	int speed;
+	speed in [310..310];
+	
+	// Constraints
+	Motion31 -> Sensors31;
+	NAO31.env31 == noLight31 -> !NAO31.Vision31;
+}

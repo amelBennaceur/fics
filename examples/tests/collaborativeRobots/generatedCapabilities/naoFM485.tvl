@@ -1,0 +1,25 @@
+// The feature model 
+root NAO485 {
+	group [*..*] {
+		Core485 group allOf {
+			Behaviour485,
+			Connection485
+		},
+		opt Motion485,
+		opt Audio485,
+		opt Vision485,
+		opt ObjectRecognition485,
+		Sensors485,
+		opt Trackers485 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env485 in {light485 , noLight485 }; 
+	
+	int speed;
+	speed in [4850..4850];
+	
+	// Constraints
+	Motion485 -> Sensors485;
+	NAO485.env485 == noLight485 -> !NAO485.Vision485;
+}

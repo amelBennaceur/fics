@@ -8,6 +8,7 @@ root NAO9 {
 		opt Motion9,
 		opt Audio9,
 		opt Vision9,
+		opt ObjectRecognition9,
 		Sensors9,
 		opt Trackers9 
 	}
@@ -16,7 +17,7 @@ root NAO9 {
 	enum env9 in {light9 , noLight9 }; 
 	
 	int speed;
-	speed in [30..30];
+	speed in [90..90];
 	
 	// Constraints
 	Motion9 -> Sensors9;

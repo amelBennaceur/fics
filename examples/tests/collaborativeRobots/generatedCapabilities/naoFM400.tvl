@@ -1,0 +1,25 @@
+// The feature model 
+root NAO400 {
+	group [*..*] {
+		Core400 group allOf {
+			Behaviour400,
+			Connection400
+		},
+		opt Motion400,
+		opt Audio400,
+		opt Vision400,
+		opt ObjectRecognition400,
+		Sensors400,
+		opt Trackers400 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env400 in {light400 , noLight400 }; 
+	
+	int speed;
+	speed in [4000..4000];
+	
+	// Constraints
+	Motion400 -> Sensors400;
+	NAO400.env400 == noLight400 -> !NAO400.Vision400;
+}

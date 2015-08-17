@@ -1,0 +1,25 @@
+// The feature model 
+root NAO166 {
+	group [*..*] {
+		Core166 group allOf {
+			Behaviour166,
+			Connection166
+		},
+		opt Motion166,
+		opt Audio166,
+		opt Vision166,
+		opt ObjectRecognition166,
+		Sensors166,
+		opt Trackers166 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env166 in {light166 , noLight166 }; 
+	
+	int speed;
+	speed in [1660..1660];
+	
+	// Constraints
+	Motion166 -> Sensors166;
+	NAO166.env166 == noLight166 -> !NAO166.Vision166;
+}

@@ -1,0 +1,25 @@
+// The feature model 
+root NAO40 {
+	group [*..*] {
+		Core40 group allOf {
+			Behaviour40,
+			Connection40
+		},
+		opt Motion40,
+		opt Audio40,
+		opt Vision40,
+		opt ObjectRecognition40,
+		Sensors40,
+		opt Trackers40 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env40 in {light40 , noLight40 }; 
+	
+	int speed;
+	speed in [400..400];
+	
+	// Constraints
+	Motion40 -> Sensors40;
+	NAO40.env40 == noLight40 -> !NAO40.Vision40;
+}

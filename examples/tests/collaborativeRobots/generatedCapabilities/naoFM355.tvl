@@ -1,0 +1,25 @@
+// The feature model 
+root NAO355 {
+	group [*..*] {
+		Core355 group allOf {
+			Behaviour355,
+			Connection355
+		},
+		opt Motion355,
+		opt Audio355,
+		opt Vision355,
+		opt ObjectRecognition355,
+		Sensors355,
+		opt Trackers355 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env355 in {light355 , noLight355 }; 
+	
+	int speed;
+	speed in [3550..3550];
+	
+	// Constraints
+	Motion355 -> Sensors355;
+	NAO355.env355 == noLight355 -> !NAO355.Vision355;
+}

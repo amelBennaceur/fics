@@ -1,0 +1,25 @@
+// The feature model 
+root NAO64 {
+	group [*..*] {
+		Core64 group allOf {
+			Behaviour64,
+			Connection64
+		},
+		opt Motion64,
+		opt Audio64,
+		opt Vision64,
+		opt ObjectRecognition64,
+		Sensors64,
+		opt Trackers64 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env64 in {light64 , noLight64 }; 
+	
+	int speed;
+	speed in [640..640];
+	
+	// Constraints
+	Motion64 -> Sensors64;
+	NAO64.env64 == noLight64 -> !NAO64.Vision64;
+}

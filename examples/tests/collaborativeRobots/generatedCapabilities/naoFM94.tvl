@@ -1,0 +1,25 @@
+// The feature model 
+root NAO94 {
+	group [*..*] {
+		Core94 group allOf {
+			Behaviour94,
+			Connection94
+		},
+		opt Motion94,
+		opt Audio94,
+		opt Vision94,
+		opt ObjectRecognition94,
+		Sensors94,
+		opt Trackers94 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env94 in {light94 , noLight94 }; 
+	
+	int speed;
+	speed in [940..940];
+	
+	// Constraints
+	Motion94 -> Sensors94;
+	NAO94.env94 == noLight94 -> !NAO94.Vision94;
+}

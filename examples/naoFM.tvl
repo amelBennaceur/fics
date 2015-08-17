@@ -8,6 +8,7 @@ root NAO {
 		opt Motion,
 		opt Audio,
 		opt Vision,
+		opt ObjectRecognition,
 		Sensors,
 		opt Trackers 
 	}

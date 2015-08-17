@@ -1,0 +1,25 @@
+// The feature model 
+root NAO320 {
+	group [*..*] {
+		Core320 group allOf {
+			Behaviour320,
+			Connection320
+		},
+		opt Motion320,
+		opt Audio320,
+		opt Vision320,
+		opt ObjectRecognition320,
+		Sensors320,
+		opt Trackers320 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env320 in {light320 , noLight320 }; 
+	
+	int speed;
+	speed in [3200..3200];
+	
+	// Constraints
+	Motion320 -> Sensors320;
+	NAO320.env320 == noLight320 -> !NAO320.Vision320;
+}

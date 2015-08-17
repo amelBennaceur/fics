@@ -1,0 +1,25 @@
+// The feature model 
+root NAO476 {
+	group [*..*] {
+		Core476 group allOf {
+			Behaviour476,
+			Connection476
+		},
+		opt Motion476,
+		opt Audio476,
+		opt Vision476,
+		opt ObjectRecognition476,
+		Sensors476,
+		opt Trackers476 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env476 in {light476 , noLight476 }; 
+	
+	int speed;
+	speed in [4760..4760];
+	
+	// Constraints
+	Motion476 -> Sensors476;
+	NAO476.env476 == noLight476 -> !NAO476.Vision476;
+}

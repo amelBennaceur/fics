@@ -1,0 +1,25 @@
+// The feature model 
+root NAO210 {
+	group [*..*] {
+		Core210 group allOf {
+			Behaviour210,
+			Connection210
+		},
+		opt Motion210,
+		opt Audio210,
+		opt Vision210,
+		opt ObjectRecognition210,
+		Sensors210,
+		opt Trackers210 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env210 in {light210 , noLight210 }; 
+	
+	int speed;
+	speed in [2100..2100];
+	
+	// Constraints
+	Motion210 -> Sensors210;
+	NAO210.env210 == noLight210 -> !NAO210.Vision210;
+}

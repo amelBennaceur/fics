@@ -1,0 +1,25 @@
+// The feature model 
+root NAO386 {
+	group [*..*] {
+		Core386 group allOf {
+			Behaviour386,
+			Connection386
+		},
+		opt Motion386,
+		opt Audio386,
+		opt Vision386,
+		opt ObjectRecognition386,
+		Sensors386,
+		opt Trackers386 
+	}
+	
+	//Attribute declarations of the root feature
+	enum env386 in {light386 , noLight386 }; 
+	
+	int speed;
+	speed in [3860..3860];
+	
+	// Constraints
+	Motion386 -> Sensors386;
+	NAO386.env386 == noLight386 -> !NAO386.Vision386;
+}
