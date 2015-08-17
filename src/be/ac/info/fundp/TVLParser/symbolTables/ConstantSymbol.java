@@ -1,9 +1,13 @@
 package be.ac.info.fundp.TVLParser.symbolTables;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.SyntaxTree.Expression;
 
 public class ConstantSymbol {
 
+	private final static Logger LOGGER = Logger.getLogger(ConstantSymbol.class.getName());
+	
 	String id, value;
 	int type;
 
@@ -38,7 +42,7 @@ public class ConstantSymbol {
 			typeName = "bool";
 			break;
 		}
-		System.out.println("  " + id + "  " + typeName + "  " + value);
+		LOGGER.info("  " + id + "  " + typeName + "  " + value);
 	}
 
 }

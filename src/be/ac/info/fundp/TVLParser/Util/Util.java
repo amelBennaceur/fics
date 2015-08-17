@@ -1,5 +1,7 @@
 package be.ac.info.fundp.TVLParser.Util;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.SyntaxTree.Expression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.ParenthesesExpression;
 
@@ -8,6 +10,8 @@ import be.ac.info.fundp.TVLParser.SyntaxTree.ParenthesesExpression;
  * 
  */
 public class Util {
+	
+	private final static Logger LOGGER = Logger.getLogger(Util.class.getName());
 
 	/**
 	 * Check if ID is not a reserved word.
@@ -27,7 +31,7 @@ public class Util {
 				|| (ID.equals("min")) || (ID.equals("max")) || (ID.equals("mul")) || (ID.equals("count"))
 				|| (ID.equals("sum")) || (ID.equals("avg")) || (ID.equals("abs")) || (ID.equals("data"))
 				|| (ID.equals("ifin")) || (ID.equals("ifout")) || (ID.equals("shared")) || (ID.equals("opt")))
-			System.out.println("Type error : the ID " + ID + " uses a reserved word.");
+			LOGGER.info("Type error : the ID " + ID + " uses a reserved word.");
 	}
 
 	/**

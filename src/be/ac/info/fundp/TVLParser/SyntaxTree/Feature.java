@@ -1,9 +1,12 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 public class Feature implements ModelItem {
 
+	private final static Logger LOGGER = Logger.getLogger(Feature.class.getName());
+	
 	boolean optionnal, shared, root, featureGroupDefined;
 	String ID, minCardinality, maxCardinality;
 
@@ -114,7 +117,7 @@ public class Feature implements ModelItem {
 				}
 				if (featureBody.getItems().get(i).isAFeatureGroup()) {
 					if (this.featureGroupDefined)
-						System.out.println("ChildrenFeaturesGroupAlreadySpecifiedException");
+						LOGGER.info("ChildrenFeaturesGroupAlreadySpecifiedException");
 					FeatureGroup featureGroup = (FeatureGroup) featureBody.getItems().get(i);
 					this.minCardinality = featureGroup.getCardinality().getMin();
 					this.maxCardinality = featureGroup.getCardinality().getMax();
@@ -151,7 +154,7 @@ public class Feature implements ModelItem {
 			}
 			if (featureBody.getItems().get(i).isAFeatureGroup()) {
 				if (this.featureGroupDefined)
-					System.out.println("ChildrenFeaturesGroupAlreadySpecifiedException");
+					LOGGER.info("ChildrenFeaturesGroupAlreadySpecifiedException");
 				FeatureGroup featureGroup = (FeatureGroup) featureBody.getItems().get(i);
 				this.minCardinality = featureGroup.getCardinality().getMin();
 				this.maxCardinality = featureGroup.getCardinality().getMax();

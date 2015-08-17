@@ -1,10 +1,14 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.Util.Util;
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 
 public class InExpression implements BooleanExpression {
 
+	private final static Logger LOGGER = Logger.getLogger(InExpression.class.getName());
+	
 	Expression expression;
 	SetExpression setExpression;
 
@@ -37,7 +41,7 @@ public class InExpression implements BooleanExpression {
 				if (numericalAttribute.getSetExpressionSymbol().containsSetExpression(setExpression))
 					return Expression.BOOL;
 				else
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is not valid. The values domain of " + numericalAttribute.getID()
 							+ " doesn't include the set expression " + this.setExpression.toString());
 			} else
@@ -50,15 +54,15 @@ public class InExpression implements BooleanExpression {
 					if (enumAttribute.getSetExpressionSymbol().containsSetExpression(this.setExpression)) {
 						return Expression.BOOL;
 					} else {
-						System.out.println("Type error : the expression " + this.toString()
+						LOGGER.info("Type error : the expression " + this.toString()
 								+ " is invalid. The values domain of the attribute " + this.expression.toString()
 								+ " doesn't include " + this.setExpression.expressionList.toString() + ".");
 					}
 				} else
-					System.out.println("Type error : the expression " + this.toString() + " is invalid. The attribute "
+					LOGGER.info("Type error : the expression " + this.toString() + " is invalid. The attribute "
 							+ this.expression.toString() + " cannot be found.");
 			} else {
-				System.out.println("Type error : the expression " + this.toString() + " is invalid. The type "
+				LOGGER.info("Type error : the expression " + this.toString() + " is invalid. The type "
 						+ Util.toStringExpressionType(this.expression.getType()) + " of the left paramater ( "
 						+ this.expression.toString() + " ) is different from the type "
 						+ Util.toStringExpressionType(this.setExpression.getType()) + " of the set expression ( "

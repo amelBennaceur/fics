@@ -1,10 +1,16 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.FeaturesSymbolTable;
 import be.ac.info.fundp.TVLParser.symbolTables.Symbol;
 
 public class LongIDExpression implements BooleanExpression, Cloneable {
+	
+	private final static Logger LOGGER = Logger.getLogger(LongIDExpression.class.getName());
+	
+	
 	String longID;
 	String normalFormLongID;
 	Symbol symbol = null;
@@ -42,7 +48,7 @@ public class LongIDExpression implements BooleanExpression, Cloneable {
 			} else {
 				String[] array = this.longID.split("\\.");
 				if (array.length > 1) {
-					System.out.println("Type error : the symbol corresponding to the path " + this.longID
+					LOGGER.info("Type error : the symbol corresponding to the path " + this.longID
 							+ " cannot be found.");
 				} else {
 					if (featuresSymbolTable.containsConstant(this.longID)) {
@@ -50,7 +56,7 @@ public class LongIDExpression implements BooleanExpression, Cloneable {
 						return featuresSymbolTable.getConstantType(this.longID);
 					} else {
 						if (featuresSymbolTable.containsType(this.longID)) {
-							System.out.println("BadTypeUseException" + this.longID);
+							LOGGER.info("BadTypeUseException" + this.longID);
 						} else {
 							this.normalFormLongID = this.longID;
 							return Expression.ENUM;
@@ -61,7 +67,7 @@ public class LongIDExpression implements BooleanExpression, Cloneable {
 		} else {
 			String[] array = this.longID.split("\\.");
 			if (array.length > 1) {
-				System.out.println("Error : the symbol corresponding to the path " + this.longID + " cannot be found.");
+				LOGGER.info("Error : the symbol corresponding to the path " + this.longID + " cannot be found.");
 			} else {
 				// this.normalFormLongID = this.longID;
 				return Expression.ENUM;

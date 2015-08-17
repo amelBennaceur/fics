@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 import solver.Solver;
 
@@ -11,6 +12,8 @@ import solver.Solver;
  * This class allows transforms the library into a command line tool.
  */
 public class CPTVLLauncher {
+	
+	private final static Logger LOGGER = Logger.getLogger(CPTVLLauncher.class.getName());
 
 	public static void main(String[] args) {
 		String usage = "Usage: java -jar TVLParser.jar [option] file.tvl\n" + " with option being one of:\n"
@@ -27,7 +30,7 @@ public class CPTVLLauncher {
 		args[1] = "examples/testRobots.tvl";
 
 		if (args.length == 0) {
-			System.out.println(usage);
+			LOGGER.info(usage);
 			System.exit(1);
 		} else {
 			boolean noarg = true, count = false, nf = false, syntax = false, prods = false, uprods = false, sat = false;
@@ -49,7 +52,7 @@ public class CPTVLLauncher {
 					prods = true;
 					uprods = true;
 				} else {
-					System.out.println("Unknown option '" + args[i] + "'.\n" + usage);
+					LOGGER.info("Unknown option '" + args[i] + "'.\n" + usage);
 					System.exit(1);
 				}
 			}
@@ -62,7 +65,7 @@ public class CPTVLLauncher {
 				Solver chocoSolver = new Solver("Feature Selection General");
 				parser = new CPTVLParser(new File(args[args.length - 1]), chocoSolver);
 			} catch (FileNotFoundException e) {
-				System.out.println("The file " + args[args.length - 1] + " could not be found or opened.");
+				LOGGER.info("The file " + args[args.length - 1] + " could not be found or opened.");
 				System.exit(1);
 			}
 
@@ -74,53 +77,53 @@ public class CPTVLLauncher {
 				} else if (syntax) {
 					parser.printInfo();
 				} else if (count) {
-					System.out.println(parser.nbFeatures());
+					LOGGER.info("nbFeatures = "+parser.nbFeatures());
 				} else if (nf) {
-					System.out.println(parser.getNormalForm());
+					LOGGER.info(parser.getNormalForm());
 				} else if (sat || prods) {
 					try {
 						if (!prods)
-							System.out.println(parser.isSatisfiable(true) ? "Ok, feature model satisfiable."
+							LOGGER.info(parser.isSatisfiable(true) ? "Ok, feature model satisfiable."
 									: "Ko, feature model *not* satisfiable.");
 						else {
 							ArrayList<ArrayList<String>> solutions = parser.getSolutions(true);
 							if (solutions == null)
-								System.out.println("Feature model *not* satisfiable.");
+								LOGGER.info("Feature model *not* satisfiable.");
 							else {
-								System.out.println("Found " + solutions.size() + " solution(s):");
+								LOGGER.info("Found " + solutions.size() + " solution(s):");
 								if (!uprods) {
 									int i = 1;
 									for (ArrayList<String> sol : solutions) {
-										System.out.println("- Solution " + i + ":  " + sol);
+										LOGGER.info("- Solution " + i + ":  " + sol);
 										i++;
 									}
 								} else {
-									System.out.println("Caching solutions..");
+									LOGGER.info("Caching solutions..");
 									String[] solutionStrings = new String[solutions.size()];
 									int i = 1;
 									for (ArrayList<String> sol : solutions) {
-										System.out.println("- Solution " + i + ":  " + sol);
+										LOGGER.info("- Solution " + i + ":  " + sol);
 										i++;
 									}
-									System.out.println("Sorting..");
+									LOGGER.info("Sorting..");
 									Arrays.sort(solutionStrings);
 									String last = "";
 									int total = 0;
-									System.out.println("Printing and counting..");
+									LOGGER.info("Printing and counting..");
 									for (i = 0; i < solutionStrings.length; i++) {
 										if (!solutionStrings[i].equals(last)) {
-											System.out.println(" - " + solutionStrings[i]);
+											LOGGER.info(" - " + solutionStrings[i]);
 											total++;
 										}
 										last = solutionStrings[i];
 									}
-									System.out.println("Found " + total + " unique products.");
+									LOGGER.info("Found " + total + " unique products.");
 								}
 							}
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
-						System.out.println("Error, the parser had an exception.");
+						LOGGER.info("Error, the parser had an exception.");
 						System.exit(1);
 					}
 

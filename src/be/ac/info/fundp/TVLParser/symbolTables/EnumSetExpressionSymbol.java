@@ -1,6 +1,7 @@
 package be.ac.info.fundp.TVLParser.symbolTables;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import be.ac.info.fundp.TVLParser.SyntaxTree.Expression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.ExpressionList;
@@ -12,6 +13,8 @@ import be.ac.info.fundp.TVLParser.Util.Util;
 
 public class EnumSetExpressionSymbol implements SetExpressionSymbol {
 
+	private final static Logger LOGGER = Logger.getLogger(EnumSetExpressionSymbol.class.getName());
+	
 	private Vector<Expression> containedValues = new Vector<Expression>();
 
 	private int type;
@@ -60,7 +63,7 @@ public class EnumSetExpressionSymbol implements SetExpressionSymbol {
 			i++;
 		}
 		s = s.concat(" }");
-		System.out.println(s);
+		LOGGER.info(s);
 	}
 
 	@Override
@@ -80,13 +83,13 @@ public class EnumSetExpressionSymbol implements SetExpressionSymbol {
 			int i = 0;
 			while (i <= expressions.size() - 1) {
 				if (expressions.get(i).getType() != Expression.INT)
-					System.out.println("Type error : In the (sub-)attribute/type " + attributeID
+					LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID
 							+ ", the declared type of the set expression  is int but it contains a "
 							+ Util.toStringExpressionType(expressions.get(i).getType()) + ".");
 				else {
 					if (expressions.get(i) instanceof IntExpression) {
 						if (this.containsExpression(expressions.get(i)))
-							System.out.println("Type error : In the (sub-)attribute/type " + attributeID
+							LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID
 									+ ", the set expression contains many identical values ( "
 									+ expressions.get(i).toString() + " ).");
 						else
@@ -107,13 +110,13 @@ public class EnumSetExpressionSymbol implements SetExpressionSymbol {
 			while (i <= expressions.size() - 1) {
 				if ((expressions.get(i).getType() != Expression.REAL)
 						&& (expressions.get(i).getType() != Expression.INT))
-					System.out.println("Type error : In the (sub-)attribute/type " + attributeID
+					LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID
 							+ ", the declared type of the set expression is int real it contains a "
 							+ Util.toStringExpressionType(expressions.get(i).getType()) + ".");
 				else {
 					if ((expressions.get(i) instanceof RealExpression) || (expressions.get(i) instanceof IntExpression)) {
 						if (this.containsExpression(expressions.get(i)))
-							System.out.println("Type error : In the (sub-)attribute/type " + attributeID
+							LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID
 									+ ", the set expression contains many identical values ( "
 									+ expressions.get(i).toString() + " ).");
 						else
@@ -132,13 +135,13 @@ public class EnumSetExpressionSymbol implements SetExpressionSymbol {
 			int i = 0;
 			while (i <= expressions.size() - 1) {
 				if (expressions.get(i).getType() != Expression.ENUM)
-					System.out.println("Type error : In the (sub-)attribute/type " + attributeID
+					LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID
 							+ ", the declared type of the set expression " + this.toString()
 							+ " is enum but it contains a " + Util.toStringExpressionType(expressions.get(i).getType())
 							+ ".");
 				else {
 					if (this.containsExpression(expressions.get(i)))
-						System.out.println("Type error : In the (sub-)attribute/type " + attributeID
+						LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID
 								+ ", the set expression " + this.toString() + " contains many identical values ( "
 								+ expressions.get(i).toString() + " ).");
 					else
@@ -177,7 +180,7 @@ public class EnumSetExpressionSymbol implements SetExpressionSymbol {
 					while (i <= this.containedValues.size() - 1) {
 						if (Float.parseFloat(this.containedValues.get(i).toString()) == Float
 								.parseFloat(expressionString)) {
-							System.out.println("Je me casse !");
+							LOGGER.info("Je me casse !");
 							return true;
 						}
 						i++;

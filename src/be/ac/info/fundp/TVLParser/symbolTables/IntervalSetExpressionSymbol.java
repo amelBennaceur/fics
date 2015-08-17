@@ -1,6 +1,7 @@
 package be.ac.info.fundp.TVLParser.symbolTables;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import be.ac.info.fundp.TVLParser.SyntaxTree.Expression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.IntExpression;
@@ -10,6 +11,9 @@ import be.ac.info.fundp.TVLParser.SyntaxTree.SetExpression;
 import be.ac.info.fundp.TVLParser.Util.Util;
 
 public class IntervalSetExpressionSymbol implements SetExpressionSymbol {
+	
+	private final static Logger LOGGER = Logger.getLogger(IntervalSetExpressionSymbol.class.getName());
+	
 	private String max, min, attributeID;
 	private int type;
 
@@ -28,7 +32,7 @@ public class IntervalSetExpressionSymbol implements SetExpressionSymbol {
 
 	public IntervalSetExpressionSymbol(int type, String min, String max, String attributeID) {
 		if ((!(type == Expression.REAL)) && (!(type == Expression.INT)))
-			System.out.println("Type error : In the (sub-)attribute/type " + attributeID
+			LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID
 					+ ", the type of the interval [ " + min + ".." + max + " ] is " + Util.toStringExpressionType(type)
 					+ " and not int or real.");
 
@@ -76,7 +80,7 @@ public class IntervalSetExpressionSymbol implements SetExpressionSymbol {
 
 	@Override
 	public void print() {
-		System.out.println("	[ " + this.min + ".." + this.max + " ]");
+		LOGGER.info("	[ " + this.min + ".." + this.max + " ]");
 	}
 
 	@Override
@@ -90,7 +94,7 @@ public class IntervalSetExpressionSymbol implements SetExpressionSymbol {
 				Float minFloat = Float.parseFloat(min);
 				Float maxFloat = Float.parseFloat(max);
 				if (minFloat > maxFloat)
-					System.out.println("Type error : In the (sub-)attribute/type " + attributeID + ", the interval [ "
+					LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID + ", the interval [ "
 							+ minFloat.toString() + ".." + maxFloat.toString()
 							+ " ] is not valid, the lower bound must be smaller or equals to the upper bound.");
 				else
@@ -99,14 +103,14 @@ public class IntervalSetExpressionSymbol implements SetExpressionSymbol {
 				int minInteger = Integer.parseInt(min);
 				int maxInteger = Integer.parseInt(max);
 				if (minInteger > maxInteger) {
-					System.out.println("Type error : In the (sub-)attribute/type " + attributeID + ", the interval [ "
+					LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID + ", the interval [ "
 							+ minInteger + ".." + maxInteger
 							+ " ] is not valid, the lower bound must be smaller or equals to the upper bound.");
 				} else
 					return true;
 			}
 		} catch (NumberFormatException e) {
-			System.out.println("Type error : In the (sub-)attribute/type " + attributeID + ", the interval [ "
+			LOGGER.info("Type error : In the (sub-)attribute/type " + attributeID + ", the interval [ "
 					+ this.min + ".." + this.max
 					+ " ] is not valid. It contains a string or the interval type is int and it contains a real.");
 		}

@@ -1,12 +1,15 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import be.ac.info.fundp.TVLParser.Util.Util;
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 
 public class XorAggExpression implements BooleanExpression {
 
+	private final static Logger LOGGER = Logger.getLogger(XorAggExpression.class.getName());
+	
 	ExpressionList expressionList;
 	ChildrenAttributeID childrenAttributeID;
 
@@ -149,7 +152,7 @@ public class XorAggExpression implements BooleanExpression {
 				simplifiedExpression = new OrExpression(simplifiedExpression, new ParenthesesExpression(andExpression));
 				i++;
 			}
-			System.out.println("simplifiedExpression : " + simplifiedExpression.toString());
+			LOGGER.info("simplifiedExpression : " + simplifiedExpression.toString());
 			return new ParenthesesExpression(simplifiedExpression);
 		}
 	}

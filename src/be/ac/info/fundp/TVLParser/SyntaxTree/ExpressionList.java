@@ -1,9 +1,12 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 public class ExpressionList {
 
+	private final static Logger LOGGER = Logger.getLogger(ExpressionList.class.getName());
+	
 	Vector<Expression> expressions;
 
 	public ExpressionList(Expression e1) {
@@ -49,7 +52,7 @@ public class ExpressionList {
 						if ((currentType == Expression.INT) && (expressions.get(i).getType() == Expression.REAL)) {
 							currentType = Expression.REAL;
 						} else {
-							System.out.println("Illegal Expression");
+							LOGGER.info("Illegal Expression");
 						}
 					}
 			}

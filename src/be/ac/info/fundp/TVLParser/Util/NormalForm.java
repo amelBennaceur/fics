@@ -1,5 +1,7 @@
 package be.ac.info.fundp.TVLParser.Util;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.SyntaxTree.Attribute;
 import be.ac.info.fundp.TVLParser.SyntaxTree.AttributeBody;
 import be.ac.info.fundp.TVLParser.SyntaxTree.BaseAttribute;
@@ -33,6 +35,8 @@ import be.ac.info.fundp.TVLParser.symbolTables.RecordSymbol;
  * new TVL parser.
  */
 public class NormalForm {
+	
+	private final static Logger LOGGER = Logger.getLogger(NormalForm.class.getName());
 
 	// The features symbol table of the non normalized FM.
 	private FeaturesSymbolTable featuresSymbolTable;
@@ -249,7 +253,7 @@ public class NormalForm {
 			if (featureSymbol.isShared()) {
 				return new Feature(nonAmbiguousFeaturePath, true);
 			} else {
-				System.out.println("Error : the feature " + featureSymbol.getID()
+				LOGGER.info("Error : the feature " + featureSymbol.getID()
 						+ " is saved many times in the syntax tree");
 			}
 		} else {

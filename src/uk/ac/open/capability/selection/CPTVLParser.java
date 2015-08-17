@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Logger;
 
 import java_cup.runtime.Symbol;
 import solver.Solver;
@@ -31,6 +32,8 @@ import be.ac.info.fundp.TVLParser.symbolTables.TypesSymbolTable;
  * use this class.
  */
 public class CPTVLParser {
+	
+	private final static Logger LOGGER = Logger.getLogger(CPTVLParser.class.getName());
 
 	@SuppressWarnings("unused")
 	// Represents the file which will be parsed (this file may contain includes)
@@ -188,7 +191,7 @@ public class CPTVLParser {
 				if (includeFile.exists() && includeFile.isFile() && includeFile.canRead()) {
 					result += resolveIncludes(includeFile, basePath);
 				} else {
-					System.out.println("Error: The instruction include(" + includeFileName
+					LOGGER.info("Error: The instruction include(" + includeFileName
 							+ ") refers to an inexisting file.");
 				}
 
@@ -271,20 +274,20 @@ public class CPTVLParser {
 			System.out.print("Feature model invalid, ");
 
 			if (!this.isSyntacticallyCorrect()) {
-				System.out.println("syntax error:");
-				System.out.println(" '" + this.syntacticalException.getMessage() + "'");
-				System.out.println("Stack trace:");
+				LOGGER.info("syntax error:");
+				LOGGER.info(" '" + this.syntacticalException.getMessage() + "'");
+				LOGGER.info("Stack trace:");
 				syntacticalException.printStackTrace(System.out);
 			} else if (!this.isCorrectlyTyped()) {
-				System.out.println("type error:");
-				System.out.println(" '" + this.typeException.getMessage() + "'");
-				System.out.println("Stack trace:");
+				LOGGER.info("type error:");
+				LOGGER.info(" '" + this.typeException.getMessage() + "'");
+				LOGGER.info("Stack trace:");
 				typeException.printStackTrace(System.out);
 			}
 
 		} else {
-			System.out.println("Feature model valid");
-			System.out.println("  #features   = " + featuresSymbolTable.getNBFeatures());
+			LOGGER.info("Feature model valid");
+			LOGGER.info("  #features   = " + featuresSymbolTable.getNBFeatures());
 		}
 	}
 

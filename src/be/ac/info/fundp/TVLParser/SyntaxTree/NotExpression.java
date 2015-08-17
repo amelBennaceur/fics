@@ -1,9 +1,13 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.Util.Util;
 
 public class NotExpression implements BooleanExpression {
 
+	private final static Logger LOGGER = Logger.getLogger(NotExpression.class.getName());
+	
 	Expression expression;
 
 	public NotExpression(Expression e1) {
@@ -22,7 +26,7 @@ public class NotExpression implements BooleanExpression {
 		if (this.expression.getType() == Expression.BOOL) {
 			return Expression.BOOL;
 		}
-		System.out.println("Type error : the expression " + this.toString()
+		LOGGER.info("Type error : the expression " + this.toString()
 				+ " is invalid. The type of the paramater ( " + this.expression.toString()
 				+ " ) of a not expression must be bool. Currently,  its type is "
 				+ Util.toStringExpressionType(this.expression.getType()) + ".");

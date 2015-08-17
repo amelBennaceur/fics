@@ -1,4 +1,4 @@
-package uk.ac.open.capability.selection;
+package uk.ac.open.capabilitySelection;
 
 import java.util.List;
 

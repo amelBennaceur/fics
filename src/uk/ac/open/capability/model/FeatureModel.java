@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Logger;
 
 import solver.Solver;
 import solver.exception.ContradictionException;
@@ -28,6 +29,7 @@ import be.ac.info.fundp.TVLParser.symbolTables.FeatureSymbol;
  * 
  */
 public class FeatureModel {
+	private final static Logger LOGGER = Logger.getLogger(FeatureModel.class.getName());
 
 	protected CPFeatureSolver solver = null;
 	protected FeatureTree tree = new FeatureTree();
@@ -219,7 +221,7 @@ public class FeatureModel {
 			this.userChoices.add(fs.getDIMACS_ID());
 
 		} else
-			System.out.println("This feature cannot be included");
+			LOGGER.info("This feature cannot be included");
 		return makeAllFDElements(include(fs));
 	}
 
@@ -244,7 +246,7 @@ public class FeatureModel {
 			resetFixedIds();
 			this.userChoices.add(-fs.getDIMACS_ID());
 		} else
-			System.out.println("This feature cannot be excluded");
+			LOGGER.info("This feature cannot be excluded");
 		return makeAllFDElements(exclude(fs));
 	}
 
@@ -274,7 +276,7 @@ public class FeatureModel {
 		if (!isUnassigned(feature)) {
 			return unassign(isIncluded(feature) ? id : -id);
 		} else {
-			System.out.println("This feature is not assigned and cannot be unassigned");
+			LOGGER.info("This feature is not assigned and cannot be unassigned");
 			return null;
 		}
 
@@ -309,7 +311,7 @@ public class FeatureModel {
 			}
 			return mergeUnassigned(before, modified);
 		} else {
-			System.out.println("This feature has been automatically set and cannot be unassigned");
+			LOGGER.info("This feature has been automatically set and cannot be unassigned");
 			return null;
 		}
 

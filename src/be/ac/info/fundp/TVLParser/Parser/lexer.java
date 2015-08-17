@@ -7,6 +7,8 @@
 // -----------
 package be.ac.info.fundp.TVLParser.Parser;
 
+import java.util.logging.Logger;
+
 import java_cup.runtime.Symbol; // Import Symbol class and other things for Cup compatibility 
 
 /**
@@ -16,6 +18,8 @@ import java_cup.runtime.Symbol; // Import Symbol class and other things for Cup 
  */
 public class lexer implements java_cup.runtime.Scanner {
 
+	private final static Logger LOGGER = Logger.getLogger(lexer.class.getName());
+	
 	/** This character denotes the end of file */
 	public static final int YYEOF = -1;
 
@@ -878,7 +882,7 @@ public class lexer implements java_cup.runtime.Scanner {
 				break;
 			case 1: {
 				try {
-					System.out.println("Parsing error : Illegal character (line " + yyline + ", column " + yycolumn
+					LOGGER.info("Parsing error : Illegal character (line " + yyline + ", column " + yycolumn
 							+ ") : <" + yytext() + ">");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

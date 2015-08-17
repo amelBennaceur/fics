@@ -3,6 +3,7 @@ package be.ac.info.fundp.TVLParser.symbolTables;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 /**
  * This class allows to create "FeatureSymbol" objects. Each feature symbol is
@@ -12,6 +13,9 @@ import java.util.Vector;
  */
 public class FeatureSymbol extends Symbol {
 
+	private final static Logger LOGGER = Logger.getLogger(FeatureSymbol.class.getName());
+	
+	
 	boolean intoSyntaxTree = false;
 
 	/**
@@ -432,53 +436,53 @@ public class FeatureSymbol extends Symbol {
 	public void printFeature(String espace) {
 		if (this.isOptionnal()) {
 			if (this.isShared())
-				System.out.println(espace + "  optional " + id + " (shared) { ");
+				LOGGER.info(espace + "  optional " + id + " (shared) { ");
 			else
-				System.out.println(espace + "  optional " + id + " { ");
+				LOGGER.info(espace + "  optional " + id + " { ");
 		} else {
 			if (this.isShared())
-				System.out.println(espace + "  " + id + " (shared) { ");
+				LOGGER.info(espace + "  " + id + " (shared) { ");
 			else
-				System.out.println(espace + "  " + id + " { ");
+				LOGGER.info(espace + "  " + id + " { ");
 		}
 
 		int i;
 		if (this.attributes == null) {
-			System.out.println(espace + "  |  Attributes : No attributes");
+			LOGGER.info(espace + "  |  Attributes : No attributes");
 		} else {
-			System.out.println(espace + "  |  Attributes {");
+			LOGGER.info(espace + "  |  Attributes {");
 			Object[] attributesArray = this.attributes.keySet().toArray();
 			i = 0;
 			while (i < attributesArray.length) {
 				this.attributes.get(attributesArray[i]).printAttribute(espace);
 				i++;
 			}
-			System.out.println(espace + "  |  }");
+			LOGGER.info(espace + "  |  }");
 		}
 		if (this.constraintSymbols == null) {
-			System.out.println(espace + "  |  Constraints : No constraints");
+			LOGGER.info(espace + "  |  Constraints : No constraints");
 		} else {
-			System.out.println(espace + "  |  Constraints {");
+			LOGGER.info(espace + "  |  Constraints {");
 			i = this.constraintSymbols.size() - 1;
 			while (i >= 0) {
-				System.out.println(espace + "  |      " + this.constraintSymbols.get(i).toString());
+				LOGGER.info(espace + "  |      " + this.constraintSymbols.get(i).toString());
 				i--;
 			}
-			System.out.println(espace + "  |  }");
+			LOGGER.info(espace + "  |  }");
 		}
 		if (this.childrenFeatures == null) {
-			System.out.println(espace + "  |  Children Features : No features");
+			LOGGER.info(espace + "  |  Children Features : No features");
 		} else {
-			System.out.println(espace + "  |  Children Features {");
+			LOGGER.info(espace + "  |  Children Features {");
 			Object[] childrenFeaturesArray = this.childrenFeatures.keySet().toArray();
 			i = 0;
 			while (i < childrenFeaturesArray.length) {
 				this.childrenFeatures.get(childrenFeaturesArray[i]).printFeature(espace.concat("    "));
 				i++;
 			}
-			System.out.println(espace + "  |  }");
+			LOGGER.info(espace + "  |  }");
 		}
-		System.out.println(espace + "  }");
+		LOGGER.info(espace + "  }");
 
 	}
 

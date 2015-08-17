@@ -1,10 +1,14 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.Util.Util;
 import be.ac.info.fundp.TVLParser.symbolTables.FeaturesSymbolTable;
 
 public class SetExpression {
 
+	private final static Logger LOGGER = Logger.getLogger(SetExpression.class.getName());
+	
 	ExpressionList expressionList;
 	String minExpression, maxExpression;
 
@@ -105,7 +109,7 @@ public class SetExpression {
 						if (minFloat <= maxFloat)
 							return Expression.REAL;
 						else
-							System.out.println("Error : the interval [ " + this.minExpression + ".."
+							LOGGER.info("Error : the interval [ " + this.minExpression + ".."
 									+ this.maxExpression
 									+ " ] is not valid, the lower bound must be smaller or equals to the upper bound.");
 					}
@@ -127,12 +131,12 @@ public class SetExpression {
 							if ((this.featuresSymbolTable.containsSymbol(this.expressionList.getExpressions().get(i)
 									.toString()))
 									&& (Util.isAFeatureID(this.expressionList.getExpressions().get(i).toString()))) {
-								System.out.println("Type error : the enum value "
+								LOGGER.info("Type error : the enum value "
 										+ this.expressionList.getExpressions().get(i).toString()
 										+ " of the setx expression " + this.expressionList.toString()
 										+ " corresponds to a feature ID, a constant ID or a type ID.");
 							} else {
-								System.out.println("Error : the expression { "
+								LOGGER.info("Error : the expression { "
 										+ this.expressionList.toString()
 										+ " } is not valid, it contains "
 										+ Util.toStringExpressionType(this.expressionList.getExpressions().get(i)

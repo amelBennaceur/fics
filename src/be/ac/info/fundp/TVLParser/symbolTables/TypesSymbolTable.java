@@ -3,6 +3,7 @@ package be.ac.info.fundp.TVLParser.symbolTables;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import be.ac.info.fundp.TVLParser.SyntaxTree.Expression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.Record;
@@ -13,6 +14,8 @@ import be.ac.info.fundp.TVLParser.Util.Util;
 
 public class TypesSymbolTable {
 
+	private final static Logger LOGGER = Logger.getLogger(TypesSymbolTable.class.getName());
+	
 	Map<String, TypeSymbol> table;
 
 	Vector<String> enumValues;
@@ -31,11 +34,11 @@ public class TypesSymbolTable {
 			while (i >= 0) {
 				Util.checkUseOfReservedWord(types.get(i).getID());
 				if (Util.isAFeatureID(types.get(i).getID()))
-					System.out.println("Type error : the type ID " + types.get(i).getID()
+					LOGGER.info("Type error : the type ID " + types.get(i).getID()
 							+ " begin by an upper letter, a type ID must begin by a lower letter");
 				// Vérifie que la table ne contient pas déjà cette ID
 				if (this.table.containsKey(types.get(i).getID()))
-					System.out.println("Type error : it exists many types with an identical ID ( "
+					LOGGER.info("Type error : it exists many types with an identical ID ( "
 							+ types.get(i).getID() + " ).");
 				// Vérifie quel est la structure du type (simple type ou record)
 				if (types.get(i).isARecord()) {
@@ -44,7 +47,7 @@ public class TypesSymbolTable {
 					int j = 0;
 					while (j <= record.getRecordFields().size() - 1) {
 						if (recordFields.containsKey(record.getRecordFields().get(j)))
-							System.out.println("Type error : the stuct type " + record.getID()
+							LOGGER.info("Type error : the stuct type " + record.getID()
 									+ " has many sub-attributes with an identical ID ( "
 									+ record.getRecordFields().get(j).getID() + " ).");
 						RecordField recordField = record.getRecordFields().get(j);
@@ -75,7 +78,7 @@ public class TypesSymbolTable {
 						} else {
 							if (recordField.getType() == Expression.USER_CREATED) {
 								if (!(this.table.containsKey(recordField.getUserType()))) {
-									System.out.println("Type error : the type " + recordField.getUserType()
+									LOGGER.info("Type error : the type " + recordField.getUserType()
 											+ " of the sub-attribute " + recordField.getID() + " of the struct type "
 											+ record.getID() + " hasn't been defined.");
 								} else {
@@ -180,23 +183,22 @@ public class TypesSymbolTable {
 	}
 
 	public void printTable() {
-		System.out.println("-----------------------------------------------------------------------------");
-		System.out.println("----------------------------- Type Symbol Table -----------------------------");
-		System.out.println("-----------------------------------------------------------------------------");
+		LOGGER.fine("-----------------------------------------------------------------------------");
+		LOGGER.fine("----------------------------- Type Symbol Table -----------------------------");
+		LOGGER.fine("-----------------------------------------------------------------------------");
 		if (this.isEmpty) {
-			System.out.println();
-			System.out.println("                                    Empty                                    ");
+			LOGGER.fine("\n                                    Empty                                    ");
 		} else {
 			int i = 0;
 			Object[] keys = table.keySet().toArray();
 			while (i <= table.size() - 1) {
 				table.get(keys[i].toString()).print();
-				System.out.println("-----------------------------------------------------------------------------");
+				LOGGER.info("-----------------------------------------------------------------------------");
 				i++;
 			}
 		}
-		System.out.println("");
-		System.out.println("");
+		LOGGER.fine("");
+		LOGGER.fine("");
 	}
 
 	public boolean isEmpty() {

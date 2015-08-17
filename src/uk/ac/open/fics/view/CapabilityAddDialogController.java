@@ -12,6 +12,7 @@ import uk.ac.open.fics.MainApp;
 
 public class CapabilityAddDialogController {
 
+	
 	@FXML
 	private TextField fmField;
 	@FXML
@@ -56,8 +57,6 @@ public class CapabilityAddDialogController {
 	 */
 	@FXML
 	private void handleOk() {
-		System.out.println("Handling OK");
-
 		if (mainApp.addCapability(fmFilePath, behFilePath)) {
 			dialogStage.close();
 		} else {

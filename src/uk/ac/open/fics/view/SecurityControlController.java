@@ -49,8 +49,6 @@ public class SecurityControlController {
 	 */
 	@FXML
 	private void handleCompose() {
-		System.out.println("Handling OK");
-
 		if (mainApp.compose(true)) {
 
 			

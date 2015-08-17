@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Logger;
 
 import solver.Solver;
 import solver.constraints.Constraint;
@@ -45,6 +46,8 @@ import be.ac.info.fundp.TVLParser.symbolTables.FeatureSymbol;
  * 
  */
 public class CPFeatureSolver {
+	
+	private final static Logger LOGGER = Logger.getLogger(CPFeatureSolver.class.getName());
 
 	// The solver
 	private Solver solver;
@@ -251,7 +254,7 @@ public class CPFeatureSolver {
 //							solver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(parentF, "=", 0),
 //									IntConstraintFactory.arithm(newAttr, "=", min)));
 //						} else {
-//							System.out.println("Attribute without a parent");
+//							LOGGER.info("Attribute without a parent");
 //						}
 					} else if (attrib.getType() == Expression.BOOL) {
 						// To be checked
@@ -266,7 +269,7 @@ public class CPFeatureSolver {
 							solver.post(LogicalConstraintFactory.ifThen(IntConstraintFactory.arithm(parentF, "=", 0),
 									IntConstraintFactory.arithm(newAttr, "=", 0)));
 						} else {
-							System.out.println("Attribute without a parent");
+							LOGGER.info("Attribute without a parent");
 						}
 					}
 				}
@@ -296,7 +299,7 @@ public class CPFeatureSolver {
 
 		}
 
-		// System.out.println(" = "+expr.);
+		// LOGGER.info(" = "+expr.);
 	}
 
 	private Constraint manageBooleanConstraint(BooleanExpression boolExpression) {
@@ -417,7 +420,7 @@ public class CPFeatureSolver {
 				constr = IntConstraintFactory.arithm(x2, "=", x1);
 			}
 		} else {
-			System.out.println("Type error : the expression " + lExpr.toString()
+			LOGGER.info("Type error : the expression " + lExpr.toString()
 					+ " is not valid, you cannot compare two numerical values.");
 		}
 		return constr;
@@ -478,7 +481,7 @@ public class CPFeatureSolver {
 				constr = IntConstraintFactory.arithm(x2, ">", x1);
 			}
 		} else {
-			System.out.println("Type error : the expression " + lExpr.toString()
+			LOGGER.info("Type error : the expression " + lExpr.toString()
 					+ " is not valid, you cannot compare two numerical values.");
 		}
 		return constr;
@@ -539,7 +542,7 @@ public class CPFeatureSolver {
 				constr = IntConstraintFactory.arithm(x2, ">=", x1);
 			}
 		} else {
-			System.out.println("Type error : the expression " + leqExpr.toString()
+			LOGGER.info("Type error : the expression " + leqExpr.toString()
 					+ " is not valid, you cannot compare two numerical values.");
 		}
 		return constr;
@@ -619,7 +622,7 @@ public class CPFeatureSolver {
 				constr = IntConstraintFactory.arithm(x2, "<=", x1);
 			}
 		} else {
-			System.out.println("Type error : the expression " + geqExpr.toString()
+			LOGGER.info("Type error : the expression " + geqExpr.toString()
 					+ " is not valid, you cannot compare two numerical values.");
 		}
 		return constr;
@@ -680,7 +683,7 @@ public class CPFeatureSolver {
 				constr = IntConstraintFactory.arithm(x2, "<", x1);
 			}
 		} else {
-			System.out.println("Type error : the expression " + gExpr.toString()
+			LOGGER.info("Type error : the expression " + gExpr.toString()
 					+ " is not valid, you cannot compare two numerical values.");
 		}
 		return constr;
@@ -706,7 +709,7 @@ public class CPFeatureSolver {
 	}
 
 	public boolean isSatisfiable(int ID) {
-		System.out.println("isSatifiable(ID)");
+		LOGGER.info("isSatifiable(ID)");
 		return false;
 	}
 
@@ -722,7 +725,7 @@ public class CPFeatureSolver {
 	 *             Launched by "sat4JSolver" if "timeOut" has been exceeded.
 	 */
 	public long countSolutions() {
-		System.out.println("countSolutions");
+		LOGGER.info("countSolutions");
 		return 0;
 	}
 
@@ -737,7 +740,7 @@ public class CPFeatureSolver {
 	 *             Launched by "sat4JSolver" if "timeOut" has been exceeded.
 	 */
 	public long countSolutions(int ID) {
-		System.out.println("countSolutions(0)");
+		LOGGER.info("countSolutions(0)");
 		return 0;
 	}
 
@@ -818,12 +821,12 @@ public class CPFeatureSolver {
 	 *             Launched by "sat4JSolver" if "timeOut" has been exceeded.
 	 */
 	public int[][] getAllSolutions(int featureId) {
-		System.out.println("getAllSolutions(featureId)");
+		LOGGER.info("getAllSolutions(featureId)");
 		return new int[1][1];
 	}
 
 	public List<List<Integer>> explain(int id, List<Integer> state) {
-		System.out.println("explain");
+		LOGGER.info("explain");
 		return null;
 	}
 

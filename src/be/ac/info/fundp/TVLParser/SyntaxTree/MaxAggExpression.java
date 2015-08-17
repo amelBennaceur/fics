@@ -1,12 +1,15 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import be.ac.info.fundp.TVLParser.Util.Util;
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 
 public class MaxAggExpression implements Expression {
 
+	private final static Logger LOGGER = Logger.getLogger(MaxAggExpression.class.getName());
+	
 	ExpressionList expressionList;
 	ChildrenAttributeID childrenAttributeID;
 
@@ -36,7 +39,7 @@ public class MaxAggExpression implements Expression {
 	public int getType() throws NumberFormatException {
 		if (this.expressionList == null) {
 			if (this.childrenAttributeID.selectionType == ChildrenAttributeID.SELECTED_CHILDREN)
-				System.out.println("Type error : the expression " + this.toString()
+				LOGGER.info("Type error : the expression " + this.toString()
 						+ " is invalid. In an aggregate max expression, you cannot use the selectedChildren selector.");
 			if (this.childrenAttributeID.getType() == Expression.REAL) {
 				return Expression.REAL;

@@ -1,5 +1,7 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.Util.Util;
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.EnumSetExpressionSymbol;
@@ -7,6 +9,8 @@ import be.ac.info.fundp.TVLParser.symbolTables.RecordSymbol;
 
 public class EqualsExpression implements BooleanExpression {
 
+	private final static Logger LOGGER = Logger.getLogger(EqualsExpression.class.getName());
+	
 	Expression expression1, expression2;
 	int expression1Type, expression2Type;
 
@@ -41,7 +45,7 @@ public class EqualsExpression implements BooleanExpression {
 				if (!((numericalAttribute1.getSetExpressionSymbol().containsSetExpressionSymbol(numericalAttribute2
 						.getSetExpressionSymbol())) && (numericalAttribute2.getSetExpressionSymbol()
 						.containsSetExpressionSymbol(numericalAttribute1.getSetExpressionSymbol())))) {
-					System.out.println("Type error : the expression " + this.toString() + " is not valid. "
+					LOGGER.info("Type error : the expression " + this.toString() + " is not valid. "
 							+ numericalAttribute1.getID() + " and " + numericalAttribute2.getID()
 							+ " haven't the same values domain");
 				}
@@ -51,7 +55,7 @@ public class EqualsExpression implements BooleanExpression {
 			AttributeSymbol numericalAttribute1 = (AttributeSymbol) longIDExpression1.getSymbol();
 			if (numericalAttribute1.hasASetExpressionSymbol()) {
 				if (!(numericalAttribute1.getSetExpressionSymbol().containsExpression(expression2))) {
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is not valid. The values domain of " + numericalAttribute1.getID()
 							+ " doesn't include " + this.expression2.toString());
 				}
@@ -61,13 +65,13 @@ public class EqualsExpression implements BooleanExpression {
 			AttributeSymbol numericalAttribute2 = (AttributeSymbol) longIDExpression2.getSymbol();
 			if (numericalAttribute2.hasASetExpressionSymbol()) {
 				if (!(numericalAttribute2.getSetExpressionSymbol().containsExpression(expression1))) {
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is not valid. The values domain of " + numericalAttribute2.getID()
 							+ " doesn't include " + this.expression1.toString());
 				}
 			}
 		} else
-			System.out.println("Type error : the expression " + this.toString()
+			LOGGER.info("Type error : the expression " + this.toString()
 					+ " is not valid, you cannot compare two numerical values.");
 	}
 
@@ -84,7 +88,7 @@ public class EqualsExpression implements BooleanExpression {
 					this.checkNumericalComparison();
 					return Expression.BOOL;
 				} else {
-					System.out.println("Type error : the expression " + this.toString() + " is invalid. The type "
+					LOGGER.info("Type error : the expression " + this.toString() + " is invalid. The type "
 							+ Util.toStringExpressionType(this.expression1Type) + " of the left paramater ( "
 							+ this.expression1.toString() + " ) is different from the type "
 							+ Util.toStringExpressionType(this.expression2Type) + " of the right parameter ( "
@@ -101,7 +105,7 @@ public class EqualsExpression implements BooleanExpression {
 						this.checkNumericalComparison();
 						return Expression.BOOL;
 					} else {
-						System.out.println("Type error : the expression " + this.toString() + " is invalid. The type "
+						LOGGER.info("Type error : the expression " + this.toString() + " is invalid. The type "
 								+ Util.toStringExpressionType(this.expression1Type) + " of the left paramater ( "
 								+ this.expression1.toString() + " ) is different from the type "
 								+ Util.toStringExpressionType(this.expression2Type) + " of the right parameter ( "
@@ -146,7 +150,7 @@ public class EqualsExpression implements BooleanExpression {
 													.getSetExpressionSymbol()).getContainedValues()))) {
 										return Expression.BOOL;
 									} else
-										System.out.println("Type error : the expression " + this.toString()
+										LOGGER.info("Type error : the expression " + this.toString()
 												+ " is invalid. The values domain of the left paramater ( "
 												+ this.expression1.toString()
 												+ " ) is different from the values domain of the right parameter ( "
@@ -157,7 +161,7 @@ public class EqualsExpression implements BooleanExpression {
 								if (enumAttribute1.getSetExpressionSymbol().containsExpression(longIDExpression2)) {
 									return Expression.BOOL;
 								} else {
-									System.out.println("Type error : the expression " + this.toString()
+									LOGGER.info("Type error : the expression " + this.toString()
 											+ " is invalid. The values domain of the attribute ( "
 											+ this.expression1.toString() + " ) doesn't contain the enum value ( "
 											+ this.expression2.toString() + " ).");
@@ -169,13 +173,13 @@ public class EqualsExpression implements BooleanExpression {
 								if (enumAttribute2.getSetExpressionSymbol().containsExpression(longIDExpression1)) {
 									return Expression.BOOL;
 								} else {
-									System.out.println("Type error : the expression " + this.toString()
+									LOGGER.info("Type error : the expression " + this.toString()
 											+ " is invalid. The values domain of the attribute ( "
 											+ this.expression1.toString() + " ) doesn't contain the enum value ( "
 											+ this.expression2.toString() + " ).");
 								}
 							} else {
-								System.out.println("Type error : the expression " + this.toString()
+								LOGGER.info("Type error : the expression " + this.toString()
 										+ " is invalid. You cannot compare two enum values ("
 										+ this.expression1.toString() + ", " + this.expression2.toString() + " ).");
 							}
@@ -189,12 +193,12 @@ public class EqualsExpression implements BooleanExpression {
 							if (recordSymbol1.getUserType().equals(recordSymbol2.getUserType()))
 								return Expression.BOOL;
 							else
-								System.out.println("Type error : the type \"" + recordSymbol1.getUserType()
+								LOGGER.info("Type error : the type \"" + recordSymbol1.getUserType()
 										+ "\" of the left paramater ( " + this.expression1.toString()
 										+ " ) is different from the type \"" + recordSymbol2.getUserType()
 										+ "\" of the right parameter ( " + this.expression2.toString() + " ).");
 						} else {
-							System.out.println("Type error : the expression " + this.toString()
+							LOGGER.info("Type error : the expression " + this.toString()
 									+ " is invalid. The type " + Util.toStringExpressionType(this.expression1Type)
 									+ " of the left paramater ( " + this.expression1.toString()
 									+ " ) is different from the type "

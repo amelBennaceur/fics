@@ -1,9 +1,13 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.Util.Util;
 
 public class TimesExpression implements Expression {
 
+	private final static Logger LOGGER = Logger.getLogger(TimesExpression.class.getName());
+	
 	Expression expression1, expression2;
 
 	public TimesExpression(Expression e1, Expression e2) {
@@ -34,7 +38,7 @@ public class TimesExpression implements Expression {
 				if (this.getExpression2().getType() == Expression.REAL) {
 					return Expression.REAL;
 				} else {
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is invalid. The type of the right paramater ( " + this.expression2.toString()
 							+ " ) of a star expression must be real or int. Currently,  its type is "
 							+ Util.toStringExpressionType(this.expression2.getType()) + ".");
@@ -48,14 +52,14 @@ public class TimesExpression implements Expression {
 					if (this.getExpression2().getType() == Expression.REAL) {
 						return Expression.REAL;
 					} else {
-						System.out.println("Type error : the expression " + this.toString()
+						LOGGER.info("Type error : the expression " + this.toString()
 								+ " is invalid. The type of the right paramater ( " + this.expression2.toString()
 								+ " ) of a star expression must be real or int. Currently,  its type is "
 								+ Util.toStringExpressionType(this.expression2.getType()) + ".");
 					}
 				}
 			} else {
-				System.out.println("Type error : the expression " + this.toString()
+				LOGGER.info("Type error : the expression " + this.toString()
 						+ " is invalid. The type of the left paramater ( " + this.expression1.toString()
 						+ " ) of a star expression must be real or int. Currently,  its type is "
 						+ Util.toStringExpressionType(this.expression1.getType()) + ".");

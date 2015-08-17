@@ -3,6 +3,7 @@ package be.ac.info.fundp.TVLParser.symbolTables;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph.CycleFoundException;
 
@@ -88,6 +89,8 @@ import be.ac.info.fundp.TVLParser.Util.Util;
  */
 public class FeaturesSymbolTable {
 
+	private final static Logger LOGGER = Logger.getLogger(FeaturesSymbolTable.class.getName());
+	
 	// A dictionary which allows to easily retrieve the feature symbol
 	// corresponding to a feature ID.
 	private Map<String, FeatureSymbol> table;
@@ -230,30 +233,30 @@ public class FeaturesSymbolTable {
 			if (idArray.length > 1) {
 				// If the feature ID is composed of many words (ID.ID.ID)
 				if (i == features.size() - 1)
-					System.out.println("Type error : the root feature ID " + feature.getID()
+					LOGGER.info("Type error : the root feature ID " + feature.getID()
 							+ " is composed of many ID.");
 				if (idArray[0].equals("root")) {
 					featureSymbol = this.table.get(this.rootFeatureID);
 					this.stack.push(rootFeatureID);
 				} else {
 					if (!(Util.isAFeatureID(idArray[0])))
-						System.out.println("Type error : the feature ID path " + feature.getID()
+						LOGGER.info("Type error : the feature ID path " + feature.getID()
 								+ " doesn't begin by an upper letter. A feature ID must begin by an upper letter.");
 					if (this.table.containsKey(idArray[0])) {
 						featureSymbol = this.table.get(idArray[0]);
 						if (featureSymbol == null)
-							System.out.println("Type error : the feature ID path " + feature.getID()
+							LOGGER.info("Type error : the feature ID path " + feature.getID()
 									+ " is invalid. The first feature ID " + idArray[0] + " is ambiguous.");
 						this.stack.push(idArray[0]);
 					} else {
-						System.out.println("Type error : the feature corresponding to the path " + feature.getID()
+						LOGGER.info("Type error : the feature corresponding to the path " + feature.getID()
 								+ " cannot be found");
 					}
 				}
 				int j = 1;
 				while (j <= idArray.length - 1) {
 					if (!(featureSymbol.containsChildrenFeature(idArray[j])))
-						System.out.println("Type error : the path " + feature.getID() + " is invalid. The feature "
+						LOGGER.info("Type error : the path " + feature.getID() + " is invalid. The feature "
 								+ featureSymbol.getID() + " doesn't have a children feature named " + idArray[j] + ".");
 					featureSymbol = featureSymbol.getChildrenFeature(idArray[j]);
 					this.stack.push(idArray[j]);
@@ -264,7 +267,7 @@ public class FeaturesSymbolTable {
 				}
 				if (feature.hasChildrenFeatures()) {
 					if (featureSymbol.hasChildrenFeatures()) {
-						System.out.println("Type error : the feature " + feature.getID()
+						LOGGER.info("Type error : the feature " + feature.getID()
 								+ " has many children features groups declared in different features bodies.");
 					} else {
 						Map<String, FeatureSymbol> childrenFeatures = this.childrenFeaturesGroupProcessingFirstPhase(
@@ -286,7 +289,7 @@ public class FeaturesSymbolTable {
 				if (i == features.size() - 1) {
 					Util.checkUseOfReservedWord(feature.getID());
 					if (!(Util.isAFeatureID(feature.getID())))
-						System.out.println("Type error : the root feature ID " + feature.getID()
+						LOGGER.info("Type error : the root feature ID " + feature.getID()
 								+ " doesn't begin by an upper letter. A feature ID must begin by an upper letter.");
 					this.rootFeatureID = feature.getID();
 					featureSymbol = new FeatureSymbol(feature.getID(), true, false);
@@ -299,16 +302,16 @@ public class FeaturesSymbolTable {
 						this.stack.push(rootFeatureID);
 					} else {
 						if (!(Util.isAFeatureID(feature.getID())))
-							System.out.println("Type error : the feature ID " + feature.getID()
+							LOGGER.info("Type error : the feature ID " + feature.getID()
 									+ " doesn't begin by an upper letter. A feature ID must begin by an upper letter.");
 						if (this.table.containsKey(feature.getID())) {
 							featureSymbol = this.table.get(feature.getID());
 							if (featureSymbol == null)
-								System.out.println("Type error : the feature ID " + feature.getID()
+								LOGGER.info("Type error : the feature ID " + feature.getID()
 										+ " is ambiguous. Try to use to use an other path to access the feature.");
 							this.stack.push(featureSymbol.getID());
 						} else {
-							System.out.println("Type error : the feature corresponding to the ID " + feature.getID()
+							LOGGER.info("Type error : the feature corresponding to the ID " + feature.getID()
 									+ " cannot be found");
 						}
 					}
@@ -318,7 +321,7 @@ public class FeaturesSymbolTable {
 				}
 				if (feature.hasChildrenFeatures()) {
 					if (featureSymbol.hasChildrenFeatures()) {
-						System.out.println("Type error : the feature " + feature.getID()
+						LOGGER.info("Type error : the feature " + feature.getID()
 								+ " has many children features groups declared in different features bodies.");
 					} else {
 						Map<String, FeatureSymbol> childrenFeatures = this.childrenFeaturesGroupProcessingFirstPhase(
@@ -378,16 +381,16 @@ public class FeaturesSymbolTable {
 
 				// Checks
 				if (feature.getID().contains("."))
-					System.out.println("Type error : the feature ID " + feature.getID()
+					LOGGER.info("Type error : the feature ID " + feature.getID()
 							+ " is not valid. You cannot use a long ID inside a children features group.");
 				if (feature.getID().equals(rootFeatureID))
-					System.out.println("Type error : many features have the same ID than the root feature.");
+					LOGGER.info("Type error : many features have the same ID than the root feature.");
 				Util.checkUseOfReservedWord(feature.getID());
 				if (!(Util.isAFeatureID(feature.getID())))
-					System.out.println("Type error : the feature ID " + feature.getID()
+					LOGGER.info("Type error : the feature ID " + feature.getID()
 							+ " is invalid, it must begin by en upper letter.");
 				if (childrenFeaturesMap.containsKey(feature.getID()))
-					System.out.println("Type error : the feature " + parentFeatureSymbol.getID()
+					LOGGER.info("Type error : the feature " + parentFeatureSymbol.getID()
 							+ " has many children features with an identical ID.");
 
 				// Save the children feature
@@ -418,12 +421,12 @@ public class FeaturesSymbolTable {
 					if (this.getConstantType(minCardinality) == Expression.INT) {
 						min = Integer.parseInt(this.getConstantValue(minCardinality));
 					} else {
-						System.out.println("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
+						LOGGER.info("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
 								+ " is invalid. The constant of the inferior bound " + minCardinality
 								+ " is not an integer.");
 					}
 				} else {
-					System.out.println("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
+					LOGGER.info("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
 							+ " is invalid. There is no constant named " + minCardinality + ".");
 				}
 			}
@@ -439,32 +442,32 @@ public class FeaturesSymbolTable {
 					if (this.getConstantType(maxCardinality) == Expression.INT) {
 						max = Integer.parseInt(this.getConstantValue(maxCardinality));
 					} else {
-						System.out.println("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
+						LOGGER.info("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
 								+ " is invalid. The constant of the upper bound " + maxCardinality
 								+ " is not an integer.");
 					}
 				} else {
-					System.out.println("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
+					LOGGER.info("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
 							+ " is invalid. There is no constant named " + maxCardinality + ".");
 				}
 			}
 
 		}
 		if (min < 0) {
-			System.out.println("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
+			LOGGER.info("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
 					+ " is invalid. The inferior bound ( " + min + " ) is negative.");
 		}
 		if (max < 0) {
-			System.out.println("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
+			LOGGER.info("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
 					+ " is invalid. The upper bound ( " + max + " ) is negative.");
 		}
 		if (max < min) {
-			System.out.println("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
+			LOGGER.info("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
 					+ " is invalid. The upper bound ( " + max + " ) is smaller than the inferior bound ( " + min
 					+ " ).");
 		}
 		if (countMax < min) {
-			System.out.println("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
+			LOGGER.info("Type error : the cardinality of the feature " + parentFeatureSymbol.getID()
 					+ " is invalid. The maximum number of selectable children features " + countMax
 					+ " is smaller than the cardinality inferior bound " + min + ".");
 		}
@@ -542,16 +545,16 @@ public class FeaturesSymbolTable {
 			// Checks
 			Util.checkUseOfReservedWord(attributes.get(i).getID());
 			if (Util.isAFeatureID(attributes.get(i).getID()))
-				System.out.println("Type error : the attribute " + attributes.get(i).getID() + " of the feature "
+				LOGGER.info("Type error : the attribute " + attributes.get(i).getID() + " of the feature "
 						+ featureSymbol.getID() + " begin by an upper letter, it must begin by a lower letter.");
 			if (this.typesSymbolTable.containsTypes(attributes.get(i).getID()))
-				System.out.println("Type error : a type has already the same ID than the attribute "
+				LOGGER.info("Type error : a type has already the same ID than the attribute "
 						+ attributes.get(i).getID() + " of the feature " + featureSymbol.getID() + ".");
 			if (this.constantsSymbolTable.containsConstant(attributes.get(i).getID()))
-				System.out.println("Type error : a constant has already the same ID than the attribute "
+				LOGGER.info("Type error : a constant has already the same ID than the attribute "
 						+ attributes.get(i).getID() + " of the feature " + featureSymbol.getID() + ".");
 			if (featureSymbol.containsAttributeSymbol(attributes.get(i).getID()))
-				System.out.println("Type error : the feature " + featureSymbol.getID()
+				LOGGER.info("Type error : the feature " + featureSymbol.getID()
 						+ " has many attributes with an identical ID ( " + attributes.get(i).getID() + " ).");
 
 			if (attributes.get(i).getType() == Expression.STRUCT) {
@@ -563,14 +566,14 @@ public class FeaturesSymbolTable {
 				// Checks
 				if (this.typesSymbolTable.containsTypes(attribute.getUserType())) {
 					if (!(this.typesSymbolTable.getTypeSymbol(attribute.getUserType()).getType() == Expression.STRUCT)) {
-						System.out.println("Type error : the attribute " + attribute.getID() + " of the feature "
+						LOGGER.info("Type error : the attribute " + attribute.getID() + " of the feature "
 								+ featureSymbol.getID() + " seems to be a struct attribute but its type "
 								+ attribute.getUserType() + " doesn't correpond to a struct type.");
 					} else {
 						recordSymbol = (RecordSymbol) this.typesSymbolTable.getTypeSymbol(attribute.getUserType());
 					}
 				} else {
-					System.out.println("Type error : the type " + attribute.getUserType() + " of the attribute "
+					LOGGER.info("Type error : the type " + attribute.getUserType() + " of the attribute "
 							+ attribute.getID() + " of the feature " + featureSymbol.getID() + " is not defined.");
 				}
 
@@ -580,12 +583,12 @@ public class FeaturesSymbolTable {
 					// Checks
 					Attribute subAttribute = attribute.getSubAttributes().get(j);
 					if (!(recordSymbol.containsRecordField(subAttribute.getID())))
-						System.out.println("Type error : In the struct attribute " + attribute.getID()
+						LOGGER.info("Type error : In the struct attribute " + attribute.getID()
 								+ " of the feature " + featureSymbol.getID() + ", the sub-attribute "
 								+ subAttribute.getID() + " hasn't been defined in the struct type "
 								+ attribute.getUserType() + ".");
 					if (subAttributes.containsKey(subAttribute.getID()))
-						System.out.println("Type error : the struct attribute " + attribute.getID()
+						LOGGER.info("Type error : the struct attribute " + attribute.getID()
 								+ " of the feature " + featureSymbol.getID()
 								+ " has many sub-attributes with an identical ID ( " + subAttribute.getID() + " ).");
 
@@ -852,7 +855,7 @@ public class FeaturesSymbolTable {
 							}
 						}
 					} else {
-						System.out.println("Type error : the type " + baseAttribute.getUserType()
+						LOGGER.info("Type error : the type " + baseAttribute.getUserType()
 								+ " of the attribute " + baseAttribute.getID()
 								+ " cannot be found in the type symbol table.");
 					}
@@ -979,7 +982,7 @@ public class FeaturesSymbolTable {
 					this.getFeatureSymbol(this.stack.toPath()).addChildrenFeature(featureSymbol);
 					featureSymbol.addParentFeatureSymbol(parentFeatureSymbol);
 				} else
-					System.out.println("Type error : the feature " + parentFeatureSymbol.getID()
+					LOGGER.info("Type error : the feature " + parentFeatureSymbol.getID()
 							+ " has many attributes with an identical ID ( " + featureSymbol.getID() + " ).");
 			} else {
 				featureSymbol = this.table.get(feature.getID());
@@ -1206,7 +1209,7 @@ public class FeaturesSymbolTable {
 
 			if (attribute.getAttributeBody().hasAnIsExpression()) {
 				if (attributeSymbol.hasExpression())
-					System.out.println("Type error : in the feature " + featureSymbol.getID()
+					LOGGER.info("Type error : in the feature " + featureSymbol.getID()
 							+ ", the attribute declaration " + attribute.toString() + " is not valid. "
 							+ attribute.getID() + " has already a valid domain defined.");
 				if (attributeSymbol.hasASetExpressionSymbol()) {
@@ -1214,7 +1217,7 @@ public class FeaturesSymbolTable {
 							attribute.getAttributeBody().getIsExpression())) {
 						attributeSymbol.setExpression(attribute.getAttributeBody().getIsExpression());
 					} else {
-						System.out.println("Type error : the expression "
+						LOGGER.info("Type error : the expression "
 								+ attribute.getAttributeBody().getIsExpression().toString()
 								+ " is out of bound of the domain of the attribute " + attributeSymbol.getID()
 								+ " from the feature " + featureSymbol.getID() + ".");
@@ -1224,7 +1227,7 @@ public class FeaturesSymbolTable {
 							|| ((attribute.getAttributeBody().getIsExpression().getType() == Expression.INT) && (attributeSymbolType == Expression.REAL))) {
 						attributeSymbol.setExpression(attribute.getAttributeBody().getIsExpression());
 					} else {
-						System.out.println("Type error : the type "
+						LOGGER.info("Type error : the type "
 								+ Util.toStringExpressionType(attribute.getAttributeBody().getIsExpression().getType())
 								+ " of the domain " + attribute.getAttributeBody().getIsExpression().toString()
 								+ " doesn't correspond to the type " + Util.toStringExpressionType(attributeSymbolType)
@@ -1257,7 +1260,7 @@ public class FeaturesSymbolTable {
 									|| ((attributeConditionnal.getExpression1().getType() == Expression.INT) && (attributeSymbolType == Expression.REAL))) {
 								attributeSymbol.setIfInSetExpression(attributeConditionnal.getSetExpression1());
 							} else {
-								System.out.println("Type error : In a ifin: of an attribute declaration, the type "
+								LOGGER.info("Type error : In a ifin: of an attribute declaration, the type "
 										+ Util.toStringExpressionType(attributeConditionnal.getSetExpression1()
 												.getType()) + " of the set expression "
 										+ attributeConditionnal.getSetExpression1().toString()
@@ -1285,7 +1288,7 @@ public class FeaturesSymbolTable {
 									|| ((attributeConditionnal.getExpression1().getType() == Expression.INT) && (attributeSymbolType == Expression.REAL))) {
 								attributeSymbol.setIfInExpression(attributeConditionnal.getExpression1());
 							} else {
-								System.out.println("Type error : In a ifin: of an attribute declaration, the type "
+								LOGGER.info("Type error : In a ifin: of an attribute declaration, the type "
 										+ Util.toStringExpressionType(attributeConditionnal.getExpression1().getType())
 										+ " of the expression " + attributeConditionnal.getExpression1().toString()
 										+ " doesn't correpond to the type "
@@ -1315,7 +1318,7 @@ public class FeaturesSymbolTable {
 									|| ((attributeConditionnal.getExpression2().getType() == Expression.INT) && (attributeSymbolType == Expression.REAL))) {
 								attributeSymbol.setIfOutSetExpression(attributeConditionnal.getSetExpression2());
 							} else {
-								System.out.println("Type error : In a ifout: of an attribute declaration, the type "
+								LOGGER.info("Type error : In a ifout: of an attribute declaration, the type "
 										+ Util.toStringExpressionType(attributeConditionnal.getSetExpression2()
 												.getType()) + " of the set expression "
 										+ attributeConditionnal.getSetExpression2().toString()
@@ -1341,7 +1344,7 @@ public class FeaturesSymbolTable {
 									|| ((attributeConditionnal.getExpression2().getType() == Expression.INT) && (attributeSymbolType == Expression.REAL))) {
 								attributeSymbol.setIfOutExpression(attributeConditionnal.getExpression2());
 							} else {
-								System.out.println("Type error : In a ifout: of an attribute declaration, the type "
+								LOGGER.info("Type error : In a ifout: of an attribute declaration, the type "
 										+ Util.toStringExpressionType(attributeConditionnal.getExpression2().getType())
 										+ " of the expression " + attributeConditionnal.getExpression2().toString()
 										+ " doesn't correpond to the type "
@@ -1376,7 +1379,7 @@ public class FeaturesSymbolTable {
 
 			int type = constraints.get(i).getExpression().getType();
 			if (type != Expression.BOOL)
-				System.out.println("Type error : the type of the constraint " + constraints.get(i).toString()
+				LOGGER.info("Type error : the type of the constraint " + constraints.get(i).toString()
 						+ " of the feature " + featureSymbol.getID() + " is "
 						+ Util.toStringExpressionType(constraints.get(i).getExpression().getType()) + " and not bool.");
 			featureSymbol.addConstraintSymbol(new ConstraintSymbol(constraints.get(i).isIfIn(), constraints.get(i)
@@ -1393,17 +1396,17 @@ public class FeaturesSymbolTable {
 	 * Display informations about the features contained in the table.
 	 */
 	public void printTable() {
-		System.out.println("-----------------------------------------------------------------------------");
-		System.out.println("--------------------------- Feature Symbol Table ----------------------------");
-		System.out.println("-----------------------------------------------------------------------------");
+		LOGGER.info("-----------------------------------------------------------------------------");
+		LOGGER.info("--------------------------- Feature Symbol Table ----------------------------");
+		LOGGER.info("-----------------------------------------------------------------------------");
 		int i = 0;
 		Object[] keys = this.table.keySet().toArray();
 		while (i <= this.table.size() - 1) {
 			if (this.table.get(keys[i].toString()) != null)
 				this.table.get(keys[i].toString()).printFeature("    ");
 			else
-				System.out.println("  " + keys[i].toString() + "  : AMBIGUOUS Feature ID");
-			System.out.println("-----------------------------------------------------------------------------");
+				LOGGER.info("  " + keys[i].toString() + "  : AMBIGUOUS Feature ID");
+			LOGGER.info("-----------------------------------------------------------------------------");
 			i++;
 		}
 	}
@@ -1428,7 +1431,7 @@ public class FeaturesSymbolTable {
 				if ((this.table.containsKey(enumValues.get(i).toString()))
 						|| (this.constantsSymbolTable.containsConstant(enumValues.get(i).toString()))
 						|| (this.typesSymbolTable.containsTypes(enumValues.get(i).toString())))
-					System.out.println("Type error : the enum value " + enumValues.get(i) + " of the set Expression "
+					LOGGER.info("Type error : the enum value " + enumValues.get(i) + " of the set Expression "
 							+ enumSetExpressionSymbol.toString()
 							+ " corresponds to a feature ID, a constant ID or type ID.");
 				i++;
@@ -1453,7 +1456,7 @@ public class FeaturesSymbolTable {
 				if ((this.table.containsKey(enumValues.get(i)))
 						|| (this.constantsSymbolTable.containsConstant(enumValues.get(i)))
 						|| (this.typesSymbolTable.containsTypes(enumValues.get(i))))
-					System.out.println("Type error : the enum value " + enumValues.get(i)
+					LOGGER.info("Type error : the enum value " + enumValues.get(i)
 							+ " corresponds to a feature ID, a constant ID or a type ID.");
 				i++;
 			}
@@ -1479,11 +1482,11 @@ public class FeaturesSymbolTable {
 			pathArray[0] = this.rootFeatureID;
 		}
 		if (!(this.table.containsKey(pathArray[0]))) {
-			System.out.println("Type error : the feature corresponding to the path " + path + " cannot be found.");
+			LOGGER.info("Type error : the feature corresponding to the path " + path + " cannot be found.");
 		} else {
 			featureSymbol = this.table.get(pathArray[0]);
 			if (featureSymbol == null) {
-				System.out.println("Type error : the ID path " + path + " is invalid, the first feature ID "
+				LOGGER.info("Type error : the ID path " + path + " is invalid, the first feature ID "
 						+ pathArray[0] + " is ambiguous.");
 			}
 		}
@@ -1492,7 +1495,7 @@ public class FeaturesSymbolTable {
 			if (featureSymbol.containsChildrenFeature(pathArray[i]))
 				featureSymbol = featureSymbol.getChildrenFeature(pathArray[i]);
 			else
-				System.out.println("Type error : the path " + path + " is invalid, the feature "
+				LOGGER.info("Type error : the path " + path + " is invalid, the feature "
 						+ featureSymbol.getID() + " has no children feature named " + pathArray[i] + ".");
 			i++;
 		}
@@ -1720,7 +1723,7 @@ public class FeaturesSymbolTable {
 						} else {
 							featureSymbol = this.getFeatureSymbol(this.stack.toPath());
 							if (!(featureSymbol.containsAttributeSymbol(pathArray[0]))) {
-								System.out.println("Type error : the feature " + featureSymbol.getID()
+								LOGGER.info("Type error : the feature " + featureSymbol.getID()
 										+ " has no attributes named " + pathArray[0] + ". The path " + path
 										+ " is incorrect.");
 							} else {
@@ -1735,7 +1738,7 @@ public class FeaturesSymbolTable {
 			while (i <= pathArray.length - 1) {
 				if (pathArray[i].equals("parent")) {
 					if (featureSymbol.isShared()) {
-						System.out.println("Type error : the feature " + featureSymbol.getID()
+						LOGGER.info("Type error : the feature " + featureSymbol.getID()
 								+ " is shared and cannot be used with the key word \"parent\".");
 					} else {
 						featureSymbol = featureSymbol.getFirstParentFeature();
@@ -1747,7 +1750,7 @@ public class FeaturesSymbolTable {
 				} else {
 					if (Util.isAFeatureID(pathArray[i])) {
 						if (!(featureSymbol.containsChildrenFeature(pathArray[i]))) {
-							System.out.println("Type error : the symbol corresponding to the path " + path
+							LOGGER.info("Type error : the symbol corresponding to the path " + path
 									+ " cannot be found.");
 						} else {
 							featureSymbol = featureSymbol.getChildrenFeature(pathArray[i]);
@@ -1759,7 +1762,7 @@ public class FeaturesSymbolTable {
 					} else {
 						if (attributeSymbol == null) {
 							if (!(featureSymbol.containsAttributeSymbol(pathArray[i]))) {
-								System.out.println("Type error : the feature " + featureSymbol.getID()
+								LOGGER.info("Type error : the feature " + featureSymbol.getID()
 										+ " has no attributes named " + pathArray[i] + ". The path " + path
 										+ " is incorrect.");
 							} else {
@@ -1775,12 +1778,12 @@ public class FeaturesSymbolTable {
 							}
 						} else {
 							if (!attributeSymbol.isARecordSymbol()) {
-								System.out.println("Type error : the symbol corresponding to the path " + path
+								LOGGER.info("Type error : the symbol corresponding to the path " + path
 										+ " cannot be found.");
 							} else {
 								RecordSymbol recordSymbol = (RecordSymbol) attributeSymbol;
 								if (!(recordSymbol.containsRecordField(pathArray[i]))) {
-									System.out.println("Type error : the struct attribute " + recordSymbol.getId()
+									LOGGER.info("Type error : the struct attribute " + recordSymbol.getId()
 											+ " has no attributes names " + pathArray[i] + ". The path " + path
 											+ " is incorrect.");
 								} else {
@@ -1794,7 +1797,7 @@ public class FeaturesSymbolTable {
 									pair.add(attributeSymbol);
 									pair.add(normalLongID);
 									if (!(i == pathArray.length - 1))
-										System.out.println("Type error : the symbol corresponding to the path " + path
+										LOGGER.info("Type error : the symbol corresponding to the path " + path
 												+ " cannot be found.");
 								}
 							}
@@ -1834,7 +1837,7 @@ public class FeaturesSymbolTable {
 						} else {
 							featureSymbol = this.getFeatureSymbol(this.stack.toPath());
 							if (!(featureSymbol.containsAttributeSymbol(pathArray[0]))) {
-								System.out.println("Type error : the fearure " + featureSymbol.getID()
+								LOGGER.info("Type error : the fearure " + featureSymbol.getID()
 										+ " contains no attributes named " + pathArray[0] + ". The ID " + path
 										+ " is incorrect.");
 							} else {
@@ -1883,7 +1886,7 @@ public class FeaturesSymbolTable {
 		if (featureSymbol.hasBeenVisited()) {
 			if (!(featureSymbol.hasChildrenFeaturesVisited())) {
 				featuresStack.push(featureSymbol.getID());
-				System.out.println("Type error : there is a cycle in the DAG => " + featuresStack.toArrowPath());
+				LOGGER.info("Type error : there is a cycle in the DAG => " + featuresStack.toArrowPath());
 			} else {
 				return;
 			}

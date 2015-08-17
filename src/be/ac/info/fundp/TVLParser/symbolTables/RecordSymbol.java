@@ -1,9 +1,12 @@
 package be.ac.info.fundp.TVLParser.symbolTables;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class RecordSymbol extends AttributeSymbol implements TypeSymbol {
 
+	private final static Logger LOGGER = Logger.getLogger(RecordSymbol.class.getName());
+	
 	private String id, userType;
 	private int type;
 
@@ -52,14 +55,14 @@ public class RecordSymbol extends AttributeSymbol implements TypeSymbol {
 
 	@Override
 	public void printAttribute(String espace) {
-		System.out.println(espace + "  |      " + this.userType + " struct " + this.id + " {");
+		LOGGER.info(espace + "  |      " + this.userType + " struct " + this.id + " {");
 		int i = 0;
 		Object[] keys = attributeSymbols.keySet().toArray();
 		while (i <= attributeSymbols.size() - 1) {
 			attributeSymbols.get(keys[i].toString()).printAttribute("  " + espace);
 			i++;
 		}
-		System.out.println(espace + "  |      }");
+		LOGGER.info(espace + "  |      }");
 	}
 
 	@Override
@@ -74,14 +77,14 @@ public class RecordSymbol extends AttributeSymbol implements TypeSymbol {
 
 	@Override
 	public void print() {
-		System.out.println("  struct " + id + " {");
+		LOGGER.info("  struct " + id + " {");
 		int i = 0;
 		Object[] keys = attributeSymbols.keySet().toArray();
 		while (i <= attributeSymbols.size() - 1) {
 			attributeSymbols.get(keys[i].toString()).printAttribute("");
 			i++;
 		}
-		System.out.println("  }");
+		LOGGER.info("  }");
 	}
 
 }

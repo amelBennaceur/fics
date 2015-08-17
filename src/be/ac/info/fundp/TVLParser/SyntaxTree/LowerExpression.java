@@ -1,11 +1,15 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.Util.Util;
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.EnumSetExpressionSymbol;
 
 public class LowerExpression implements BooleanExpression {
 
+	private final static Logger LOGGER = Logger.getLogger(LowerExpression.class.getName());
+	
 	Expression expression1, expression2;
 
 	public LowerExpression(Expression e1, Expression e2) {
@@ -39,7 +43,7 @@ public class LowerExpression implements BooleanExpression {
 				if (!((numericalAttribute1.getSetExpressionSymbol().containsSetExpressionSymbol(numericalAttribute2
 						.getSetExpressionSymbol())) && (numericalAttribute2.getSetExpressionSymbol()
 						.containsSetExpressionSymbol(numericalAttribute1.getSetExpressionSymbol())))) {
-					System.out.println("Type error : the expression " + this.toString() + " is not valid. "
+					LOGGER.info("Type error : the expression " + this.toString() + " is not valid. "
 							+ numericalAttribute1.getID() + " and " + numericalAttribute2.getID()
 							+ " haven't the same values domain");
 				}
@@ -49,7 +53,7 @@ public class LowerExpression implements BooleanExpression {
 			AttributeSymbol numericalAttribute1 = (AttributeSymbol) longIDExpression1.getSymbol();
 			if (numericalAttribute1.hasASetExpressionSymbol()) {
 				if (!(numericalAttribute1.getSetExpressionSymbol().containsExpression(expression2))) {
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is not valid. The values domain of " + numericalAttribute1.getID()
 							+ " doesn't include " + this.expression2.toString());
 				}
@@ -59,13 +63,13 @@ public class LowerExpression implements BooleanExpression {
 			AttributeSymbol numericalAttribute2 = (AttributeSymbol) longIDExpression2.getSymbol();
 			if (numericalAttribute2.hasASetExpressionSymbol()) {
 				if (!(numericalAttribute2.getSetExpressionSymbol().containsExpression(expression1))) {
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is not valid. The values domain of " + numericalAttribute2.getID()
 							+ " doesn't include " + this.expression1.toString());
 				}
 			}
 		} else
-			System.out.println("Type error : the expression " + this.toString()
+			LOGGER.info("Type error : the expression " + this.toString()
 					+ " is not valid, you cannot compare two numerical values.");
 	}
 
@@ -80,7 +84,7 @@ public class LowerExpression implements BooleanExpression {
 					this.checkNumericalComparison();
 					return Expression.BOOL;
 				} else {
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is invalid. The type of the right paramater ( " + this.expression2.toString()
 							+ " ) of a lower expression must be real or int. Currently,  its type is "
 							+ Util.toStringExpressionType(this.expression2.getType()) + ".");
@@ -96,7 +100,7 @@ public class LowerExpression implements BooleanExpression {
 						this.checkNumericalComparison();
 						return Expression.BOOL;
 					} else {
-						System.out.println("Type error : the expression " + this.toString()
+						LOGGER.info("Type error : the expression " + this.toString()
 								+ " is invalid. The type of the right paramater ( " + this.expression2.toString()
 								+ " ) of a lower expression must be real or int. Currently,  its type is "
 								+ Util.toStringExpressionType(this.expression2.getType()) + ".");
@@ -121,7 +125,7 @@ public class LowerExpression implements BooleanExpression {
 													.getSetExpressionSymbol()).getContainedValues())) {
 										return Expression.BOOL;
 									} else {
-										System.out.println("Type error : the expression " + this.toString()
+										LOGGER.info("Type error : the expression " + this.toString()
 												+ " is invalid. The values domain of the left paramater ( "
 												+ this.expression1.toString()
 												+ " ) is different from the values domain of the right parameter ( "
@@ -134,7 +138,7 @@ public class LowerExpression implements BooleanExpression {
 												.getSetExpressionSymbol()).getContainedValues()))) {
 									return Expression.BOOL;
 								} else
-									System.out.println("Type error : the expression " + this.toString()
+									LOGGER.info("Type error : the expression " + this.toString()
 											+ " is invalid. The values domain of the left paramater ( "
 											+ this.expression1.toString()
 											+ " ) is different from the values domain of the right parameter ( "
@@ -145,7 +149,7 @@ public class LowerExpression implements BooleanExpression {
 							if (enumAttribute1.getSetExpressionSymbol().containsExpression(longIDExpression2)) {
 								return Expression.BOOL;
 							} else {
-								System.out.println("Type error : the expression " + this.toString()
+								LOGGER.info("Type error : the expression " + this.toString()
 										+ " is invalid. The values domain of the attribute ( "
 										+ this.expression1.toString() + " ) doesn't contain the enum value ( "
 										+ this.expression2.toString() + " ).");
@@ -157,19 +161,19 @@ public class LowerExpression implements BooleanExpression {
 							if (enumAttribute2.getSetExpressionSymbol().containsExpression(longIDExpression1)) {
 								return Expression.BOOL;
 							} else {
-								System.out.println("Type error : the expression " + this.toString()
+								LOGGER.info("Type error : the expression " + this.toString()
 										+ " is invalid. The values domain of the attribute ( "
 										+ this.expression1.toString() + " ) doesn't contain the enum value ( "
 										+ this.expression2.toString() + " ).");
 							}
 						} else {
-							System.out.println("Type error : the expression " + this.toString()
+							LOGGER.info("Type error : the expression " + this.toString()
 									+ " is invalid. You cannot compare two enum values (" + this.expression1.toString()
 									+ ", " + this.expression2.toString() + " ).");
 						}
 					}
 				} else {
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is invalid. The type of the left paramater ( " + this.expression1.toString()
 							+ " ) of a greataer or equal expression must be real or int. Currently,  its type is "
 							+ Util.toStringExpressionType(this.expression1.getType()) + ".");
@@ -216,7 +220,7 @@ public class LowerExpression implements BooleanExpression {
 					this.checkNumericalComparison();
 					boolExpr = this;
 				} else {
-					System.out.println("Type error : the expression " + this.toString()
+					LOGGER.info("Type error : the expression " + this.toString()
 							+ " is invalid. The type of the right paramater ( " + this.expression2.toString()
 							+ " ) of a greater or equal expression must be real or int. Currently,  its type is "
 							+ Util.toStringExpressionType(this.expression2.getType()) + ".");
@@ -232,7 +236,7 @@ public class LowerExpression implements BooleanExpression {
 						this.checkNumericalComparison();
 						boolExpr = this;
 					} else {
-						System.out.println("Type error : the expression " + this.toString()
+						LOGGER.info("Type error : the expression " + this.toString()
 								+ " is invalid. The type of the right paramater ( " + this.expression2.toString()
 								+ " ) of a greater or equal expression must be real or int. Currently,  its type is "
 								+ Util.toStringExpressionType(this.expression2.getType()) + ".");

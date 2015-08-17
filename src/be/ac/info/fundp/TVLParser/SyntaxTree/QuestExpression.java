@@ -1,9 +1,13 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.Util.Util;
 
 public class QuestExpression implements BooleanExpression {
 
+	private final static Logger LOGGER = Logger.getLogger(QuestExpression.class.getName());
+	
 	Expression expression1, expression2, expression3;
 
 	public QuestExpression(Expression e1, Expression e2, Expression e3) {
@@ -36,14 +40,14 @@ public class QuestExpression implements BooleanExpression {
 	@Override
 	public int getType() {
 		if (!(this.expression1.getType() == Expression.BOOL))
-			System.out.println("Type error : The expression " + this.toString()
+			LOGGER.info("Type error : The expression " + this.toString()
 					+ " isn't valid. The type of the first parameter ( " + this.expression1.toString() + " ) is "
 					+ Util.toStringExpressionType(this.expression1.getType()) + " and not bool.");
 		if (this.expression2.getType() == Expression.BOOL) {
 			if (this.expression3.getType() == Expression.BOOL)
 				return Expression.BOOL;
 			else
-				System.out.println("Type error : The expression " + this.toString() + " is invalid. The type "
+				LOGGER.info("Type error : The expression " + this.toString() + " is invalid. The type "
 						+ Util.toStringExpressionType(this.expression2.getType()) + " of the second parameter ( "
 						+ this.expression2.toString() + " ) is different from the type "
 						+ Util.toStringExpressionType(this.expression3.getType()) + " of the second parameter ( "
@@ -53,7 +57,7 @@ public class QuestExpression implements BooleanExpression {
 				if (this.expression3.getType() == Expression.INT)
 					return Expression.INT;
 				else
-					System.out.println("Type error : The expression " + this.toString() + " is invalid. The type "
+					LOGGER.info("Type error : The expression " + this.toString() + " is invalid. The type "
 							+ Util.toStringExpressionType(this.expression2.getType()) + " of the second parameter ( "
 							+ this.expression2.toString() + " ) is different from the type "
 							+ Util.toStringExpressionType(this.expression3.getType()) + " of the second parameter ( "
@@ -64,7 +68,7 @@ public class QuestExpression implements BooleanExpression {
 							|| (this.expression3.getType() == Expression.INT))
 						return Expression.REAL;
 					else
-						System.out.println("Type error : The expression " + this.toString() + " is invalid. The type "
+						LOGGER.info("Type error : The expression " + this.toString() + " is invalid. The type "
 								+ Util.toStringExpressionType(this.expression2.getType())
 								+ " of the second parameter ( " + this.expression2.toString()
 								+ " ) is different from the type "
@@ -75,7 +79,7 @@ public class QuestExpression implements BooleanExpression {
 						if (this.expression3.getType() == Expression.ENUM)
 							return Expression.ENUM;
 						else
-							System.out.println("Type error : The expression " + this.toString()
+							LOGGER.info("Type error : The expression " + this.toString()
 									+ " is invalid. The type "
 									+ Util.toStringExpressionType(this.expression2.getType())
 									+ " of the second parameter ( " + this.expression2.toString()
@@ -83,7 +87,7 @@ public class QuestExpression implements BooleanExpression {
 									+ Util.toStringExpressionType(this.expression3.getType())
 									+ " of the second parameter ( " + this.expression3.toString() + " ).");
 					} else {
-						System.out.println("Type error : The expression " + this.toString() + " is invalid. The type "
+						LOGGER.info("Type error : The expression " + this.toString() + " is invalid. The type "
 								+ Util.toStringExpressionType(this.expression2.getType())
 								+ " of the second parameter ( " + this.expression2.toString()
 								+ " ) is different from the type "

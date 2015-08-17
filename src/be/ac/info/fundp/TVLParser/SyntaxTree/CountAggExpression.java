@@ -1,10 +1,14 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.symbolTables.FeatureSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.FeaturesSymbolTable;
 
 public class CountAggExpression implements Expression {
 
+	private final static Logger LOGGER = Logger.getLogger(CountAggExpression.class.getName());
+	
 	int childrenAttributeID;
 	FeatureSymbol currentFeatureSymbol;
 
@@ -40,7 +44,7 @@ public class CountAggExpression implements Expression {
 		if (currentFeatureSymbol.hasChildrenFeatures())
 			return Expression.INT;
 		else
-			System.out.println("Type error : the expression " + this.toString() + " is not valid. The feature "
+			LOGGER.info("Type error : the expression " + this.toString() + " is not valid. The feature "
 					+ currentFeatureSymbol.getID() + " has no children features.");
 		return Expression.UNKNOWN;
 	}

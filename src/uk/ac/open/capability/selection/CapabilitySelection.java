@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 import solver.ResolutionPolicy;
 import solver.Solver;
@@ -21,6 +22,8 @@ import uk.ac.open.capability.model.TransitionSystem;
 import fr.inria.mics.mediatorSynthesis.SimpleMediatorSynthesisImpl;
 
 public class CapabilitySelection {
+	
+	private final static Logger LOGGER = Logger.getLogger(CapabilitySelection.class.getName());
 
 	private List<Capability> capabilities;
 	private SecurityControl sc;
@@ -252,7 +255,7 @@ public class CapabilitySelection {
 				chocoSolver.findParetoFront(ResolutionPolicy.MINIMIZE, paretoVars);
 				List<Solution> solutions = chocoSolver.getSolutionRecorder().getSolutions();
 
-				System.out.println("The pareto front has " + solutions.size());
+				LOGGER.info("The pareto front has " + solutions.size());
 				numberSolutions = 0;
 				if ((solutions != null) && (solutions.size() > 0)) {
 					numberSolutions = solutions.size();
@@ -271,11 +274,11 @@ public class CapabilitySelection {
 
 		}
 
-		int i1 = 1;
-		for (ArrayList<String> sol1 : solList) {
-			System.out.println("- Solution " + i1 + ":  " + sol1);
-			i1++;
-		}
+//		int i1 = 1;
+//		for (ArrayList<String> sol1 : solList) {
+//			LOGGER.info("- Solution " + i1 + ":  " + sol1);
+//			i1++;
+//		}
 		selectedFeatures = solList + "";
 
 		// if (i1 > 1) {

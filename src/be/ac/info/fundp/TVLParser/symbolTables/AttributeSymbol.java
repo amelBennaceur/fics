@@ -2,12 +2,16 @@ package be.ac.info.fundp.TVLParser.symbolTables;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
+import be.ac.info.fundp.TVLParser.Parser.lexer;
 import be.ac.info.fundp.TVLParser.SyntaxTree.Expression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.SetExpression;
 
 public class AttributeSymbol extends Symbol implements TypeSymbol, Cloneable {
 
+	private final static Logger LOGGER = Logger.getLogger(AttributeSymbol.class.getName());
+	
 	int type, trueType;
 	String id, userType;
 
@@ -336,7 +340,7 @@ public class AttributeSymbol extends Symbol implements TypeSymbol, Cloneable {
 		if (this.ifOutExpression != null) {
 			s = s.concat(", ifout: " + this.ifOutExpression);
 		}
-		System.out.println(s);
+		LOGGER.info(s);
 	}
 
 	@Override
@@ -417,7 +421,7 @@ public class AttributeSymbol extends Symbol implements TypeSymbol, Cloneable {
 	}
 
 	public void printAttribute() {
-		System.out.println("      " + this.type + " " + this.id);
+		LOGGER.info("      " + this.type + " " + this.id);
 	}
 
 	@Override
@@ -438,9 +442,9 @@ public class AttributeSymbol extends Symbol implements TypeSymbol, Cloneable {
 			break;
 		}
 		if (!(this.setExpressionSymbol == null))
-			System.out.println("  " + id + " " + typeName + " in " + this.setExpressionSymbol.toString());
+			LOGGER.info("  " + id + " " + typeName + " in " + this.setExpressionSymbol.toString());
 		else
-			System.out.println("  " + id + " " + typeName);
+			LOGGER.info("  " + id + " " + typeName);
 	}
 
 	@Override

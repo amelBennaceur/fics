@@ -1,6 +1,7 @@
 package uk.ac.open.capability.selection;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import be.ac.info.fundp.TVLParser.SyntaxTree.AndExpression;
 import be.ac.info.fundp.TVLParser.SyntaxTree.Attribute;
@@ -35,6 +36,8 @@ import be.ac.info.fundp.TVLParser.symbolTables.FeaturesSymbolTable;
  * 
  */
 public class ChocoCSPForm {
+	
+	private final static Logger LOGGER = Logger.getLogger(ChocoCSPForm.class.getName());
 
 	// The feature symbol table of the normalized form of the feature model
 	private FeaturesSymbolTable featuresSymbolTable;
@@ -309,7 +312,7 @@ public class ChocoCSPForm {
 			if (featureSymbol.isShared()) {
 				return new Feature(nonAmbiguousFeaturePath, true);
 			} else {
-				System.out.println("Error : the feature " + featureSymbol.getID()
+				LOGGER.info("Error : the feature " + featureSymbol.getID()
 						+ " is saved many times in the syntax tree");
 			}
 		} else {
@@ -396,11 +399,11 @@ public class ChocoCSPForm {
 		if (type == Expression.BOOL) {
 			BooleanExpression constraintExpression = (BooleanExpression) constraintSymbol.getExpression();
 			constraintExpression = constraintExpression.toSimplifiedForm().removeArrows();
-			// System.out.println(constraintExpression.toString());
+			// LOGGER.info(constraintExpression.toString());
 			constraintExpression = constraintExpression.distributeNegations();
-			// System.out.println(constraintExpression.toString());
+			// LOGGER.info(constraintExpression.toString());
 			constraintExpression = constraintExpression.distributeDisjunctions();
-			// System.out.println("-------------------------------------------------------------------------");
+			// LOGGER.info("-------------------------------------------------------------------------");
 			if (constraintExpression.getClass().toString().contains("AndExpression")) {
 				constr = new Constraint(writeParenthesesArounfCNFClauses((AndExpression) constraintExpression));
 			} else {
@@ -535,7 +538,7 @@ public class ChocoCSPForm {
 		// -g v -fi
 		// }
 		// return result;
-		System.out.println("I'm in cardinality card00");
+		LOGGER.info("I'm in cardinality card00");
 		return null;
 	}
 
@@ -578,7 +581,7 @@ public class ChocoCSPForm {
 		// result[i][length] = -featureSymbol.getDIMACS_ID();
 		// }
 		// return result;
-		System.out.println("I'm in cardinality card0j");
+		LOGGER.info("I'm in cardinality card0j");
 		return null;
 	}
 
@@ -604,7 +607,7 @@ public class ChocoCSPForm {
 		// result[0][i + 1] = sonId; // fi
 		// }
 		// return result;
-		System.out.println("I'm in cardinality card1n");
+		LOGGER.info("I'm in cardinality card1n");
 		return null;
 	}
 
@@ -628,7 +631,7 @@ public class ChocoCSPForm {
 		// v fi
 		// }
 		// return result;
-		System.out.println("I'm in cardinality cardnn");
+		LOGGER.info("I'm in cardinality cardnn");
 		return null;
 	}
 
@@ -671,7 +674,7 @@ public class ChocoCSPForm {
 		// }
 		//
 		// return result;
-		System.out.println("I'm in cardinality cardin");
+		LOGGER.info("I'm in cardinality cardin");
 		return null;
 	}
 
@@ -702,7 +705,7 @@ public class ChocoCSPForm {
 		//
 		//
 		// return result;
-		System.out.println("I'm in cardinality cardij");
+		LOGGER.info("I'm in cardinality cardij");
 		return null;
 	}
 

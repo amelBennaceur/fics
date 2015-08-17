@@ -1,6 +1,7 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import be.ac.info.fundp.TVLParser.symbolTables.AttributeSymbol;
 import be.ac.info.fundp.TVLParser.symbolTables.FeatureSymbol;
@@ -8,6 +9,9 @@ import be.ac.info.fundp.TVLParser.symbolTables.FeaturesSymbolTable;
 import be.ac.info.fundp.TVLParser.symbolTables.RecordSymbol;
 
 public class ChildrenAttributeID {
+	
+	private final static Logger LOGGER = Logger.getLogger(ChildrenAttributeID.class.getName());
+	
 	public static int SELECTED_CHILDREN = 1;
 	public static int CHILDREN = 2;
 	int selectionType;
@@ -41,7 +45,7 @@ public class ChildrenAttributeID {
 		String[] attributeIDArray = this.longID.split("\\.");
 		this.childrenAttributesPath = new Vector<Object>();
 		if (attributeIDArray.length > 2) {
-			System.out.println("SymbolNotFoundException");
+			LOGGER.info("SymbolNotFoundException");
 		} else {
 			FeatureSymbol childrenFeatureSymbol;
 			// Struct attribute
@@ -56,10 +60,10 @@ public class ChildrenAttributeID {
 							.add(this.featuresSymbolTable.getNonAmbiguousPath(childrenFeatureSymbol));
 					if (childrenFeatureSymbol.containsAttributeSymbol(attributeIDArray[0])) {
 						if (childrenFeatureSymbol.getAttributeSymbol(attributeIDArray[0]).getType() != Expression.STRUCT)
-							System.out.println("Illegal Expression");
+							LOGGER.info("Illegal Expression");
 						recordSymbol = (RecordSymbol) childrenFeatureSymbol.getAttributeSymbol(attributeIDArray[0]);
 						if (!(recordSymbol.containsRecordField(attributeIDArray[1]))) {
-							System.out.println("SymbolNotFoundException");
+							LOGGER.info("SymbolNotFoundException");
 						} else {
 							if (i == 0) {
 								if (recordSymbol.getAttributeSymbol(attributeIDArray[1]).getType() == Expression.USER_CREATED) {
@@ -80,7 +84,7 @@ public class ChildrenAttributeID {
 															.getTrueType() == Expression.REAL)) {
 												currentType = Expression.REAL;
 											} else {
-												System.out.println("Illegal Expression");
+												LOGGER.info("Illegal Expression");
 											}
 										}
 									}
@@ -94,7 +98,7 @@ public class ChildrenAttributeID {
 													&& (recordSymbol.getAttributeSymbol(attributeIDArray[1]).getType() == Expression.REAL)) {
 												currentType = Expression.REAL;
 											} else {
-												System.out.println("Illegal Expression");
+												LOGGER.info("Illegal Expression");
 											}
 										}
 									}
@@ -104,7 +108,7 @@ public class ChildrenAttributeID {
 						// Used for the normalization
 						this.childrenAttributesPath.add(recordSymbol.getAttributeSymbol(attributeIDArray[1]));
 					} else {
-						System.out.println("SymbolNotFoundException");
+						LOGGER.info("SymbolNotFoundException");
 					}
 
 					i++;
@@ -137,7 +141,7 @@ public class ChildrenAttributeID {
 												&& (attributeSymbol.getTrueType() == Expression.REAL)) {
 											currentType = Expression.REAL;
 										} else {
-											System.out.println("Illegal Expression");
+											LOGGER.info("Illegal Expression");
 										}
 									}
 								}
@@ -151,7 +155,7 @@ public class ChildrenAttributeID {
 												&& (attributeSymbol.getType() == Expression.REAL)) {
 											currentType = Expression.REAL;
 										} else {
-											System.out.println("Illegal Expression");
+											LOGGER.info("Illegal Expression");
 										}
 									}
 								}
@@ -159,7 +163,7 @@ public class ChildrenAttributeID {
 						}
 						this.childrenAttributesPath.add(attributeSymbol);
 					} else {
-						System.out.println("Type error : the expression " + this.toString()
+						LOGGER.info("Type error : the expression " + this.toString()
 								+ " is not valid. The child feature "
 								+ currentFeatureSymbol.getChildrenFeature(featuresArray[i].toString()).getID()
 								+ " of the parent feature " + currentFeatureSymbol.getID() + " has no attribute named "

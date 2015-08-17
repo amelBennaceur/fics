@@ -1,9 +1,13 @@
 package be.ac.info.fundp.TVLParser.SyntaxTree;
 
+import java.util.logging.Logger;
+
 import be.ac.info.fundp.TVLParser.Util.Util;
 
 public class OrExpression implements BooleanExpression {
 
+	private final static Logger LOGGER = Logger.getLogger(OrExpression.class.getName());
+	
 	Expression expression1, expression2;
 
 	public OrExpression(Expression e1, Expression e2) {
@@ -31,13 +35,13 @@ public class OrExpression implements BooleanExpression {
 			if (this.expression2.getType() == Expression.BOOL) {
 				return Expression.BOOL;
 			} else {
-				System.out.println("Type error : the expression " + this.toString()
+				LOGGER.info("Type error : the expression " + this.toString()
 						+ " is invalid. The type of the right paramater ( " + this.expression2.toString()
 						+ " ) of an and expression must be bool. Currently,  its type is "
 						+ Util.toStringExpressionType(this.expression2.getType()) + ".");
 			}
 		} else {
-			System.out.println("Type error : the expression " + this.toString()
+			LOGGER.info("Type error : the expression " + this.toString()
 					+ " is invalid. The type of the left paramater ( " + this.expression1.toString()
 					+ " ) of an and expression must be bool. Currently,  its type is "
 					+ Util.toStringExpressionType(this.expression1.getType()) + ".");
@@ -144,14 +148,14 @@ public class OrExpression implements BooleanExpression {
 		 * AndExpression(new AndExpression(orExpression1, orExpression2),
 		 * orExpression3), orExpression4); } else if (this.expression2
 		 * instanceof AndExpression) { // Case A || ( B && C )
-		 * //System.out.println("1 : "+this.toString()); AndExpression
+		 * //LOGGER.info("1 : "+this.toString()); AndExpression
 		 * andExpression = (AndExpression) this.expression2; return new
 		 * AndExpression( new OrExpression( this.expression1,
 		 * andExpression.getExpression1()).distributeDisjunctions(), new
 		 * OrExpression( this.expression1,
 		 * andExpression.getExpression2()).distributeDisjunctions()); } else if
 		 * (this.expression1 instanceof AndExpression) { // Case ( A && B ) || C
-		 * //System.out.println("2 : "+this.toString()); AndExpression
+		 * //LOGGER.info("2 : "+this.toString()); AndExpression
 		 * andExpression = (AndExpression) this.expression1; return new
 		 * AndExpression( new OrExpression( this.expression2,
 		 * andExpression.getExpression1()).distributeDisjunctions(), new

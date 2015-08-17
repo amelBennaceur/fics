@@ -26,8 +26,7 @@ public class MainLayoutController {
 
 	@FXML
 	private void handleManageCapabilities() {
-		System.out.println("Handling Manage Capabilities");
-
+		
 		FXMLLoader loader2 = new FXMLLoader(getClass().getResource("CapabilityStore.fxml"));
 
 		Parent root1 = null;
@@ -52,8 +51,6 @@ public class MainLayoutController {
 
 	@FXML
 	private void handleCompose() {
-		System.out.println("Handling Compose");
-
 		FXMLLoader loader2 = new FXMLLoader(getClass().getResource("SecurityControl.fxml"));
 
 		Parent root1 = null;

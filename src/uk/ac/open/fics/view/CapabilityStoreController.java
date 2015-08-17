@@ -55,8 +55,6 @@ public class CapabilityStoreController {
 
 	@FXML
 	private void handleAddCapability() {
-		System.out.println("Handling Add Capability");
-
 		// Load the fxml file and create a new stage for the popup dialog.
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("CapabilityAddDialog.fxml"));
 
@@ -88,8 +86,6 @@ public class CapabilityStoreController {
 
 	@FXML
 	private void handleViewCapability() {
-		System.out.println("Handling View Capability");
-
 		Capability capa = capabilityList.getSelectionModel().getSelectedItem();
 		
 		
@@ -125,13 +121,11 @@ public class CapabilityStoreController {
 
 	@FXML
 	private void handleDeleteCapability() {
-		System.out.println("Handling Delete Capability");
 		mainApp.deleteCapability(capabilityList.getSelectionModel().getSelectedItem());
 	}
 
 	@FXML
 	private void handleCancel() {
-		System.out.println("Handling Cancel");
 		dialogStage.close();
 	}
 
