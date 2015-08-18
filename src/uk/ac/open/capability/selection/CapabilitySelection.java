@@ -124,23 +124,29 @@ public class CapabilitySelection {
 
 			solutionFound = chocoSolver.findSolution();
 
-			ArrayList<String> sol;
-
-			do {
-				Solution s = chocoSolver.getSolutionRecorder().getLastSolution();
-				sol = solutionToString(s, variables);
-				boolean newSol = true;
-				for(ArrayList<String> existing:solList){
-					if (areEqual(existing,sol)){
-						newSol = false;
-						break;
-					}
-				}
-				if (newSol) {
-					solList.add(sol);
-					numberSolutions++;
-				}
-			} while (chocoSolver.nextSolution());
+			//Only one solution
+			Solution s = chocoSolver.getSolutionRecorder().getLastSolution();
+			ArrayList<String> sol = solutionToString(s, variables);
+			solList.add(sol);
+			numberSolutions++;
+			
+//			ArrayList<String> sol;
+//
+//			do {
+//				Solution s = chocoSolver.getSolutionRecorder().getLastSolution();
+//				sol = solutionToString(s, variables);
+//				boolean newSol = true;
+//				for(ArrayList<String> existing:solList){
+//					if (areEqual(existing,sol)){
+//						newSol = false;
+//						break;
+//					}
+//				}
+//				if (newSol) {
+//					solList.add(sol);
+//					numberSolutions++;
+//				}
+//			} while (chocoSolver.nextSolution());
 			
 			
 		} else {

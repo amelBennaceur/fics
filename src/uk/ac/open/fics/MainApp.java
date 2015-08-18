@@ -81,7 +81,7 @@ public class MainApp extends Application {
 		// Show the scene containing the root layout.
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
-		primaryStage.setMaximized(true);
+		//primaryStage.setMaximized(true);
 		primaryStage.show();
 
 		// Give the controller access to the main app.

@@ -55,26 +55,26 @@ public class Evaluation {
 
 	}
 
-	public void generateCapabilities() {
+	public void generateCapabilities(int capabilityNumber) {
 		String path1 = "examples/tests/collaborativeRobots/generatedCapabilities/";
 
 		new File(path1).mkdirs();
 
-		for (int i = 1; i < 500; i++) {
+		for (int i = 1; i < capabilityNumber; i++) {
 			generateNAOFiles(path1 + "naoFM" + i + ".tvl", path1 + "naoFTS" + i + ".xml", i + "");
 		}
 
 		// change speed value manually
 	}
 
-	public void measureScenario1WithFeatures() {
+	public void measureScenario1WithFeatures(int capabilityNumber) {
 		String path1 = "examples/tests/collaborativeRobots/generatedCapabilities/";
 
 		MainApp app = new MainApp();
 		app.reinit();
 
 		// loading capabilities
-		for (int i = 1; i < 100; i++) {
+		for (int i = 0; i < capabilityNumber; i++) {
 			app.addCapability(path1 + "naoFM" + i + ".tvl", path1 + "naoFTS" + i + ".xml");
 		}
 		// loading security control
@@ -89,18 +89,18 @@ public class Evaluation {
 
 	}
 
-	public void measureScenario1WithoutFeatures() {
+	public void measureScenario1WithoutFeatures(int capabilityNumber) {
 
 	}
 
-	public void measureScenario2WithFeatures() {
+	public void measureScenario2WithFeatures(int capabilityNumber) {
 		String path1 = "examples/tests/collaborativeRobots/generatedCapabilities/";
 
 		MainApp app = new MainApp();
 		app.reinit();
 
 		// loading capabilities
-		for (int i = 1; i < 4; i++) {
+		for (int i = 0; i < capabilityNumber; i++) {
 			app.addCapability(path1 + "naoFM" + i + ".tvl", path1 + "naoFTS" + i + ".xml");
 		}
 		// loading security control
@@ -115,7 +115,7 @@ public class Evaluation {
 
 	}
 
-	public void measureScenario2WithoutFeatures() {
+	public void measureScenario2WithoutFeatures(int capabilityNumber) {
 
 	}
 
@@ -125,19 +125,25 @@ public class Evaluation {
 		Logger logger = Logger.getLogger("");
 		logger.setLevel(Level.SEVERE);
 
-		int repetitions = 32;
+		int capabilityNumber = 1;
+		int repetitions = 31;
+		
 //		eCS.generateCapabilities();
+		
+//		for (int j = 0; j < repetitions; j++) {
+//			eCS.measureScenario1WithFeatures(capabilityNumber);
+//		}
+		
+//		for (int j = 0; j < repetitions; j++) {
+//			eCS.measureScenario1WithoutFeatures(capabilityNumber);
+//		}
+		
 		for (int j = 0; j < repetitions; j++) {
-			eCS.measureScenario1WithFeatures();
+			eCS.measureScenario2WithFeatures(capabilityNumber);
 		}
+		
 //		for (int j = 0; j < repetitions; j++) {
-//			eCS.measureScenario1WithoutFeatures();
-//		}
-//		for (int j = 0; j < repetitions; j++) {
-//			eCS.measureScenario2WithFeatures();
-//		}
-//		for (int j = 0; j < repetitions; j++) {
-//			eCS.measureScenario2WithoutFeatures();
+//			eCS.measureScenario2WithoutFeatures(capabilityNumber);
 //		}
 
 	}

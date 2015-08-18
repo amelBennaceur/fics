@@ -5,7 +5,7 @@ root NAO1 {
 			Behaviour1,
 			Connection1
 		},
-		opt Motion1,
+		opt Motion,
 		opt Audio1,
 		opt Vision1,
 		opt ObjectRecognition,
@@ -20,6 +20,6 @@ root NAO1 {
 	speed in [10..10];
 	
 	// Constraints
-	Motion1 -> Sensors1;
+	Motion -> Sensors1;
 	NAO1.env1 == noLight1 -> !NAO1.Vision1;
 }
